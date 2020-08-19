@@ -1,11 +1,11 @@
 ---
-name: Push
-about: Pushする時用のテンプレ
+name: Push_Hakoishi
+about: Hakoishi が Pushする時用のテンプレ
 title: ''
 labels: 'test'
-assignees: ここに自分の名前
-projects:
-milestones:
+assignees: 'Fuminori Hakoishi'
+projects: '仕様書 作成'
+milestones: '仕様書 作成'
 
 ---
 
