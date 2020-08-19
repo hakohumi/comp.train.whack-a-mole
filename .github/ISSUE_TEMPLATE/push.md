@@ -1,7 +1,7 @@
 ---
 name: Push
 about: Pushする時用のテンプレ
-title: ''
+title: 'title'
 labels: ''
 assignees: ここに自分の名前
 projects:
@@ -12,6 +12,7 @@ milestones:
 ---
 name: Push
 about: Pushする時用のテンプレ
+title: 'fafa'
 
 ---
 
