@@ -1,8 +1,8 @@
 ---
 name: Push
 about: Pushする時用のテンプレ
-title: 'title'
-labels: ''
+title: ''
+labels: 'test'
 assignees: ここに自分の名前
 projects:
 milestones:
