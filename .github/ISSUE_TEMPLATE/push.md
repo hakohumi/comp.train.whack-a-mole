@@ -2,10 +2,8 @@
 name: Push_Hakoishi
 about: Hakoishi が Pushする時用のテンプレ
 title: ''
-labels: 'test'
-assignees: 'hakohumi'
-projects: 仕様書 作成
-milestones: 仕様書 作成
+labels: bug, documentation, enhancement
+assignees: hakohumi, tomohirosasaki-erii
 
 ---
 
@@ -30,5 +28,3 @@ title: 'fafa'
 + [ ] 
 
 ### 完了条件
-
-
