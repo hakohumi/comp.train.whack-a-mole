@@ -54,3 +54,13 @@ dkms.conf
 ~$*
 
 **/nbproject/private/
+
+*.i
+*.p1
+
+build/
+dist/
+debug/
+/Sample.X/dist
+
+*.mk

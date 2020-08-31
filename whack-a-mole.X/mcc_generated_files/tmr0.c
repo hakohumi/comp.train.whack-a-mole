@@ -19,7 +19,7 @@
     The generated drivers are tested against the following:
         Compiler          :  XC8 2.20 and above
         MPLAB 	          :  MPLAB X 5.40
-*/
+ */
 
 /*
     (c) 2018 Microchip Technology Inc. and its subsidiaries. 
@@ -42,37 +42,39 @@
     CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT 
     OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
     SOFTWARE.
-*/
+ */
 
 /**
   Section: Included Files
-*/
+ */
 
 #include <xc.h>
 #include "tmr0.h"
 
 /**
   Section: Global Variables Definitions
-*/
+ */
 
 volatile uint8_t timer0ReloadVal;
 void (*TMR0_InterruptHandler)(void);
+
+extern uint8_t RandLED;
+
 /**
   Section: TMR0 APIs
-*/
+ */
 
-void TMR0_Initialize(void)
-{
+void TMR0_Initialize(void) {
     // Set TMR0 to the options selected in the User Interface
-	
+
     // PSA not_assigned; PS 1:256; TMRSE Increment_hi_lo; mask the nWPUEN and INTEDG bits
-    OPTION_REG = (uint8_t)((OPTION_REG & 0xC0) | (0xDF & 0x3F)); 
-	
+    OPTION_REG = (uint8_t)((OPTION_REG & 0xC0) | (0xDF & 0x3F));
+
     // TMR0 6; 
     TMR0 = 0x06;
-	
+
     // Load the TMR value to reload variable
-    timer0ReloadVal= 6;
+    timer0ReloadVal = 6;
 
     // Clear Interrupt flag before enabling the interrupt
     INTCONbits.TMR0IF = 0;
@@ -84,8 +86,7 @@ void TMR0_Initialize(void)
     TMR0_SetInterruptHandler(TMR0_DefaultInterruptHandler);
 }
 
-uint8_t TMR0_ReadTimer(void)
-{
+uint8_t TMR0_ReadTimer(void) {
     uint8_t readVal;
 
     readVal = TMR0;
@@ -93,20 +94,17 @@ uint8_t TMR0_ReadTimer(void)
     return readVal;
 }
 
-void TMR0_WriteTimer(uint8_t timerVal)
-{
+void TMR0_WriteTimer(uint8_t timerVal) {
     // Write to the Timer0 register
     TMR0 = timerVal;
 }
 
-void TMR0_Reload(void)
-{
+void TMR0_Reload(void) {
     // Write to the Timer0 register
     TMR0 = timer0ReloadVal;
 }
 
-void TMR0_ISR(void)
-{
+void TMR0_ISR(void) {
     static volatile uint16_t CountCallBack = 0;
 
     // Clear the TMR0 interrupt flag
@@ -115,8 +113,7 @@ void TMR0_ISR(void)
     TMR0 = timer0ReloadVal;
 
     // callback function - called every 500th pass
-    if (++CountCallBack >= TMR0_INTERRUPT_TICKER_FACTOR)
-    {
+    if (++CountCallBack >= TMR0_INTERRUPT_TICKER_FACTOR) {
         // ticker function call
         TMR0_CallBack();
 
@@ -127,25 +124,26 @@ void TMR0_ISR(void)
     // add your TMR0 interrupt custom code
 }
 
-void TMR0_CallBack(void)
-{
+void TMR0_CallBack(void) {
     // Add your custom callback code here
 
-    if(TMR0_InterruptHandler)
-    {
+    if (TMR0_InterruptHandler) {
         TMR0_InterruptHandler();
     }
 }
 
-void TMR0_SetInterruptHandler(void (* InterruptHandler)(void)){
+void TMR0_SetInterruptHandler(void (* InterruptHandler)(void)) {
     TMR0_InterruptHandler = InterruptHandler;
 }
 
-void TMR0_DefaultInterruptHandler(void){
+void TMR0_DefaultInterruptHandler(void) {
     // add your TMR0 interrupt custom code
     // or set custom function using TMR0_SetInterruptHandler()
+
+    RandLED = (int)(rand() % 8);
+
 }
 
 /**
   End of File
-*/
+ */
