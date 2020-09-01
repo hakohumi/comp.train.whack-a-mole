@@ -43,11 +43,35 @@
 
 #include "mcc_generated_files/mcc.h"
 
+__EEPROM_DATA(7, 6, 5, 4, 3, 2, 1, 0);
+
+#define LED_ON 0
+#define LED_OFF 1
+
+#define LED1 LATAbits.LATA0
+#define LED2 LATAbits.LATA1
+#define LED3 LATAbits.LATA2
+#define LED4 LATAbits.LATA3
+#define LED5 LATAbits.LATA4
+#define LED6 LATAbits.LATA6
+#define LED7 LATAbits.LATA7
+#define LED8 LATBbits.LATB7
 /*
                          Main application
  */
-void main(void)
-{
+
+// global variable
+
+// randで0~7の間で出力された値を格納する変数
+// 1秒タイマで操作
+uint8_t RandLED = 0;
+
+void UpdateLED(void);
+void LED_AllOff(void);
+uint32_t func_xor(void);
+
+void main(void) {
+    uint8_t randcnt = 0;
     // initialize the device
     SYSTEM_Initialize();
 
@@ -64,13 +88,49 @@ void main(void)
     //INTERRUPT_GlobalInterruptDisable();
 
     // Disable the Peripheral Interrupts
-    //INTERRUPT_PeripheralInterruptDisable();
+    // INTERRUPT_PeripheralInterruptDisable();
+
+    while (1) {
+        // Add your application cod
+
+        UpdateLED();
+        srand(randcnt++);
+
+        if (randcnt > 250) { randcnt = 0; }
+    }
+}
+
+// RandLEDの値から、対応したLEDを表示させる
+
+void UpdateLED() {
+    LED_AllOff();
 
     while (1)
     {
         // Add your application code
     }
 }
+
+void LED_AllOff() {
+    LED1 = LED_OFF;
+    LED2 = LED_OFF;
+    LED3 = LED_OFF;
+    LED4 = LED_OFF;
+    LED5 = LED_OFF;
+    LED6 = LED_OFF;
+    LED7 = LED_OFF;
+    LED8 = LED_OFF;
+}
+
+uint32_t func_xor(void) {
+    static uint32_t y = 2463534242;
+
+    y = y ^ (y << 13);
+    y = y ^ (y >> 17);
+
+    return y = y ^ (y << 5);
+}
+
 /**
- End of File
-*/
+     End of File
+    */
