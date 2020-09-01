@@ -1,12 +1,12 @@
 <config configVersion="1.1" device="PIC16F1827" coreVersion="4.85.0">
    <usedClasses class="java.util.HashMap">
       <entry>
-         <string>System Module</string>
-         <string>class com.microchip.mcc.mcu8.systemManager.SystemManager</string>
-      </entry>
-      <entry>
          <string>TMR0</string>
          <string>class com.microchip.mcc.mcu8.modules.tmr0.TMR0</string>
+      </entry>
+      <entry>
+         <string>System Module</string>
+         <string>class com.microchip.mcc.mcu8.systemManager.SystemManager</string>
       </entry>
       <entry>
          <string>INTERNAL OSCILLATOR</string>
@@ -79,7 +79,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="TMR0" name="prescaleDivisor"/>
-         <value>1</value>
+         <value>8</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="INTERNAL OSCILLATOR" registerAlias="OSCTUNE" settingAlias="TUN"/>
@@ -291,7 +291,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="TMR0" name="tickerFactor"/>
-         <value>500</value>
+         <value>125</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="Pin Module" registerAlias="LATB" settingAlias="LATB7"/>
@@ -351,7 +351,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="TMR0" registerAlias="TMR" settingAlias="TMR"/>
-         <value>6</value>
+         <value>131</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.RegisterKey" moduleName="INTERNAL OSCILLATOR" registerAlias="OSCCON"/>
@@ -651,7 +651,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="TMR0" name="actualPeriod"/>
-         <value>0.002</value>
+         <value>0.008</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="Pin Module" registerAlias="ANSELB" settingAlias="ANSB2" alias="digital"/>
@@ -907,7 +907,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="TMR0" name="prescaledFreq"/>
-         <value>125000</value>
+         <value>15625</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="Pin Module" registerAlias="ANSELB" settingAlias="ANSB3" alias="digital"/>
@@ -1051,7 +1051,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.RegisterKey" moduleName="TMR0" registerAlias="TMR"/>
-         <value>6</value>
+         <value>131</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="Pin Module" registerAlias="WPUB" settingAlias="WPUB1" alias="clear"/>
@@ -1291,7 +1291,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="TMR0" name="minPeriod"/>
-         <value>0.000008</value>
+         <value>0.000064</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="Pin Module" registerAlias="ANSELA" settingAlias="ANSA0" alias="analog"/>
@@ -1315,7 +1315,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="TMR0" name="maxPeriod"/>
-         <value>0.002048</value>
+         <value>0.016384</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="System Module" registerAlias="CONFIG1" settingAlias="FOSC" alias="ECL"/>
@@ -1419,7 +1419,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="TMR0" name="requestedPeriod"/>
-         <value>0.002</value>
+         <value>0.008</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="System Module" registerAlias="CONFIG2" settingAlias="STVREN" alias="ON"/>
@@ -1559,7 +1559,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.RegisterKey" moduleName="TMR0" registerAlias="OPTION_REG"/>
-         <value>223</value>
+         <value>210</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="Pin Module" registerAlias="WPUB" settingAlias="WPUB3" alias="set"/>
@@ -2218,12 +2218,12 @@
          <value>0</value>
       </entry>
       <entry>
-         <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="System Module" registerAlias="CONFIG1" settingAlias="CP" alias="OFF"/>
-         <value>128</value>
-      </entry>
-      <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="Interrupt Module" name="IVT_NAME"/>
          <value>IVT1</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="System Module" registerAlias="CONFIG1" settingAlias="CP" alias="OFF"/>
+         <value>128</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="Pin Module" name="trisUserSetRA4"/>
@@ -2311,7 +2311,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="TMR0" registerAlias="OPTION_REG" settingAlias="PSA"/>
-         <value>not_assigned</value>
+         <value>assigned</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.RegisterKey" moduleName="Pin Module" registerAlias="ANSELA"/>
@@ -2323,10 +2323,14 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="TMR0" registerAlias="OPTION_REG" settingAlias="PS"/>
-         <value>1:256</value>
+         <value>1:8</value>
       </entry>
    </tokenMap>
    <generatedFileHashHistoryMap class="java.util.HashMap">
+      <entry>
+         <file>mcc_generated_files\interrupt_manager.h</file>
+         <hash>940d69f4a26327f8b47505d4f5205cac2a13c12f1d6d01228969ea8d29fcbff7</hash>
+      </entry>
       <entry>
          <file>mcc_generated_files\mcc.h</file>
          <hash>73306e6c19574924d15151249cba3d402089fbe099c0c1cbc6a1c6a8062a1ae4</hash>
@@ -2336,12 +2340,8 @@
          <hash>9273b1c996541f7e57d35c11cb4aac256047c2da42f91ca23cc30a83cd34d928</hash>
       </entry>
       <entry>
-         <file>mcc_generated_files\interrupt_manager.h</file>
-         <hash>940d69f4a26327f8b47505d4f5205cac2a13c12f1d6d01228969ea8d29fcbff7</hash>
-      </entry>
-      <entry>
          <file>mcc_generated_files\tmr0.h</file>
-         <hash>ec225767e9c39fd2879d98c3cfd1947050037ae37f0b66705a0aa962d48c3e72</hash>
+         <hash>6de5aa3ff18327f5679371b76814316622ee5ca3fbf18a88d08607e95a9dddda</hash>
       </entry>
       <entry>
          <file>main.c</file>
@@ -2356,16 +2356,16 @@
          <hash>b113a27605d5e993bfa54ed54ab917a8901297cb4d533fa67dc72f26048f5ba7</hash>
       </entry>
       <entry>
-         <file>mcc_generated_files\mcc.c</file>
-         <hash>d6eb7d314faf8ee1f17efdd6d65f48497f75c921f510b50ba2264384ecd5bb19</hash>
-      </entry>
-      <entry>
          <file>mcc_generated_files\interrupt_manager.c</file>
          <hash>fac9090f8a32bb9e824276cdfa8361dbcbb4954fc618d5f0dec084f18babea05</hash>
       </entry>
       <entry>
+         <file>mcc_generated_files\mcc.c</file>
+         <hash>d6eb7d314faf8ee1f17efdd6d65f48497f75c921f510b50ba2264384ecd5bb19</hash>
+      </entry>
+      <entry>
          <file>mcc_generated_files\tmr0.c</file>
-         <hash>6afb1aa9fa0f0f59046f52d80e981b1aa908cb6c7ca6f61003f81349d857489a</hash>
+         <hash>af6fdb4c6a650f786c0af5084bf8c41ce243441b8abd117b082c81e47588ba9e</hash>
       </entry>
       <entry>
          <file>mcc_generated_files\pin_manager.c</file>

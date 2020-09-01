@@ -8,7 +8,8 @@
     tmr0.c
 
   @Summary
-    This is the generated driver implementation file for the TMR0 driver using PIC10 / PIC12 / PIC16 / PIC18 MCUs
+    This is the generated driver implementation file for the TMR0 driver using PIC10 / PIC12 / PIC16
+  / PIC18 MCUs
 
   @Description
     This source file provides APIs for TMR0.
@@ -22,25 +23,25 @@
  */
 
 /*
-    (c) 2018 Microchip Technology Inc. and its subsidiaries. 
-    
-    Subject to your compliance with these terms, you may use Microchip software and any 
-    derivatives exclusively with Microchip products. It is your responsibility to comply with third party 
-    license terms applicable to your use of third party software (including open source software) that 
-    may accompany Microchip software.
-    
-    THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER 
-    EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY 
-    IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS 
+    (c) 2018 Microchip Technology Inc. and its subsidiaries.
+
+    Subject to your compliance with these terms, you may use Microchip software and any
+    derivatives exclusively with Microchip products. It is your responsibility to comply with third
+   party license terms applicable to your use of third party software (including open source
+   software) that may accompany Microchip software.
+
+    THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER
+    EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY
+    IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS
     FOR A PARTICULAR PURPOSE.
-    
-    IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE, 
-    INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND 
-    WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP 
-    HAS BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO 
-    THE FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL 
-    CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT 
-    OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
+
+    IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE,
+    INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND
+    WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP
+    HAS BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO
+    THE FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL
+    CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT
+    OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS
     SOFTWARE.
  */
 
@@ -48,8 +49,9 @@
   Section: Included Files
  */
 
-#include <xc.h>
 #include "tmr0.h"
+
+#include <xc.h>
 
 /**
   Section: Global Variables Definitions
@@ -57,24 +59,24 @@
 
 volatile uint8_t timer0ReloadVal;
 void (*TMR0_InterruptHandler)(void);
-
-extern uint8_t RandLED;
-
 /**
   Section: TMR0 APIs
  */
 
+extern uint8_t RandLED;
+extern uint32_t xor (void);
+
 void TMR0_Initialize(void) {
     // Set TMR0 to the options selected in the User Interface
 
-    // PSA not_assigned; PS 1:256; TMRSE Increment_hi_lo; mask the nWPUEN and INTEDG bits
-    OPTION_REG = (uint8_t)((OPTION_REG & 0xC0) | (0xDF & 0x3F));
+    // PSA assigned; PS 1:8; TMRSE Increment_hi_lo; mask the nWPUEN and INTEDG bits
+    OPTION_REG = (uint8_t)((OPTION_REG & 0xC0) | (0xD2 & 0x3F));
 
-    // TMR0 6; 
-    TMR0 = 0x06;
+    // TMR0 131;
+    TMR0 = 0x83;
 
     // Load the TMR value to reload variable
-    timer0ReloadVal = 6;
+    timer0ReloadVal = 131;
 
     // Clear Interrupt flag before enabling the interrupt
     INTCONbits.TMR0IF = 0;
@@ -112,7 +114,7 @@ void TMR0_ISR(void) {
 
     TMR0 = timer0ReloadVal;
 
-    // callback function - called every 500th pass
+    // callback function - called every 125th pass
     if (++CountCallBack >= TMR0_INTERRUPT_TICKER_FACTOR) {
         // ticker function call
         TMR0_CallBack();
@@ -132,7 +134,7 @@ void TMR0_CallBack(void) {
     }
 }
 
-void TMR0_SetInterruptHandler(void (* InterruptHandler)(void)) {
+void TMR0_SetInterruptHandler(void (*InterruptHandler)(void)) {
     TMR0_InterruptHandler = InterruptHandler;
 }
 
@@ -140,8 +142,7 @@ void TMR0_DefaultInterruptHandler(void) {
     // add your TMR0 interrupt custom code
     // or set custom function using TMR0_SetInterruptHandler()
 
-    RandLED = (int)(rand() % 8);
-
+    RandLED = (int)(xor() % 8);
 }
 
 /**

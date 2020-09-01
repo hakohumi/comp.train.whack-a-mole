@@ -53,10 +53,12 @@
 // 1秒タイマで操作
 uint8_t RandLED = 0;
 
-void UpdateLED();
-void LED_AllOff();
+void UpdateLED(void);
+void LED_AllOff(void);
+uint32_t xor (void);
 
 void main(void) {
+    uint8_t randcnt = 0;
     // initialize the device
     SYSTEM_Initialize();
 
@@ -76,9 +78,14 @@ void main(void) {
     // INTERRUPT_PeripheralInterruptDisable();
 
     while (1) {
-        // Add your application code
+        // Add your application cod
 
         UpdateLED();
+        srand(randcnt++);
+
+        if (randcnt > 250) {
+            randcnt = 0;
+        }
     }
 }
 
@@ -137,6 +144,15 @@ void LED_AllOff() {
     LED7 = LED_OFF;
     LED8 = LED_OFF;
 }
-/**
- End of File
- */
+
+uint32_t xor
+    (void) {
+        static uint32_t y = 2463534242;
+        y = y ^ (y << 13);
+        y = y ^ (y >> 17);
+        return y = y ^ (y << 5);
+    }
+
+    /**
+     End of File
+     */
