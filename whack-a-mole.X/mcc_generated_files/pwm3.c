@@ -1,26 +1,24 @@
 /**
-  Generated Interrupt Manager Source File
+  PWM3 Generated Driver File
 
-  @Company:
+  @Company
     Microchip Technology Inc.
 
-  @File Name:
-    interrupt_manager.c
+  @File Name
+    pwm3.c
 
-  @Summary:
-    This is the Interrupt Manager file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
+  @Summary
+    This is the generated driver implementation file for the PWM3 driver using PIC10 / PIC12 / PIC16 / PIC18 MCUs
 
-  @Description:
-    This header file provides implementations for global interrupt handling.
-    For individual peripheral handlers please see the peripheral driver for
-    all modules selected in the GUI.
+  @Description
+    This source file provides implementations for driver APIs for PWM3.
     Generation Information :
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.81.4
         Device            :  PIC16F1827
-        Driver Version    :  2.03
+        Driver Version    :  2.01
     The generated drivers are tested against the following:
-        Compiler          :  XC8 2.20 and above or later
-        MPLAB 	          :  MPLAB X 5.40
+        Compiler          :  XC8 2.20 and above
+         MPLAB 	          :  MPLAB X 5.40
 */
 
 /*
@@ -46,32 +44,51 @@
     SOFTWARE.
 */
 
-#include "interrupt_manager.h"
-#include "mcc.h"
+/**
+  Section: Included Files
+*/
 
-void __interrupt() INTERRUPT_InterruptManager (void)
+#include <xc.h>
+#include "pwm3.h"
+
+/**
+  Section: Macro Declarations
+*/
+
+#define PWM3_INITIALIZE_DUTY_VALUE    511
+
+/**
+  Section: PWM Module APIs
+*/
+
+void PWM3_Initialize(void)
 {
-    // interrupt handler
-    if(INTCONbits.TMR0IE == 1 && INTCONbits.TMR0IF == 1)
-    {
-        TMR0_ISR();
-    }
-    else if(INTCONbits.PEIE == 1)
-    {
-        if(PIE1bits.TMR2IE == 1 && PIR1bits.TMR2IF == 1)
-        {
-            TMR2_ISR();
-        } 
-        else
-        {
-            //Unhandled Interrupt
-        }
-    }      
-    else
-    {
-        //Unhandled Interrupt
-    }
+    // Set the PWM3 to the options selected in the User Interface
+	
+	// CCP3M PWM; DC3B 3; 
+	CCP3CON = 0x3C;    
+	
+	// CCPR3L 127; 
+	CCPR3L = 0x7F;    
+	
+	// CCPR3H 0; 
+	CCPR3H = 0x00;    
+
+	// Selecting Timer 2
+	CCPTMRS0bits.C3TSEL = 0x0;
+    
 }
+
+void PWM3_LoadDutyValue(uint16_t dutyValue)
+{
+   // Writing to 8 MSBs of pwm duty cycle in CCPRL register
+    CCPR3L = ((dutyValue & 0x03FC)>>2);
+    
+   // Writing to 2 LSBs of pwm duty cycle in CCPCON register
+    CCP3CON = ((uint8_t)(CCP3CON & 0xCF) | ((dutyValue & 0x0003)<<4));
+}
+
 /**
  End of File
 */
+

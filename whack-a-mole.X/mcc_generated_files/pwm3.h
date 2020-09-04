@@ -1,17 +1,17 @@
 /**
-  MEMORY Generated Driver API Header File
+  PWM3 Generated Driver File
 
   @Company
     Microchip Technology Inc.
 
   @File Name
-    memory.h
+    pwm3.h
 
   @Summary
-    This is the generated header file for the MEMORY driver using PIC10 / PIC12 / PIC16 / PIC18 MCUs
+    This is the generated driver implementation file for the PWM3 driver using PIC10 / PIC12 / PIC16 / PIC18 MCUs
 
   @Description
-    This header file provides APIs for driver for MEMORY.
+    This header file provides implementations for driver APIs for PWM3.
     Generation Information :
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.81.4
         Device            :  PIC16F1827
@@ -19,7 +19,7 @@
     The generated drivers are tested against the following:
         Compiler          :  XC8 2.20 and above
         MPLAB             :  MPLAB X 5.40
- *******************************************************************************/
+*/
 
 /*
     (c) 2018 Microchip Technology Inc. and its subsidiaries. 
@@ -42,68 +42,95 @@
     CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT 
     OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
     SOFTWARE.
- */
+*/
 
-#ifndef MEMORY_H
-#define MEMORY_H
+#ifndef PWM3_H
+#define PWM3_H
 
 /**
   Section: Included Files
- */
+*/
 
-#include <stdbool.h>
+#include <xc.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #ifdef __cplusplus  // Provide C++ Compatibility
 
-extern "C" {
+    extern "C" {
 
 #endif
 
-    /**
-      Section: Macro Declarations
-     */
+/**
+  Section: PWM Module APIs
+*/
 
-#define WRITE_FLASH_BLOCKSIZE    8
-#define ERASE_FLASH_BLOCKSIZE    32
-#define END_FLASH                0x1000
+/**
+  @Summary
+    Initializes the PWM3
 
+  @Description
+    This routine initializes the PWM3 module.
+    This routine must be called before any other PWM3 routine is called.
+    This routine should only be called once during system initialization.
 
-    void DATAEE_WriteByte(uint8_t bAdd, uint8_t bData);
+  @Preconditions
+    None
 
-    /**
-      @Summary
-        Reads a data byte from Data EEPROM
+  @Param
+    None
 
-      @Description
-        This routine reads a data byte from given Data EEPROM location
+  @Returns
+    None
 
-      @Preconditions
-        None
+  @Comment
+    
 
-      @Param
-        bAdd  - Data EEPROM location from which data has to be read
+ @Example
+    <code>
+    uint16_t dutycycle;
 
-      @Returns
-        Data byte read from given Data EEPROM location
+    CCP3_Initialize();
+	PWM3_LoadDutyValue(dutycycle);
+    </code>
+ */
+void PWM3_Initialize(void);
 
-      @Example
-        <code>
-        uint8_t dataeeAddr = 0x10;
-        uint8_t readData;
+/**
+  @Summary
+    Loads 16-bit duty cycle.
 
-        readData = DATAEE_ReadByte(dataeeAddr);
-        </code>
-     */
-    uint8_t DATAEE_ReadByte(uint8_t bAdd);
+  @Description
+    This routine loads the 16 bit duty cycle value.
 
+  @Preconditions
+    PWM3_Initialize() function should have been called
+    before calling this function.
+
+  @Param
+    Pass 16bit duty cycle value.
+
+  @Returns
+    None
+
+  @Example
+    <code>
+    uint16_t dutycycle;
+
+    PWM3_Initialize();
+    PWM3_LoadDutyValue(dutycycle);
+    </code>
+*/
+void PWM3_LoadDutyValue(uint16_t dutyValue);
+
+        
 #ifdef __cplusplus  // Provide C++ Compatibility
 
-}
+    }
 
 #endif
 
-#endif // MEMORY_H
+#endif	//PWM3_H
 /**
  End of File
- */
+*/

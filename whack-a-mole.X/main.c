@@ -11,20 +11,20 @@
     This is the main file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
 
   Description:
-    This header file provides implementations for driver APIs for all modules selected in the GUI.
-    Generation Information :
-        Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.81.4
-        Device            :  PIC16F1827
-        Driver Version    :  2.00
+    This header file provides implementations for driver APIs for all modules
+  selected in the GUI. Generation Information : Product Revision  :  PIC10 /
+  PIC12 / PIC16 / PIC18 MCUs - 1.81.4 Device            :  PIC16F1827 Driver
+  Version    :  2.00
  */
 
 /*
     (c) 2018 Microchip Technology Inc. and its subsidiaries.
 
-    Subject to your compliance with these terms, you may use Microchip software and any
-    derivatives exclusively with Microchip products. It is your responsibility to comply with third
-   party license terms applicable to your use of third party software (including open source
-   software) that may accompany Microchip software.
+    Subject to your compliance with these terms, you may use Microchip software
+   and any derivatives exclusively with Microchip products. It is your
+   responsibility to comply with third party license terms applicable to your
+   use of third party software (including open source software) that may
+   accompany Microchip software.
 
     THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER
     EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY
@@ -41,24 +41,13 @@
     SOFTWARE.
  */
 
-#include "mcc_generated_files/mcc.h"
+#include "LED.h"
+#include "Buzzer.h"
+#include "mcc.h"
 
-__EEPROM_DATA(0, 2, 4, 6, 7, 5, 3, 1);
-
-#define LED_ON 0
-#define LED_OFF 1
-
-#define LED1 LATAbits.LATA0
-#define LED2 LATAbits.LATA1
-#define LED3 LATAbits.LATA2
-#define LED4 LATAbits.LATA3
-#define LED5 LATAbits.LATA4
-#define LED6 LATAbits.LATA6
-#define LED7 LATAbits.LATA7
-#define LED8 LATBbits.LATB7
-/*
-                         Main application
- */
+// マイコンに書き込み時にEEPROMに値を書き込む
+// 8バイトずつ
+// __EEPROM_DATA(0, 2, 4, 6, 7, 5, 3, 1);
 
 // global variable
 
@@ -66,17 +55,13 @@ __EEPROM_DATA(0, 2, 4, 6, 7, 5, 3, 1);
 // 1秒タイマで操作
 uint8_t RandLED = 0;
 
-void UpdateLED(void);
-void LED_AllOff(void);
-uint32_t func_xor(void);
-
 void main(void) {
     uint8_t randcnt = 0;
     // initialize the device
     SYSTEM_Initialize();
 
-    // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
-    // Use the following macros to:
+    // When using interrupts, you need to set the Global and Peripheral
+    // Interrupt Enable bits Use the following macros to:
 
     // Enable the Global Interrupts
     INTERRUPT_GlobalInterruptEnable();
@@ -91,68 +76,13 @@ void main(void) {
     // INTERRUPT_PeripheralInterruptDisable();
 
     while (1) {
-        // Add your application cod
+        // RandLEDの値から、対応したLEDを表示させる
 
-        UpdateLED();
-        srand(randcnt++);
-
-        if (randcnt > 250) { randcnt = 0; }
+        UpdateLED(RandLED);
+        UpdateBuzzer();
     }
-}
-
-// RandLEDの値から、対応したLEDを表示させる
-
-void UpdateLED() {
-    LED_AllOff();
-
-    switch (RandLED) {
-        case 0:
-            LED1 = LED_ON;
-            break;
-        case 1:
-            LED2 = LED_ON;
-            break;
-        case 2:
-            LED3 = LED_ON;
-            break;
-        case 3:
-            LED4 = LED_ON;
-            break;
-        case 4:
-            LED5 = LED_ON;
-            break;
-        case 5:
-            LED6 = LED_ON;
-            break;
-        case 6:
-            LED7 = LED_ON;
-            break;
-        case 7:
-            LED8 = LED_ON;
-            break;
-    }
-}
-
-void LED_AllOff() {
-    LED1 = LED_OFF;
-    LED2 = LED_OFF;
-    LED3 = LED_OFF;
-    LED4 = LED_OFF;
-    LED5 = LED_OFF;
-    LED6 = LED_OFF;
-    LED7 = LED_OFF;
-    LED8 = LED_OFF;
-}
-
-uint32_t func_xor(void) {
-    static uint32_t y = 2463534242;
-
-    y = y ^ (y << 13);
-    y = y ^ (y >> 17);
-
-    return y = y ^ (y << 5);
 }
 
 /**
      End of File
-    */
+ */

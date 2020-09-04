@@ -13,6 +13,7 @@
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects/>
             <sourceRootList>
+                <sourceRootElem>src</sourceRootElem>
                 <sourceRootElem>header</sourceRootElem>
             </sourceRootList>
             <confList>
