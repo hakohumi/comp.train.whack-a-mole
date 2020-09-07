@@ -2,7 +2,7 @@
 name: Push_Hakoishi
 about: Hakoishi が Pushする時用のテンプレ
 title: ''
-labels: bug, documentation, enhancement
+labels: fix, enhancement
 assignees: hakohumi
 
 ---
