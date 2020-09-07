@@ -29,8 +29,7 @@ typedef enum {
 } NoteArrayType;
 
 // 楽譜クラス
-typedef struct
-{
+typedef struct {
     // テンポ
     uint8_t Tempo;
     // 音符データ
@@ -39,13 +38,14 @@ typedef struct
     // Note = {Length, Pich}
     // Length 長さ
     // Pitch 高さ
-    uint8_t *Notes[2];
+    uint8_t *Notes;
     // 楽譜の長さ(音符の総数)
     uint16_t MAX_NOTE;
 
 } MusicSheets_t;
 
 void InitializeBGM(void);
+uint16_t GetBGMPlayPos(void);
 uint8_t GetBGMTempo(void);
 uint8_t **GetBGMNotes(void);
 uint8_t *GetBGMNote(uint16_t pos);

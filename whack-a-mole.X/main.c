@@ -64,7 +64,7 @@ void main(void) {
     // When using interrupts, you need to set the Global and Peripheral
     // Interrupt Enable bits Use the following macros to:
 
-    //Myfunction init
+    // Myfunction init
     Buzzer_Initialize();
     InitializeBGM();
 
@@ -83,8 +83,8 @@ void main(void) {
     uint8_t **l_note;
     while (1) {
         // RandLEDの値から、対応したLEDを表示させる
-        l_note = GetBGMNotes();
-        UpdateLED(l_note[RandLED][0]);
+        l_note = GetBGMNotes(RandLED);
+        UpdateLED(l_note[0]);
         //        UpdateLED(RandLED);
         // UpdateBuzzer();
     }

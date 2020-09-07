@@ -35,8 +35,8 @@ void UpdateBuzzer(void) {
 }
 
 // BGMの更新
-
 void UpdateBGMManager(void) {
+
 }
 
 // SEの更新
