@@ -53,8 +53,7 @@ void SYSTEM_Initialize(void) {
     TMR2_Initialize();
     TMR1_Initialize();
     TMR0_Initialize();
-    //Myfunction
-    Buzzer_Initialize();
+
 }
 
 void OSCILLATOR_Initialize(void) {

@@ -18,11 +18,11 @@
 #define LED1 LATAbits.LATA0
 #define LED2 LATAbits.LATA1
 #define LED3 LATAbits.LATA2
-#define LED4 LATAbits.LATA3
-#define LED5 LATAbits.LATA4
-#define LED6 LATAbits.LATA6
-#define LED7 LATAbits.LATA7
-#define LED8 LATBbits.LATB7
+#define LED4 LATAbits.LATA4
+#define LED5 LATAbits.LATA6
+#define LED6 LATAbits.LATA7
+#define LED7 LATBbits.LATB7
+// #define LED8 LATBbits.LATB7
 
 void UpdateLED(uint8_t i_LEDbits);
 void LED_AllOff(void);

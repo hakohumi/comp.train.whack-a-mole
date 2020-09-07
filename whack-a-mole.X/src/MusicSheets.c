@@ -1,27 +1,53 @@
 
 #include "MusicSheets.h"
 
-// 楽譜
+// ドレミの歌のデータ部
+static const uint8_t BGMNotes_Doremi[7][NOTE_ARRAY_NUM] = {
+    {6, 1},
+    {2, 2},
+    {6, 3},
+    {2, 2},
+    {4, 3},
+    {4, 2},
+    {8, 3}
 
-typedef struct {
-    uint8_t Tempo;
-    // 音データ
-    // Data[Pos][Note]
-    // Pos 再生位置
-    // Note = {Length, Pithc}
-    // Length 長さ
-    // Pitch 高さ
-    uint8_t *Data;
-    // 楽譜の長さ(音符の総数)
-    uint16_t MAX_NOTE;
-} MusicSheets_t;
+};
 
-static MusicSheets_t MusicSheets1{// テンポ
+// BGMの楽譜のインスタンス
+static const MusicSheets_t BGM_Doremi = {
+    // テンポ
     60,
+
     // データ[ ][ ]
-    BGMData_MusicSheets1,
+    BGMNotes_Doremi,
+
     // 楽譜の長さ
-    13};
-// ドレミの歌
-static const uint8_t BGMData_MusicSheets1[13][2] = {
-    {6, 1}, {2, 2}, {6, 3}, {2, 2}, {4, 3}, {4, 2}, {8, 3}};
+    7
+
+};
+
+static MusicSheets_t *this;
+
+void InitializeBGM(void) {
+    this = &BGM_Doremi;
+}
+
+// -------------------------------------------------------------------
+// ゲッター
+// -------------------------------------------------------------------
+
+uint8_t GetBGMTempo(void) {
+    return this->Tempo;
+}
+
+uint8_t **GetBGMNotes(void) {
+    return this->Notes;
+}
+
+uint8_t *GetBGMNote(uint16_t pos) {
+    return 0;
+}
+
+uint16_t GetBGMMaxNotes(void) {
+    return this->MAX_NOTE;
+}

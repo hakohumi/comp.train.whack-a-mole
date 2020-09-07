@@ -43,6 +43,7 @@
 
 #include "Buzzer.h"
 #include "LED.h"
+#include "MusicSheets.h"
 #include "mcc.h"
 
 // マイコンに書き込み時にEEPROMに値を書き込む
@@ -63,6 +64,10 @@ void main(void) {
     // When using interrupts, you need to set the Global and Peripheral
     // Interrupt Enable bits Use the following macros to:
 
+    //Myfunction init
+    Buzzer_Initialize();
+    InitializeBGM();
+
     // Enable the Global Interrupts
     INTERRUPT_GlobalInterruptEnable();
 
@@ -75,11 +80,13 @@ void main(void) {
     // Disable the Peripheral Interrupts
     // INTERRUPT_PeripheralInterruptDisable();
 
+    uint8_t **l_note;
     while (1) {
         // RandLEDの値から、対応したLEDを表示させる
-
-        UpdateLED(RandLED);
-        UpdateBuzzer();
+        l_note = GetBGMNotes();
+        UpdateLED(l_note[RandLED][0]);
+        //        UpdateLED(RandLED);
+        // UpdateBuzzer();
     }
 }
 

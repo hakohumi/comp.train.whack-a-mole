@@ -146,7 +146,8 @@ void TMR0_DefaultInterruptHandler(void) {
     // or set custom function using TMR0_SetInterruptHandler()
 
     // RandLED = (int)(xor() % 8);
-    RandLED = DATAEE_ReadByte(cnt++);
+//    RandLED = DATAEE_ReadByte(cnt++);
+    RandLED = cnt++;
 
     if (cnt >= 8) {
         cnt = 0;

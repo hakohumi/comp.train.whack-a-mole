@@ -19,6 +19,36 @@ typedef enum {
     RA,
     SI,
     DO2,
-} Scale;
+} ScaleType;
+
+// 音符データの要素
+typedef enum {
+    LENGTH,
+    PITCH,
+    NOTE_ARRAY_NUM,
+} NoteArrayType;
+
+// 楽譜クラス
+typedef struct
+{
+    // テンポ
+    uint8_t Tempo;
+    // 音符データ
+    // Data[Pos][Note]
+    // Pos 再生位置
+    // Note = {Length, Pich}
+    // Length 長さ
+    // Pitch 高さ
+    uint8_t *Notes[2];
+    // 楽譜の長さ(音符の総数)
+    uint16_t MAX_NOTE;
+
+} MusicSheets_t;
+
+void InitializeBGM(void);
+uint8_t GetBGMTempo(void);
+uint8_t **GetBGMNotes(void);
+uint8_t *GetBGMNote(uint16_t pos);
+uint16_t GetBGMMaxNotes(void);
 
 #endif /* MUSICSHEETS_H */
