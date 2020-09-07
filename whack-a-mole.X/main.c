@@ -41,8 +41,8 @@
     SOFTWARE.
  */
 
-#include "LED.h"
 #include "Buzzer.h"
+#include "LED.h"
 #include "mcc.h"
 
 // マイコンに書き込み時にEEPROMに値を書き込む
