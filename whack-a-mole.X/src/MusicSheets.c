@@ -1,9 +1,15 @@
 
 #include "MusicSheets.h"
 
+// MusicSheets
+// 楽譜を管理する
+// 楽譜は、テンポ、音符データ配列、最大音符数（楽譜の長さ）
+// のデータを保有する
+
 // ドレミの歌のデータ部
-static const uint8_t BGMNotes_Doremi[7][NOTE_ARRAY_NUM] = {{6, 1}, {2, 2}, {6, 3}, {2, 2},
-                                                           {4, 3}, {4, 2}, {8, 3}
+static const uint8_t BGMNotes_Doremi[7][NOTE_ARRAY_NUM] = {
+
+    {6, 1}, {2, 2}, {6, 3}, {2, 2}, {4, 3}, {4, 2}, {8, 3}
 
 };
 
@@ -20,35 +26,38 @@ static const MusicSheets_t BGM_Doremi = {
 
 };
 
-// BGM楽譜のインスタンス
-static MusicSheets_t *this;
-// 再生位置
-static uint16_t PlayPos = 0;
+// BGM楽譜が入るポインタ変数
+static MusicSheets_t *MusicSheet;
 
+// 初期化
 void InitializeBGM(void) {
-    this = &BGM_Doremi;
+    // BGM_Doremiをロード
+    MusicSheet = &BGM_Doremi;
 }
 
 // -------------------------------------------------------------------
 // ゲッター
 // -------------------------------------------------------------------
 
-uint16_t GetBGMPlayPos(void) {
-    return PlayPos;
-}
-
+// BGMのテンポを取得
 uint8_t GetBGMTempo(void) {
-    return this->Tempo;
+    return MusicSheet->Tempo;
 }
 
-uint8_t *GetBGMNotes(void) {
-    return this->Notes;
+// BGMの指定された位置の音符を取得
+uint8_t *GetBGMCurrentNote(uint16_t pos) {
+    return MusicSheet->Notes + (pos * 2);
 }
 
-uint8_t *GetBGMNote(uint16_t pos) {
-    return this->Notes + (pos * 2);
+uint8_t GetBGMCurrentNoteLength(uint16_t pos) {
+    return *(MusicSheet->Notes + (pos * 2));
 }
 
+uint8_t GetBGMCurrentNotePich(uint16_t pos) {
+    return *(MusicSheet->Notes + (pos * 2) + 1);
+}
+
+// BGMの最大音符数を取得
 uint16_t GetBGMMaxNotes(void) {
-    return this->MAX_NOTE;
+    return MusicSheet->MAX_NOTE;
 }

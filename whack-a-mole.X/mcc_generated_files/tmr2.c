@@ -65,8 +65,8 @@ void TMR2_Initialize(void)
 {
     // Set TMR2 to the options selected in the User Interface
 
-    // PR2 255; 
-    PR2 = 0xFF;
+    // PR2 146; 
+    PR2 = 0x92;
 
     // TMR2 0; 
     TMR2 = 0x00;
@@ -80,8 +80,8 @@ void TMR2_Initialize(void)
     // Set Default Interrupt Handler
     TMR2_SetInterruptHandler(TMR2_DefaultInterruptHandler);
 
-    // T2CKPS 1:1; T2OUTPS 1:1; TMR2ON on; 
-    T2CON = 0x04;
+    // T2CKPS 1:4; T2OUTPS 1:13; TMR2ON on; 
+    T2CON = 0x65;
 }
 
 void TMR2_StartTimer(void)
@@ -122,12 +122,20 @@ void TMR2_ISR(void)
     // clear the TMR2 interrupt flag
     PIR1bits.TMR2IF = 0;
 
+    // ticker function call;
+    // ticker is 1 -> Callback function gets called everytime this ISR executes
+    TMR2_CallBack();
+}
+
+void TMR2_CallBack(void)
+{
+    // Add your custom callback code here
+    // this code executes every TMR2_INTERRUPT_TICKER_FACTOR periods of TMR2
     if(TMR2_InterruptHandler)
     {
         TMR2_InterruptHandler();
     }
 }
-
 
 void TMR2_SetInterruptHandler(void (* InterruptHandler)(void)){
     TMR2_InterruptHandler = InterruptHandler;

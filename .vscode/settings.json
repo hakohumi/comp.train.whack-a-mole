@@ -3,6 +3,7 @@
         "tmr0.h": "c",
         "led.h": "c",
         "buzzer.h": "c",
-        "musicsheets.h": "c"
+        "musicsheets.h": "c",
+        "tmr2.h": "c"
     }
 }

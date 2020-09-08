@@ -51,15 +51,14 @@
   Section: Included Files
 */
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 #ifdef __cplusplus  // Provide C++ Compatibility
 
-    extern "C" {
+extern "C" {
 
 #endif
-
 
 /**
   Section: Macro Declarations
@@ -309,6 +308,23 @@ void TMR2_ISR(void);
 
 /**
   @Summary
+    CallBack function
+
+  @Description
+    This function is called from the timer ISR. User can write your code in this function.
+
+  @Preconditions
+    Initialize  the TMR2 module with interrupt before calling this function.
+
+  @Param
+    None
+
+  @Returns
+    None
+*/
+void TMR2_CallBack(void);
+/**
+  @Summary
     Set Timer Interrupt Handler
 
   @Description
@@ -323,7 +339,7 @@ void TMR2_ISR(void);
   @Returns
     None
 */
- void TMR2_SetInterruptHandler(void (* InterruptHandler)(void));
+void TMR2_SetInterruptHandler(void (*InterruptHandler)(void));
 
 /**
   @Summary
@@ -361,15 +377,12 @@ extern void (*TMR2_InterruptHandler)(void);
 */
 void TMR2_DefaultInterruptHandler(void);
 
-
- #ifdef __cplusplus  // Provide C++ Compatibility
-
-    }
+#ifdef __cplusplus  // Provide C++ Compatibility
+}
 
 #endif
 
-#endif // TMR2_H
+#endif  // TMR2_H
 /**
  End of File
 */
-

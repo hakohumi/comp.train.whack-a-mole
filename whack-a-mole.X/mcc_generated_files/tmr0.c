@@ -149,7 +149,7 @@ void TMR0_DefaultInterruptHandler(void) {
 //    RandLED = DATAEE_ReadByte(cnt++);
     RandLED = cnt++;
 
-    if (cnt >= 8) {
+    if (cnt >= 7) {
         cnt = 0;
     }
 }

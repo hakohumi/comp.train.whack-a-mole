@@ -58,6 +58,8 @@ uint8_t RandLED = 0;
 
 void main(void) {
     uint8_t randcnt = 0;
+
+    uint8_t *l_note = NULL;
     // initialize the device
     SYSTEM_Initialize();
 
@@ -80,10 +82,9 @@ void main(void) {
     // Disable the Peripheral Interrupts
     // INTERRUPT_PeripheralInterruptDisable();
 
-    uint8_t **l_note;
     while (1) {
         // RandLEDの値から、対応したLEDを表示させる
-        l_note = GetBGMNotes(RandLED);
+        l_note = GetBGMCurrentNote(RandLED);
         UpdateLED(l_note[0]);
         //        UpdateLED(RandLED);
         // UpdateBuzzer();

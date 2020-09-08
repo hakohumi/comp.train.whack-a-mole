@@ -17,4 +17,10 @@ void UpdateBuzzer(void);
 void UpdateBGMManager(void);
 void UpdateSEManager(void);
 
+// BGMの現在の再生位置
+uint16_t GetBGMPlayPos(void);
+
+// LengthNote16thFlgを立てる
+void Buzzer_SetLengthNote16thFlg(void);
+
 #endif /* BUZZER_H */

@@ -1,6 +1,6 @@
-<mxfile host="8bb84609-e045-404f-9f54-aa7f908e5011" modified="2020-09-07T11:53:40.883Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.48.2 Chrome/78.0.3904.130 Electron/7.3.2 Safari/537.36" etag="U93b0F8hPVhggr2wt_Lb" version="13.1.3" pages="5">
+<mxfile host="55111215-e10b-4367-b4dc-05102a705761" modified="2020-09-08T08:46:55.608Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.48.2 Chrome/78.0.3904.130 Electron/7.3.2 Safari/537.36" etag="HcRIUndZwKdBJ0bsL1Zk" version="13.1.3" pages="5">
     <diagram name="ブザーの更新" id="sHjXgTzeAOtryM8AVv4b">
-        <mxGraphModel dx="457" dy="617" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="627" dy="618" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="dr038-qqmDyIK8T8McZE-0"/>
                 <mxCell id="dr038-qqmDyIK8T8McZE-1" parent="dr038-qqmDyIK8T8McZE-0"/>
@@ -287,7 +287,7 @@
         </mxGraphModel>
     </diagram>
     <diagram name="BGMManagerを更新" id="ABgosr9o0sSPcyc1PMzt">
-        <mxGraphModel dx="457" dy="617" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="712" dy="618" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="4Xr6yz0XrZvKhtDLW0RJ-0"/>
                 <mxCell id="4Xr6yz0XrZvKhtDLW0RJ-1" parent="4Xr6yz0XrZvKhtDLW0RJ-0"/>
@@ -332,7 +332,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="4Xr6yz0XrZvKhtDLW0RJ-34" value="BGMの再生位置は終端か？&lt;br&gt;currentNotePos" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" parent="4Xr6yz0XrZvKhtDLW0RJ-1" vertex="1">
+                <mxCell id="4Xr6yz0XrZvKhtDLW0RJ-34" value="BGMの再生位置は終端か？&lt;br&gt;BGMNotePos" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" parent="4Xr6yz0XrZvKhtDLW0RJ-1" vertex="1">
                     <mxGeometry x="72" y="485" width="228" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="4Xr6yz0XrZvKhtDLW0RJ-35" value="YES" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" parent="4Xr6yz0XrZvKhtDLW0RJ-1" vertex="1">
@@ -402,7 +402,7 @@
                         <mxPoint x="186" y="1105" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="0Jzsjs30BkO8wgTDrF6F-4" value="currentNotePos を1増やす" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" parent="4Xr6yz0XrZvKhtDLW0RJ-1" vertex="1">
+                <mxCell id="0Jzsjs30BkO8wgTDrF6F-4" value="BGMNotePos を1増やす" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" parent="4Xr6yz0XrZvKhtDLW0RJ-1" vertex="1">
                     <mxGeometry x="126" y="990" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="0Jzsjs30BkO8wgTDrF6F-5" value="音符の高さに合わせて、タイマの周期を変える" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" parent="4Xr6yz0XrZvKhtDLW0RJ-1" vertex="1">
@@ -411,7 +411,7 @@
                 <mxCell id="0Jzsjs30BkO8wgTDrF6F-6" value="音符&lt;br&gt;&lt;br&gt;・音の長さ（Length）&lt;br&gt;・音の高さ&lt;br&gt;（Pich）&lt;br&gt;&lt;br&gt;を保持している配列" style="shape=note;whiteSpace=wrap;html=1;size=14;verticalAlign=top;align=left;spacingTop=-6;" parent="4Xr6yz0XrZvKhtDLW0RJ-1" vertex="1">
                     <mxGeometry x="10" y="1090" width="100" height="130" as="geometry"/>
                 </mxCell>
-                <mxCell id="0Jzsjs30BkO8wgTDrF6F-8" value="&lt;span style=&quot;text-align: center&quot;&gt;現在再生している楽譜の中で&lt;/span&gt;&lt;br style=&quot;text-align: center&quot;&gt;&lt;span style=&quot;text-align: center&quot;&gt;何個目の音符を選択しているかを表す&lt;/span&gt;&lt;br style=&quot;text-align: center&quot;&gt;&lt;br style=&quot;text-align: center&quot;&gt;&lt;span style=&quot;text-align: center&quot;&gt;currentNotePos&lt;/span&gt;&lt;br style=&quot;text-align: center&quot;&gt;&lt;span style=&quot;text-align: center&quot;&gt;&lt;br&gt;現在再生している音符の中で&lt;br&gt;16分音符で何個分の位置か表す&lt;br&gt;&lt;br&gt;currentNoteLength&lt;br&gt;&lt;/span&gt;" style="shape=note;whiteSpace=wrap;html=1;size=14;verticalAlign=top;align=left;spacingTop=-6;" parent="4Xr6yz0XrZvKhtDLW0RJ-1" vertex="1">
+                <mxCell id="0Jzsjs30BkO8wgTDrF6F-8" value="&lt;span style=&quot;text-align: center&quot;&gt;現在再生している楽譜の中で&lt;/span&gt;&lt;br style=&quot;text-align: center&quot;&gt;&lt;span style=&quot;text-align: center&quot;&gt;何個目の音符を選択しているかを表す&lt;/span&gt;&lt;br style=&quot;text-align: center&quot;&gt;&lt;br style=&quot;text-align: center&quot;&gt;&lt;span style=&quot;text-align: center&quot;&gt;BGMNotePos&lt;/span&gt;&lt;br style=&quot;text-align: center&quot;&gt;&lt;span style=&quot;text-align: center&quot;&gt;&lt;br&gt;現在再生している音符の中で&lt;br&gt;16分音符で何個分の位置か表す&lt;br&gt;&lt;br&gt;currentNoteLength&lt;br&gt;&lt;/span&gt;" style="shape=note;whiteSpace=wrap;html=1;size=14;verticalAlign=top;align=left;spacingTop=-6;" parent="4Xr6yz0XrZvKhtDLW0RJ-1" vertex="1">
                     <mxGeometry x="540" y="870" width="200" height="160" as="geometry"/>
                 </mxCell>
                 <mxCell id="lUoSfXtSw4KU0rREumNo-0" value="YES" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" parent="4Xr6yz0XrZvKhtDLW0RJ-1" vertex="1">
@@ -423,14 +423,14 @@
                 <mxCell id="IRa_dM7qriDIy9-uKe1Z-1" value="&lt;span&gt;currentNoteLengthを&lt;/span&gt;&lt;br&gt;&lt;span&gt;1下げる&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="4Xr6yz0XrZvKhtDLW0RJ-1" vertex="1">
                     <mxGeometry x="322" y="1130" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="IRa_dM7qriDIy9-uKe1Z-2" value="&lt;span&gt;選択された音符の長さをcurrentNoteLenghにセットする&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="4Xr6yz0XrZvKhtDLW0RJ-1" vertex="1">
+                <mxCell id="IRa_dM7qriDIy9-uKe1Z-2" value="&lt;span&gt;選択された音符の長さをcurrentNoteLengthにセットする&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="4Xr6yz0XrZvKhtDLW0RJ-1" vertex="1">
                     <mxGeometry x="126" y="1110" width="120" height="60" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
     </diagram>
     <diagram name="SEManagerを更新" id="x2AewCGYplKAS_UKG3pP">
-        <mxGraphModel dx="457" dy="617" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="627" dy="618" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="S-jQ02MztudYQy0zt7sg-0"/>
                 <mxCell id="S-jQ02MztudYQy0zt7sg-1" parent="S-jQ02MztudYQy0zt7sg-0"/>
@@ -568,7 +568,7 @@
         </mxGraphModel>
     </diagram>
     <diagram id="jsbVfTOteGh9sSpakAGU" name="タイマー">
-        <mxGraphModel dx="457" dy="617" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="627" dy="618" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="fyREyPSyROsIn6SRdbh7-0"/>
                 <mxCell id="fyREyPSyROsIn6SRdbh7-1" parent="fyREyPSyROsIn6SRdbh7-0"/>
@@ -642,7 +642,7 @@
         </mxGraphModel>
     </diagram>
     <diagram id="xNz86R17GonFB5zBXjN0" name="ブザーの初期化">
-        <mxGraphModel dx="700" dy="813" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="627" dy="618" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="5-Nhqkm_rvVWBx7Hjhzw-0"/>
                 <mxCell id="5-Nhqkm_rvVWBx7Hjhzw-1" parent="5-Nhqkm_rvVWBx7Hjhzw-0"/>

@@ -45,10 +45,11 @@ typedef struct {
 } MusicSheets_t;
 
 void InitializeBGM(void);
-uint16_t GetBGMPlayPos(void);
+
 uint8_t GetBGMTempo(void);
-uint8_t **GetBGMNotes(void);
-uint8_t *GetBGMNote(uint16_t pos);
+uint8_t *GetBGMCurrentNote(uint16_t pos);
+uint8_t GetBGMCurrentNoteLength(uint16_t pos);
+uint8_t GetBGMCurrentNotePich(uint16_t pos);
 uint16_t GetBGMMaxNotes(void);
 
 #endif /* MUSICSHEETS_H */
