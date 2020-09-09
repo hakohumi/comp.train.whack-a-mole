@@ -15,6 +15,11 @@ BGMとSEを管理する
 
 #include "MusicSheets.h"
 #include "tmr2.h"
+// PWMのデューティ比を変更するため
+#include "pwm3.h"
+
+// LEDでデバッグするため
+#include "LED.h"
 
 #define NOTE_LENGTH 0
 #define NOTE_PITCH 1
@@ -28,16 +33,27 @@ BGMとSEを管理する
 /* -------------------------------------------------- */
 
 // 音程テープル
-static uint8_t PichTable[8] = {
+static uint8_t PichTable[SCALE_NUM] = {
 
-    0x92,
-    0x82,
-    0x74,
-    0x6D,
-    0x61,
-    0x56,
-    0x4D,
-    0x49
+    0xEE,  // DO
+    0xE1,  // DO_SHARP
+    0xD4,  // RE
+    0xC8,  // RE_SHARP
+    0xBD,  // MI
+    0xB2,  // FA
+    0xA8,  // FA_SHARP
+    0x9F,  // SO
+    0x96,  // SO_SHARP
+    0x8E,  // RA
+    0x86,  // RA_SHARP
+    0x7E,  // SI
+    0x77,  // DO2
+    0x6A,  // RE2
+    0x5E,  // MI2
+    0x59,  // FA2
+    0x4F,  // SO2
+    0x47,  // RA2
+    0x3F   // SI2
 
 };
 
@@ -68,12 +84,14 @@ static bool IsPlaySE = OFF;
 static void updateBGMManager(void);
 static void updateBGMState(void);
 static void updateSEManager(void);
+static void changePich(uint8_t i_Pich);
 /* -------------------------------------------------- */
 
 // ブザーの初期化
 
 void Buzzer_Initialize(void) {
-    uint8_t Tempo = 0;
+    uint8_t Tempo  = 0;
+    uint8_t l_pich = 0;
 
     // BGMの楽譜のテンポを取得する
     Tempo = GetBGMTempo();
@@ -82,7 +100,15 @@ void Buzzer_Initialize(void) {
     // LengthNote16th_ms = 15 * 1000 / テンポ = 16分音符の長さ(ms)
     LengthNote16th_ms = 15000 / Tempo;
 
-    LengthNote16thFlg = ON;
+    // 楽譜の最後の位置を記録
+    BGMEndPos = GetBGMMaxNotes();
+
+    // 選択された音符の長さをcurrentNoteLengthにセットする
+    currentNoteLength = GetBGMCurrentNoteLength(0);
+
+    // 音符の高さに合わせて、タイマの周期を変える
+    l_pich = GetBGMCurrentNotePich(BGMPlayNotePos);
+    TMR2_LoadPeriodRegister(PichTable[l_pich]);
 }
 
 // BGM再生開始フラグのON
@@ -137,27 +163,37 @@ static void updateBGMState(void) {
 // BGMの更新
 
 static void updateBGMManager(void) {
+    uint8_t l_pich = 0;
+
     // 現在BGMが再生されているか
     if (IsPlayBGM == ON) {
-        // BGMの再生位置は終端か？
-        if (BGMPlayNotePos >= BGMEndPos) {
-            // BGMの再生位置を最初へ戻す
-            BGMPlayNotePos = 0;
-        }
-
         // 現在選択されている音符の長さ分の時間は経過したか？
-        if (currentNoteLength <= 0) {
+        if (currentNoteLength == 0) {
             // currentBGMNotePosを1増やす
             BGMPlayNotePos++;
-            // 選択された音符の長さをcurrentNoteLengthにセットする
-            currentNoteLength = GetBGMCurrentNoteLength(BGMPlayNotePos);
 
+            // BGMの再生位置は終端か？
+            if (BGMPlayNotePos >= BGMEndPos) {
+                // BGMの再生位置を最初へ戻す
+                BGMPlayNotePos = 0;
+            }
+
+            // 選択された音符の長さをcurrentNoteLengthにセットする
+            currentNoteLength = *(GetBGMCurrentNote(BGMPlayNotePos));
             // 音符の高さに合わせて、タイマの周期を変える
-            TMR2_LoadPeriodRegister(PichTable[GetBGMCurrentNotePich(BGMPlayNotePos)]);
+            // 音の高さを取得する
+            l_pich = GetBGMCurrentNotePich(BGMPlayNotePos);
+            // 音の高さに合わせて、タイマの周期とデューティー比を変更
+            changePich(l_pich);
+
         } else {
             // currentNoteLengthを1下げる
             currentNoteLength--;
         }
+
+        // デバッグ用
+        // currentNoteLengthをLEDで表示
+        UpdateLED(currentNoteLength);
     }
 }
 
@@ -176,8 +212,19 @@ void Buzzer_SetLengthNote16thFlg(void) {
     LengthNote16thFlg = ON;
 }
 
+// 音程の変更
+// タイマの周期とデューティー比を変更
+static void changePich(uint8_t i_Pich) {
+    uint8_t l_Pich = PichTable[i_Pich];
+    // タイマに書き込み
+    TMR2_LoadPeriodRegister(l_Pich);
+    // PWMのデューティー比を50%になるように変更
+    PWM3_LoadDutyValue(l_Pich / 2);
+}
+
 /* -------------------------------------------------- */
 // ゲッター
+
 /* -------------------------------------------------- */
 bool GetIsPlayBGM() {
     return IsPlayBGM;

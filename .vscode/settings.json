@@ -4,6 +4,8 @@
         "led.h": "c",
         "buzzer.h": "c",
         "musicsheets.h": "c",
-        "tmr2.h": "c"
+        "tmr2.h": "c",
+        "pwm3.h": "c",
+        "pwm.h": "c"
     }
 }

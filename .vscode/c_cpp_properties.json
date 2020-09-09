@@ -1,9 +1,18 @@
 {
+    "env": {
+        "myDefaultIncludePath": [
+            "${workspaceFolder}/whack-a-mole.X/",
+            "${workspaceFolder}/whack-a-mole.X/src",
+            "${workspaceFolder}/whack-a-mole.X/mcc_generated_files",
+            "${workspaceFolder}/whack-a-mole.X/header"
+        ],
+        "myCompilerPath": ""
+    },
     "configurations": [
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${myDefaultIncludePath}"
             ],
             "defines": [
                 "_DEBUG",
@@ -11,10 +20,17 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.18362.0",
-            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/bin/Hostx64/x64/cl.exe",
+            // "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/bin/Hostx64/x64/cl.exe",
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "intelliSenseMode": "msvc-x64"
+            "intelliSenseMode": "msvc-x64",
+            "browse": {
+                "path": [
+                    "${myDefaultIncludePath}"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
         }
     ],
     "version": 4

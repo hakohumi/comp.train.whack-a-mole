@@ -45,6 +45,8 @@
 #include "LED.h"
 #include "MusicSheets.h"
 #include "mcc.h"
+// 動いてるかデバッグ用
+#include "tmr2.h"
 
 // マイコンに書き込み時にEEPROMに値を書き込む
 // 8バイトずつ
@@ -57,9 +59,6 @@
 uint8_t RandLED = 0;
 
 void main(void) {
-    uint8_t randcnt = 0;
-
-    uint8_t *l_note = NULL;
     // initialize the device
     SYSTEM_Initialize();
 
@@ -67,8 +66,8 @@ void main(void) {
     // Interrupt Enable bits Use the following macros to:
 
     // Myfunction init
-    Buzzer_Initialize();
     MusicSheet_Initialize();
+    Buzzer_Initialize();
 
     // Enable the Global Interrupts
     INTERRUPT_GlobalInterruptEnable();
@@ -85,7 +84,6 @@ void main(void) {
     PlayBGM();
 
     while (1) {
-        //        UpdateLED(RandLED);
         UpdateBuzzer();
     }
 }

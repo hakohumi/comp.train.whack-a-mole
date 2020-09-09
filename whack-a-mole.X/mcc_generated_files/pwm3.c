@@ -48,47 +48,44 @@
   Section: Included Files
 */
 
-#include <xc.h>
 #include "pwm3.h"
+
+#include <xc.h>
 
 /**
   Section: Macro Declarations
 */
 
-#define PWM3_INITIALIZE_DUTY_VALUE    511
+#define PWM3_INITIALIZE_DUTY_VALUE 511
 
 /**
   Section: PWM Module APIs
 */
 
-void PWM3_Initialize(void)
-{
+void PWM3_Initialize(void) {
     // Set the PWM3 to the options selected in the User Interface
-	
-	// CCP3M PWM; DC3B 3; 
-	CCP3CON = 0x3C;    
-	
-	// CCPR3L 127; 
-	CCPR3L = 0x7F;    
-	
-	// CCPR3H 0; 
-	CCPR3H = 0x00;    
 
-	// Selecting Timer 2
-	CCPTMRS0bits.C3TSEL = 0x0;
-    
+    // CCP3M PWM; DC3B 3;
+    CCP3CON = 0x3C;
+
+    // CCPR3L 127;
+    CCPR3L = 0x7F;
+
+    // CCPR3H 0;
+    CCPR3H = 0x00;
+
+    // Selecting Timer 2
+    CCPTMRS0bits.C3TSEL = 0x0;
 }
 
-void PWM3_LoadDutyValue(uint16_t dutyValue)
-{
-   // Writing to 8 MSBs of pwm duty cycle in CCPRL register
-    CCPR3L = ((dutyValue & 0x03FC)>>2);
-    
-   // Writing to 2 LSBs of pwm duty cycle in CCPCON register
-    CCP3CON = ((uint8_t)(CCP3CON & 0xCF) | ((dutyValue & 0x0003)<<4));
+void PWM3_LoadDutyValue(uint16_t dutyValue) {
+    // Writing to 8 MSBs of pwm duty cycle in CCPRL register
+    CCPR3L = ((dutyValue & 0x03FC) >> 2);
+
+    // Writing to 2 LSBs of pwm duty cycle in CCPCON register
+    CCP3CON = ((uint8_t)(CCP3CON & 0xCF) | ((dutyValue & 0x0003) << 4));
 }
 
 /**
  End of File
 */
-

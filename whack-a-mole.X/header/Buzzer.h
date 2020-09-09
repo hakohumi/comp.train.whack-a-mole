@@ -25,4 +25,28 @@ bool GetIsPlayBGM(void);
 bool GetIsPlaySE(void);
 uint16_t GetLengthNote16th_ms(void);
 
+typedef enum {
+    DO,
+    DO_SHARP,
+    RE,
+    RE_SHARP,
+    MI,
+    FA,
+    FA_SHARP,
+    SO,
+    SO_SHARP,
+    RA,
+    RA_SHARP,
+    SI,
+    DO2,
+    RE2,
+    MI2,
+    FA2,
+    SO2,
+    RA2,
+    SI2,
+    SCALE_NUM
+
+} ScaleType;
+
 #endif /* BUZZER_H */

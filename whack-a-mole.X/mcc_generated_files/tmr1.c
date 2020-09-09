@@ -167,6 +167,7 @@ void TMR1_SetInterruptHandler(void (*InterruptHandler)(void)) {
 }
 
 void TMR1_DefaultInterruptHandler(void) {
+    static uint16_t l_LengthNote16th_ms = 0;
     /* -------------------------------------------------- */
     // ブザー タイマ処理
     /* -------------------------------------------------- */
@@ -174,9 +175,12 @@ void TMR1_DefaultInterruptHandler(void) {
     //BGMか効果音が再生中か
     if (GetIsPlayBGM() || GetIsPlaySE()) {
         //16分音符分の長さが経過したか？
-        if (GetLengthNote16th_ms() == 0) {
+        if (l_LengthNote16th_ms == 0) {
+            l_LengthNote16th_ms = GetLengthNote16th_ms();
             // LengthNote16thフラグを立てる
             Buzzer_SetLengthNote16thFlg();
+        } else {
+            l_LengthNote16th_ms--;
         }
     }
     //

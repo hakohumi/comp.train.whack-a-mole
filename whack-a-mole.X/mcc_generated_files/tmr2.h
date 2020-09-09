@@ -51,14 +51,15 @@
   Section: Included Files
 */
 
-#include <stdbool.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #ifdef __cplusplus  // Provide C++ Compatibility
 
-extern "C" {
+    extern "C" {
 
 #endif
+
 
 /**
   Section: Macro Declarations
@@ -290,99 +291,47 @@ void TMR2_LoadPeriodRegister(uint8_t periodVal);
 
 /**
   @Summary
-    Timer Interrupt Service Routine
+    Boolean routine to poll or to check for the match flag on the fly.
 
   @Description
-    Timer Interrupt Service Routine is called by the Interrupt Manager.
+    This function is called to check for the timer match flag.
+    This function is used in timer polling method.
 
   @Preconditions
-    Initialize  the TMR2 module with interrupt before calling this isr.
+    Initialize  the TMR2 module before calling this routine.
 
   @Param
     None
 
   @Returns
-    None
+    true - timer match has occurred.
+    false - timer match has not occurred.
+
+  @Example
+    <code>
+    while(1)
+    {
+        // check the match flag
+        if(TMR2_HasOverflowOccured())
+        {
+            // Do something else...
+
+            // Reload the TMR2 value
+            TMR2_Reload();
+        }
+    }
+    </code>
 */
-void TMR2_ISR(void);
+bool TMR2_HasOverflowOccured(void);
 
-/**
-  @Summary
-    CallBack function
+ #ifdef __cplusplus  // Provide C++ Compatibility
 
-  @Description
-    This function is called from the timer ISR. User can write your code in this function.
-
-  @Preconditions
-    Initialize  the TMR2 module with interrupt before calling this function.
-
-  @Param
-    None
-
-  @Returns
-    None
-*/
-void TMR2_CallBack(void);
-/**
-  @Summary
-    Set Timer Interrupt Handler
-
-  @Description
-    This sets the function to be called during the ISR
-
-  @Preconditions
-    Initialize  the TMR2 module with interrupt before calling this.
-
-  @Param
-    Address of function to be set
-
-  @Returns
-    None
-*/
-void TMR2_SetInterruptHandler(void (*InterruptHandler)(void));
-
-/**
-  @Summary
-    Timer Interrupt Handler
-
-  @Description
-    This is a function pointer to the function that will be called during the ISR
-
-  @Preconditions
-    Initialize  the TMR2 module with interrupt before calling this isr.
-
-  @Param
-    None
-
-  @Returns
-    None
-*/
-extern void (*TMR2_InterruptHandler)(void);
-
-/**
-  @Summary
-    Default Timer Interrupt Handler
-
-  @Description
-    This is the default Interrupt Handler function
-
-  @Preconditions
-    Initialize  the TMR2 module with interrupt before calling this isr.
-
-  @Param
-    None
-
-  @Returns
-    None
-*/
-void TMR2_DefaultInterruptHandler(void);
-
-#ifdef __cplusplus  // Provide C++ Compatibility
-}
+    }
 
 #endif
 
-#endif  // TMR2_H
+#endif // TMR2_H
 /**
  End of File
 */
+

@@ -21,7 +21,7 @@
         MPLAB             :  MPLAB X 5.40
 
     Copyright (c) 2013 - 2015 released Microchip Technology Inc.  All rights reserved.
-*/
+ */
 
 /*
     (c) 2018 Microchip Technology Inc. and its subsidiaries. 
@@ -44,59 +44,46 @@
     CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT 
     OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
     SOFTWARE.
-*/
+ */
 
 #include "pin_manager.h"
 
-
-
-
-
-void PIN_MANAGER_Initialize(void)
-{
+void PIN_MANAGER_Initialize(void) {
     /**
     LATx registers
-    */
+     */
     LATA = 0x00;
     LATB = 0x00;
 
     /**
     TRISx registers
-    */
+     */
     TRISA = 0x20;
     TRISB = 0x00;
 
     /**
     ANSELx registers
-    */
+     */
     ANSELB = 0xFE;
     ANSELA = 0x1F;
 
     /**
     WPUx registers
-    */
-    WPUB = 0x00;
-    WPUA = 0x00;
+     */
+    WPUB                  = 0x00;
+    WPUA                  = 0x00;
     OPTION_REGbits.nWPUEN = 1;
-
 
     /**
     APFCONx registers
-    */
+     */
     APFCON0 = 0x00;
     APFCON1 = 0x00;
-
-
-
-
-   
-    
 }
-  
-void PIN_MANAGER_IOC(void)
-{   
+
+void PIN_MANAGER_IOC(void) {
 }
 
 /**
  End of File
-*/
+ */

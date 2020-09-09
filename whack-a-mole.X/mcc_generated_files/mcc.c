@@ -17,7 +17,7 @@
   Version    :  2.00 The generated drivers are tested against the following:
         Compiler          :  XC8 2.20 and above or later
         MPLAB             :  MPLAB X 5.40
-*/
+ */
 
 /*
     (c) 2018 Microchip Technology Inc. and its subsidiaries.
@@ -41,7 +41,7 @@
     CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT
     OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS
     SOFTWARE.
-*/
+ */
 
 #include "mcc.h"
 
@@ -72,4 +72,4 @@ void WDT_Initialize(void) {
 
 /**
  End of File
-*/
+ */

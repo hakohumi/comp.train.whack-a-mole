@@ -53,7 +53,6 @@
 
 #include <xc.h>
 
-#include "memory.h"
 
 /**
   Section: Global Variables Definitions
@@ -61,12 +60,10 @@
 
 volatile uint8_t timer0ReloadVal;
 void (*TMR0_InterruptHandler)(void);
+
 /**
   Section: TMR0 APIs
  */
-
-extern uint8_t RandLED;
-extern uint32_t func_xor(void);
 
 void TMR0_Initialize(void) {
     // Set TMR0 to the options selected in the User Interface
@@ -141,17 +138,6 @@ void TMR0_SetInterruptHandler(void (*InterruptHandler)(void)) {
 }
 
 void TMR0_DefaultInterruptHandler(void) {
-    static uint8_t cnt = 0;
-    // add your TMR0 interrupt custom code
-    // or set custom function using TMR0_SetInterruptHandler()
-
-    // RandLED = (int)(xor() % 8);
-//    RandLED = DATAEE_ReadByte(cnt++);
-    RandLED = cnt++;
-
-    if (cnt >= 7) {
-        cnt = 0;
-    }
 }
 
 /**

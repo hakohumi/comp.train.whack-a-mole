@@ -10,16 +10,6 @@
 
 #include "Common.h"
 
-typedef enum {
-    DO,
-    RE,
-    MI,
-    FA,
-    SO,
-    RA,
-    SI,
-    DO2,
-} ScaleType;
 
 // 音符データの要素
 typedef enum {
