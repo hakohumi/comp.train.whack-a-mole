@@ -30,7 +30,7 @@ static const MusicSheets_t BGM_Doremi = {
 static MusicSheets_t *MusicSheet;
 
 // 初期化
-void InitializeBGM(void) {
+void MusicSheet_Initialize(void) {
     // BGM_Doremiをロード
     MusicSheet = &BGM_Doremi;
 }

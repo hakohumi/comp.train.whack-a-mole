@@ -172,9 +172,9 @@ void TMR1_DefaultInterruptHandler(void) {
     /* -------------------------------------------------- */
 
     //BGMか効果音が再生中か
-    if (IsPlayBGM || IsPlaySE) {
+    if (GetIsPlayBGM() || GetIsPlaySE()) {
         //16分音符分の長さが経過したか？
-        if (LengthNote16th_ms == 0) {
+        if (GetLengthNote16th_ms() == 0) {
             // LengthNote16thフラグを立てる
             Buzzer_SetLengthNote16thFlg();
         }

@@ -44,7 +44,7 @@ typedef struct {
 
 } MusicSheets_t;
 
-void InitializeBGM(void);
+void MusicSheet_Initialize(void);
 
 uint8_t GetBGMTempo(void);
 uint8_t *GetBGMCurrentNote(uint16_t pos);

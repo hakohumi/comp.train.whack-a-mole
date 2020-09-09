@@ -68,7 +68,7 @@ void main(void) {
 
     // Myfunction init
     Buzzer_Initialize();
-    InitializeBGM();
+    MusicSheet_Initialize();
 
     // Enable the Global Interrupts
     INTERRUPT_GlobalInterruptEnable();
@@ -82,12 +82,11 @@ void main(void) {
     // Disable the Peripheral Interrupts
     // INTERRUPT_PeripheralInterruptDisable();
 
+    PlayBGM();
+
     while (1) {
-        // RandLEDの値から、対応したLEDを表示させる
-        l_note = GetBGMCurrentNote(RandLED);
-        UpdateLED(l_note[0]);
         //        UpdateLED(RandLED);
-        // UpdateBuzzer();
+        UpdateBuzzer();
     }
 }
 

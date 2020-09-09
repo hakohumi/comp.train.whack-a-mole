@@ -13,14 +13,16 @@
 #include "Common.h"
 
 void Buzzer_Initialize(void);
+void PlayBGM(void);
 void UpdateBuzzer(void);
-void UpdateBGMManager(void);
-void UpdateSEManager(void);
 
 // BGMの現在の再生位置
 uint16_t GetBGMPlayPos(void);
 
 // LengthNote16thFlgを立てる
 void Buzzer_SetLengthNote16thFlg(void);
+bool GetIsPlayBGM(void);
+bool GetIsPlaySE(void);
+uint16_t GetLengthNote16th_ms(void);
 
 #endif /* BUZZER_H */
