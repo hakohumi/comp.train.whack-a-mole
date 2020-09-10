@@ -34,6 +34,7 @@ BGMとSEを管理する
 
 // 音程テープル
 static uint8_t PichTable[SCALE_NUM] = {
+    0x00,  // REST
 
     0xEE,  // DO
     0xE1,  // DO_SHARP
@@ -85,12 +86,13 @@ static void updateBGMManager(void);
 static void updateBGMState(void);
 static void updateSEManager(void);
 static void changePich(uint8_t i_Pich);
+static void returnBeginPlayPos(void);
 /* -------------------------------------------------- */
 
 // ブザーの初期化
 
 void Buzzer_Initialize(void) {
-    uint8_t Tempo  = 0;
+    uint16_t Tempo = 0;
     uint8_t l_pich = 0;
 
     // BGMの楽譜のテンポを取得する
@@ -102,16 +104,10 @@ void Buzzer_Initialize(void) {
 
     // 楽譜の最後の位置を記録
     BGMEndPos = GetBGMMaxNotes();
-
-    // 選択された音符の長さをcurrentNoteLengthにセットする
-    currentNoteLength = GetBGMCurrentNoteLength(0);
-
-    // 音符の高さに合わせて、タイマの周期を変える
-    l_pich = GetBGMCurrentNotePich(BGMPlayNotePos);
-    TMR2_LoadPeriodRegister(PichTable[l_pich]);
 }
 
 // BGM再生開始フラグのON
+
 void PlayBGM(void) {
     BGMStartFlg = ON;
 }
@@ -134,6 +130,19 @@ void UpdateBuzzer(void) {
     }
 }
 
+// BGM頭出し処理
+
+static void returnBeginPlayPos(void) {
+    uint8_t l_pich = 0;
+
+    // 選択された音符の長さをcurrentNoteLengthにセットする
+    currentNoteLength = *(GetBGMCurrentNote(0));
+
+    // 音符の高さに合わせて、タイマの周期を変える
+    l_pich = GetBGMCurrentNotePich(0);
+    changePich(l_pich);
+}
+
 static void updateBGMState(void) {
     // BGM再生フラグが立ったか？
     // BGMStartFlg
@@ -142,6 +151,9 @@ static void updateBGMState(void) {
         BGMStartFlg = OFF;
         // IsPlayBGMをtrueに変更する
         IsPlayBGM = true;
+
+        // 最初の処理
+        returnBeginPlayPos();
 
         // PWMを開始させる
         TMR2_StartTimer();
@@ -214,12 +226,19 @@ void Buzzer_SetLengthNote16thFlg(void) {
 
 // 音程の変更
 // タイマの周期とデューティー比を変更
+
 static void changePich(uint8_t i_Pich) {
     uint8_t l_Pich = PichTable[i_Pich];
-    // タイマに書き込み
-    TMR2_LoadPeriodRegister(l_Pich);
-    // PWMのデューティー比を50%になるように変更
-    PWM3_LoadDutyValue(l_Pich / 2);
+
+    if (l_Pich != 0) {
+        // タイマに書き込み
+        TMR2_LoadPeriodRegister(l_Pich);
+        // PWMのデューティー比を50%になるように変更
+        PWM3_LoadDutyValue(l_Pich / 2);
+    } else {
+        // PWMのデューティー比を0%になるように変更
+        PWM3_LoadDutyValue(0);
+    }
 }
 
 /* -------------------------------------------------- */

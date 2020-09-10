@@ -6,6 +6,8 @@
         "musicsheets.h": "c",
         "tmr2.h": "c",
         "pwm3.h": "c",
-        "pwm.h": "c"
+        "pwm.h": "c",
+        "stdint.h": "c",
+        "common.h": "c"
     }
 }

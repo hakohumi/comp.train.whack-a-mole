@@ -21,7 +21,7 @@ typedef enum {
 // 楽譜クラス
 typedef struct {
     // テンポ
-    uint8_t Tempo;
+    uint16_t Tempo;
     // 音符データ
     // Data[Pos][Note]
     // Pos 再生位置
@@ -36,7 +36,7 @@ typedef struct {
 
 void MusicSheet_Initialize(void);
 
-uint8_t GetBGMTempo(void);
+uint16_t GetBGMTempo(void);
 uint8_t *GetBGMCurrentNote(uint16_t pos);
 uint8_t GetBGMCurrentNoteLength(uint16_t pos);
 uint8_t GetBGMCurrentNotePich(uint16_t pos);

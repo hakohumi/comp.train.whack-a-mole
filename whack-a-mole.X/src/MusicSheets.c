@@ -37,12 +37,12 @@ static const MusicSheets_t BGM_Doremi = {
 // 音程デバッグ用楽譜
 static const uint8_t DEBUG_PICH_DO[8][NOTE_ARRAY_NUM] = {
 
-    {4, RA},
+    {4, RA_},
     {4, SI},
     {4, DO2},
     {4, DO},
     {4, SO},
-    {4, RA},
+    {4, RA_},
     {4, SI},
     {4, DO2}
 
@@ -58,7 +58,37 @@ static const MusicSheets_t BGM_DO = {
 
 // リリース用コロブチカ楽譜
 
+static const uint8_t BGMNotes_Tetris[][NOTE_ARRAY_NUM] = {
+    {8, MI2},  //1
+    {4, SI},
+    {4, DO2},
+    {4, RE2},
+    {4, DO2},
+    {4, SI},
+    {8, RA_},
+    {4, RA_},
+    {4, DO2},
+    {8, MI2},
+    {4, RE2},
+    {4, DO2},
+    {2, SI},
+    {4, SI},
+    {4, DO2},
+    {8, RE2},
+    {8, MI2},
+    {8, DO2},
+    {8, RA_},
+    {8, RA_},
+    {4, REST},
+    {4, REST}
+
+};
+
 static const MusicSheets_t BGM_Tetris = {
+
+    302,
+    BGMNotes_Tetris,
+    sizeof(BGMNotes_Tetris) / sizeof(uint8_t *)
 
 };
 
@@ -71,7 +101,7 @@ static MusicSheets_t *MusicSheet;
 
 void MusicSheet_Initialize(void) {
     // BGM_Doremiをロード
-    MusicSheet = &BGM_Doremi;
+    MusicSheet = &BGM_Tetris;
 
     // 音程確認用
     //    MusicSheet = &BGM_DO;
@@ -83,7 +113,7 @@ void MusicSheet_Initialize(void) {
 
 // BGMのテンポを取得
 
-uint8_t GetBGMTempo(void) {
+uint16_t GetBGMTempo(void) {
     return MusicSheet->Tempo;
 }
 
