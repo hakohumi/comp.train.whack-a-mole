@@ -41,12 +41,8 @@
     SOFTWARE.
  */
 
-#include "Buzzer.h"
-#include "LED.h"
-#include "MusicSheets.h"
+#include "LCD.h"
 #include "mcc.h"
-// 動いてるかデバッグ用
-#include "tmr2.h"
 
 // マイコンに書き込み時にEEPROMに値を書き込む
 // 8バイトずつ
@@ -54,20 +50,9 @@
 
 // global variable
 
-// randで0~7の間で出力された値を格納する変数
-// 1秒タイマで操作
-uint8_t RandLED = 0;
-
 void main(void) {
     // initialize the device
     SYSTEM_Initialize();
-
-    // When using interrupts, you need to set the Global and Peripheral
-    // Interrupt Enable bits Use the following macros to:
-
-    // Myfunction init
-    MusicSheet_Initialize();
-    Buzzer_Initialize();
 
     // Enable the Global Interrupts
     INTERRUPT_GlobalInterruptEnable();
@@ -75,16 +60,17 @@ void main(void) {
     // Enable the Peripheral Interrupts
     INTERRUPT_PeripheralInterruptEnable();
 
-    // Disable the Global Interrupts
-    // INTERRUPT_GlobalInterruptDisable();
+    // LCD初期化
+    InitLCD();
+    // LCDをON
+    DisplayON();
 
-    // Disable the Peripheral Interrupts
-    // INTERRUPT_PeripheralInterruptDisable();
-
-    PlayBGM();
+    uint8_t *l_str = "test";
 
     while (1) {
-        UpdateBuzzer();
+        // 1行目に"test"を表示
+        SetPosLineLCD(0);
+        Write1LineToLCD(l_str, 4);
     }
 }
 

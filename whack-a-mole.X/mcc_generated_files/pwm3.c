@@ -56,7 +56,7 @@
   Section: Macro Declarations
 */
 
-#define PWM3_INITIALIZE_DUTY_VALUE 511
+#define PWM3_INITIALIZE_DUTY_VALUE    0
 
 /**
   Section: PWM Module APIs
@@ -65,11 +65,11 @@
 void PWM3_Initialize(void) {
     // Set the PWM3 to the options selected in the User Interface
 
-    // CCP3M PWM; DC3B 3;
-    CCP3CON = 0x3C;
+	// CCP3M PWM; DC3B 0; 
+	CCP3CON = 0x0C;    
 
-    // CCPR3L 127;
-    CCPR3L = 0x7F;
+	// CCPR3L 0; 
+	CCPR3L = 0x00;    
 
     // CCPR3H 0;
     CCPR3H = 0x00;
