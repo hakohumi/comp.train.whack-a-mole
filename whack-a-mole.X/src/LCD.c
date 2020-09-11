@@ -3,6 +3,7 @@
 
 #include <mcc.h>
 
+#include "Common.h"
 #include "examples/i2c1_master_example.h"
 
 /* -------------------------------------------------- */
@@ -18,23 +19,6 @@
 bool UpdateLCDFlg = OFF;
 // LCDのリセット処理を、このリセット処理が終わってから行うようにするためのフラグ
 bool LCDResetFlg = OFF;
-
-// ---------------------------------------------
-// 文字リテラル
-// =--------------------------------------------
-
-static uint8_t char_blank   = ' ';
-static uint8_t str_blank[8] = "        ";
-
-/* -------------------------------------------------- */
-
-/* -------------------------------------------------- */
-// プライベート関数
-/* -------------------------------------------------- */
-
-uint8_t Itochar(uint8_t value);
-
-char *utoa(unsigned int value, char *s, int radix);
 
 /* -------------------------------------------------- */
 
@@ -144,24 +128,6 @@ inline void SetLCDResetFlg(void) {
 
 // inline void ClrLCDResetFlg(void) { LCDResetFLg = OFF; }
 
-// 数値一文字をchar型へ変換
-
-uint8_t Itochar(uint8_t value) {
-    if (value > DECIMAL_MAX) {
-        return char_blank;
-    }
-    return "0123456789"[value];
-}
-
-// 受取った数値を文字列へ変換
-void ItoStr(uint16_t i_value, uint8_t *o_strAdd, uint8_t i_strLen) {
-    while (i_strLen != 0) {
-        o_strAdd[i_strLen - 1] = Itochar(i_value % 10);
-        i_value /= 10;
-        i_strLen--;
-    }
-}
-
 // Display ON
 
 void DisplayON(void) {
@@ -171,24 +137,4 @@ void DisplayON(void) {
 
 void DisplayOFF(void) {
     I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_DISPLAY_OFF);
-}
-
-// 拾ってきた関数
-char *utoa(unsigned int value, char *s, int radix) {
-    char *s1 = s;
-    char *s2 = s;
-
-    do {
-        *s2++ = "0123456789abcdefghijklmnopqrstuvwxyz"[value % radix];
-        value /= radix;
-    } while (value > 0);
-
-    *s2-- = '\0';
-
-    while (s1 < s2) {
-        char c = *s1;
-        *s1++  = *s2;
-        *s2--  = c;
-    }
-    return s;
 }

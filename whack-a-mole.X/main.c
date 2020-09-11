@@ -45,6 +45,7 @@
 #include "LED.h"
 #include "Rand.h"
 #include "mcc.h"
+#include "Common.h"
 
 // マイコンに書き込み時にEEPROMに値を書き込む
 // 8バイトずつ
@@ -67,8 +68,10 @@ void main(void) {
     // LCDをON
     DisplayON();
 
+    // LCDのバッファ
     uint8_t l_str[9];
 
+    // 乱数保存用
     uint16_t rand = 0;
 
     while (1) {
