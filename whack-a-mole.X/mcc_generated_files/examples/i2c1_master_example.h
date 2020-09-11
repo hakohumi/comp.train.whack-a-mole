@@ -1,27 +1,25 @@
 /**
-  Generated Pin Manager File
+  I2C1 Generated Driver API Header File
 
-  Company:
+  @Company
     Microchip Technology Inc.
 
-  File Name:
-    pin_manager.c
+  @File Name
+    i2c1_master_example.h
 
-  Summary:
-    This is the Pin Manager file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
+  @Summary
+    This is the generated header file for the I2C1 driver example using PIC10 / PIC12 / PIC16 / PIC18 MCUs
 
-  Description:
-    This header file provides implementations for pin APIs for all pins selected in the GUI.
+  @Description
+    This header file provides APIs for driver for I2C1.
     Generation Information :
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.81.4
         Device            :  PIC16F1827
-        Driver Version    :  2.11
+        Driver Version    :  1.0.0
     The generated drivers are tested against the following:
-        Compiler          :  XC8 2.20 and above
+        Compiler          :  XC8 2.20 and above or later
         MPLAB             :  MPLAB X 5.40
-
-    Copyright (c) 2013 - 2015 released Microchip Technology Inc.  All rights reserved.
- */
+*/
 
 /*
     (c) 2018 Microchip Technology Inc. and its subsidiaries. 
@@ -44,59 +42,20 @@
     CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT 
     OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
     SOFTWARE.
- */
+*/
 
-#include "pin_manager.h"
+#ifndef I2C1_MASTER_EXAMPLE_H
+#define I2C1_MASTER_EXAMPLE_H
 
+#include <stdint.h>
+#include "i2c1_master.h"
 
+uint8_t  I2C1_Read1ByteRegister(i2c1_address_t address, uint8_t reg);
+uint16_t I2C1_Read2ByteRegister(i2c1_address_t address, uint8_t reg);
+void I2C1_Write1ByteRegister(i2c1_address_t address, uint8_t reg, uint8_t data);
+void I2C1_Write2ByteRegister(i2c1_address_t address, uint8_t reg, uint16_t data);
+void I2C1_WriteNBytes(i2c1_address_t address, uint8_t *data, size_t len);
+void I2C1_ReadNBytes(i2c1_address_t address, uint8_t *data, size_t len);
+void I2C1_ReadDataBlock(i2c1_address_t address, uint8_t reg, uint8_t *data, size_t len);
 
-
-
-void PIN_MANAGER_Initialize(void)
-{
-    /**
-    LATx registers
-     */
-    LATA = 0xD7;
-    LATB = 0xED;
-
-    /**
-    TRISx registers
-     */
-    TRISA = 0x20;
-    TRISB = 0x12;
-
-    /**
-    ANSELx registers
-     */
-    ANSELB = 0xEC;
-    ANSELA = 0x1F;
-
-    /**
-    WPUx registers
-     */
-    WPUB = 0x00;
-    WPUA = 0x00;
-    OPTION_REGbits.nWPUEN = 1;
-
-
-    /**
-    APFCONx registers
-     */
-    APFCON0 = 0x00;
-    APFCON1 = 0x00;
-
-
-
-
-   
-    
-}
-
-void PIN_MANAGER_IOC(void)
-{   
-}
-
-/**
- End of File
- */
+#endif /* I2C1_MASTER_EXAMPLE_H */

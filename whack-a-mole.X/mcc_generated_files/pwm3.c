@@ -1,27 +1,25 @@
 /**
-  Generated Pin Manager File
+  PWM3 Generated Driver File
 
-  Company:
+  @Company
     Microchip Technology Inc.
 
-  File Name:
-    pin_manager.c
+  @File Name
+    pwm3.c
 
-  Summary:
-    This is the Pin Manager file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
+  @Summary
+    This is the generated driver implementation file for the PWM3 driver using PIC10 / PIC12 / PIC16 / PIC18 MCUs
 
-  Description:
-    This header file provides implementations for pin APIs for all pins selected in the GUI.
+  @Description
+    This source file provides implementations for driver APIs for PWM3.
     Generation Information :
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.81.4
         Device            :  PIC16F1827
-        Driver Version    :  2.11
+        Driver Version    :  2.01
     The generated drivers are tested against the following:
         Compiler          :  XC8 2.20 and above
-        MPLAB             :  MPLAB X 5.40
-
-    Copyright (c) 2013 - 2015 released Microchip Technology Inc.  All rights reserved.
- */
+         MPLAB 	          :  MPLAB X 5.40
+*/
 
 /*
     (c) 2018 Microchip Technology Inc. and its subsidiaries. 
@@ -44,59 +42,50 @@
     CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT 
     OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
     SOFTWARE.
- */
+*/
 
-#include "pin_manager.h"
+/**
+  Section: Included Files
+*/
 
+#include "pwm3.h"
 
+#include <xc.h>
 
+/**
+  Section: Macro Declarations
+*/
 
+#define PWM3_INITIALIZE_DUTY_VALUE    0
 
-void PIN_MANAGER_Initialize(void)
-{
-    /**
-    LATx registers
-     */
-    LATA = 0xD7;
-    LATB = 0xED;
+/**
+  Section: PWM Module APIs
+*/
 
-    /**
-    TRISx registers
-     */
-    TRISA = 0x20;
-    TRISB = 0x12;
+void PWM3_Initialize(void) {
+    // Set the PWM3 to the options selected in the User Interface
 
-    /**
-    ANSELx registers
-     */
-    ANSELB = 0xEC;
-    ANSELA = 0x1F;
+	// CCP3M PWM; DC3B 0; 
+	CCP3CON = 0x0C;    
 
-    /**
-    WPUx registers
-     */
-    WPUB = 0x00;
-    WPUA = 0x00;
-    OPTION_REGbits.nWPUEN = 1;
+	// CCPR3L 0; 
+	CCPR3L = 0x00;    
 
+    // CCPR3H 0;
+    CCPR3H = 0x00;
 
-    /**
-    APFCONx registers
-     */
-    APFCON0 = 0x00;
-    APFCON1 = 0x00;
-
-
-
-
-   
-    
+    // Selecting Timer 2
+    CCPTMRS0bits.C3TSEL = 0x0;
 }
 
-void PIN_MANAGER_IOC(void)
-{   
+void PWM3_LoadDutyValue(uint16_t dutyValue) {
+    // Writing to 8 MSBs of pwm duty cycle in CCPRL register
+    CCPR3L = ((dutyValue & 0x03FC) >> 2);
+
+    // Writing to 2 LSBs of pwm duty cycle in CCPCON register
+    CCP3CON = ((uint8_t)(CCP3CON & 0xCF) | ((dutyValue & 0x0003) << 4));
 }
 
 /**
  End of File
- */
+*/

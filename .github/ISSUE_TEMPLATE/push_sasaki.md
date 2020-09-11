@@ -2,7 +2,7 @@
 name: Push_Sasaki
 about: Sasaki が Pushする時用のテンプレ
 title: ''
-labels: bug, documentation, enhancement
+labels: fix, enhancement
 assignees: tomohirosasaki-erii
 
 ---
