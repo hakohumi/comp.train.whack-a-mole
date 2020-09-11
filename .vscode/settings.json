@@ -1,5 +1,15 @@
 {
     "files.associations": {
-        "chrono": "cpp"
+        "tmr0.h": "c",
+        "led.h": "c",
+        "buzzer.h": "c",
+        "musicsheets.h": "c",
+        "tmr2.h": "c",
+        "pwm3.h": "c",
+        "pwm.h": "c",
+        "stdint.h": "c",
+        "common.h": "c",
+        "i2c1_master_example.h": "c",
+        "lcd.h": "c"
     }
 }

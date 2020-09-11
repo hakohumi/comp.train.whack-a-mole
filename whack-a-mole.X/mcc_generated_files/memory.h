@@ -1,27 +1,25 @@
 /**
-  Generated Pin Manager File
+  MEMORY Generated Driver API Header File
 
-  Company:
+  @Company
     Microchip Technology Inc.
 
-  File Name:
-    pin_manager.c
+  @File Name
+    memory.h
 
-  Summary:
-    This is the Pin Manager file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
+  @Summary
+    This is the generated header file for the MEMORY driver using PIC10 / PIC12 / PIC16 / PIC18 MCUs
 
-  Description:
-    This header file provides implementations for pin APIs for all pins selected in the GUI.
+  @Description
+    This header file provides APIs for driver for MEMORY.
     Generation Information :
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.81.4
         Device            :  PIC16F1827
-        Driver Version    :  2.11
+        Driver Version    :  2.01
     The generated drivers are tested against the following:
         Compiler          :  XC8 2.20 and above
         MPLAB             :  MPLAB X 5.40
-
-    Copyright (c) 2013 - 2015 released Microchip Technology Inc.  All rights reserved.
- */
+ *******************************************************************************/
 
 /*
     (c) 2018 Microchip Technology Inc. and its subsidiaries. 
@@ -46,57 +44,66 @@
     SOFTWARE.
  */
 
-#include "pin_manager.h"
+#ifndef MEMORY_H
+#define MEMORY_H
 
+/**
+  Section: Included Files
+ */
 
+#include <stdbool.h>
+#include <stdint.h>
 
+#ifdef __cplusplus  // Provide C++ Compatibility
 
+extern "C" {
 
-void PIN_MANAGER_Initialize(void)
-{
-    /**
-    LATx registers
-     */
-    LATA = 0xD7;
-    LATB = 0xED;
-
-    /**
-    TRISx registers
-     */
-    TRISA = 0x20;
-    TRISB = 0x12;
+#endif
 
     /**
-    ANSELx registers
+      Section: Macro Declarations
      */
-    ANSELB = 0xEC;
-    ANSELA = 0x1F;
+
+#define WRITE_FLASH_BLOCKSIZE    8
+#define ERASE_FLASH_BLOCKSIZE    32
+#define END_FLASH                0x1000
+
+
+    void DATAEE_WriteByte(uint8_t bAdd, uint8_t bData);
 
     /**
-    WPUx registers
+      @Summary
+        Reads a data byte from Data EEPROM
+
+      @Description
+        This routine reads a data byte from given Data EEPROM location
+
+      @Preconditions
+        None
+
+      @Param
+        bAdd  - Data EEPROM location from which data has to be read
+
+      @Returns
+        Data byte read from given Data EEPROM location
+
+      @Example
+        <code>
+        uint8_t dataeeAddr = 0x10;
+        uint8_t readData;
+
+        readData = DATAEE_ReadByte(dataeeAddr);
+        </code>
      */
-    WPUB = 0x00;
-    WPUA = 0x00;
-    OPTION_REGbits.nWPUEN = 1;
+    uint8_t DATAEE_ReadByte(uint8_t bAdd);
 
+#ifdef __cplusplus  // Provide C++ Compatibility
 
-    /**
-    APFCONx registers
-     */
-    APFCON0 = 0x00;
-    APFCON1 = 0x00;
-
-
-
-
-   
-    
 }
 
-void PIN_MANAGER_IOC(void)
-{   
-}
+#endif
 
+#endif // MEMORY_H
 /**
  End of File
  */

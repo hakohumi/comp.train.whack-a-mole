@@ -1,26 +1,24 @@
 /**
-  Generated Pin Manager File
+  MEMORY Generated Driver File
 
-  Company:
+  @Company
     Microchip Technology Inc.
 
-  File Name:
-    pin_manager.c
+  @File Name
+    memory.c
 
-  Summary:
-    This is the Pin Manager file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
+  @Summary
+    This is the generated driver implementation file for the MEMORY driver using PIC10 / PIC12 / PIC16 / PIC18 MCUs
 
-  Description:
-    This header file provides implementations for pin APIs for all pins selected in the GUI.
+  @Description
+    This source file provides implementations of driver APIs for MEMORY.
     Generation Information :
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.81.4
         Device            :  PIC16F1827
-        Driver Version    :  2.11
+        Driver Version    :  2.01
     The generated drivers are tested against the following:
         Compiler          :  XC8 2.20 and above
         MPLAB             :  MPLAB X 5.40
-
-    Copyright (c) 2013 - 2015 released Microchip Technology Inc.  All rights reserved.
  */
 
 /*
@@ -46,57 +44,53 @@
     SOFTWARE.
  */
 
-#include "pin_manager.h"
+/**
+  Section: Included Files
+ */
 
+#include <xc.h>
+#include "memory.h"
 
+/**
+  Section: Flash Module APIs
+ */
 
+/**
+  Section: Data EEPROM Module APIs
+ */
 
+void DATAEE_WriteByte(uint8_t bAdd, uint8_t bData) {
+    uint8_t GIEBitValue = 0;
 
-void PIN_MANAGER_Initialize(void)
-{
-    /**
-    LATx registers
-     */
-    LATA = 0xD7;
-    LATB = 0xED;
+    EEADRL = (uint8_t)(bAdd & 0x0ff); // Data Memory Address to write
+    EEDATL = bData; // Data Memory Value to write
+    EECON1bits.EEPGD = 0; // Point to DATA memory
+    EECON1bits.CFGS = 0; // Deselect Configuration space
+    EECON1bits.WREN = 1; // Enable writes
 
-    /**
-    TRISx registers
-     */
-    TRISA = 0x20;
-    TRISB = 0x12;
+    GIEBitValue = INTCONbits.GIE;
+    INTCONbits.GIE = 0; // Disable INTs
+    EECON2 = 0x55;
+    EECON2 = 0xAA;
+    EECON1bits.WR = 1; // Set WR bit to begin write
+    // Wait for write to complete
+    while (EECON1bits.WR) {
+    }
 
-    /**
-    ANSELx registers
-     */
-    ANSELB = 0xEC;
-    ANSELA = 0x1F;
-
-    /**
-    WPUx registers
-     */
-    WPUB = 0x00;
-    WPUA = 0x00;
-    OPTION_REGbits.nWPUEN = 1;
-
-
-    /**
-    APFCONx registers
-     */
-    APFCON0 = 0x00;
-    APFCON1 = 0x00;
-
-
-
-
-   
-    
+    EECON1bits.WREN = 0; // Disable writes
+    INTCONbits.GIE = GIEBitValue;
 }
 
-void PIN_MANAGER_IOC(void)
-{   
-}
+uint8_t DATAEE_ReadByte(uint8_t bAdd) {
+    EEADRL = (uint8_t)(bAdd & 0x0ff); // Data Memory Address to read
+    EECON1bits.CFGS = 0; // Deselect Configuration space
+    EECON1bits.EEPGD = 0; // Point to DATA memory
+    EECON1bits.RD = 1; // EE Read
+    NOP(); // NOPs may be required for latency at high frequencies
+    NOP();
 
+    return (EEDATL);
+}
 /**
  End of File
  */
