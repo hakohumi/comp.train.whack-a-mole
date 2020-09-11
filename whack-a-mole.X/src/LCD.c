@@ -16,6 +16,18 @@
 
 /* -------------------------------------------------- */
 
+/* -------------------------------------------------- */
+// プライベート変数
+/* -------------------------------------------------- */
+
+static uint8_t LCDBuffer[16];
+
+/* -------------------------------------------------- */
+
+/* -------------------------------------------------- */
+// グローバル変数
+/* -------------------------------------------------- */
+
 bool UpdateLCDFlg = OFF;
 // LCDのリセット処理を、このリセット処理が終わってから行うようにするためのフラグ
 bool LCDResetFlg = OFF;
@@ -78,6 +90,25 @@ inline void SetPosLineLCD(bool i_row) {
         // false 1行目
         I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, (LCD_SET_POS_DB7 | LINE_FIRST_ADDR));
     }
+}
+
+// WriteToBuffer
+
+void WriteToBuffer(uint8_t *i_str, uint8_t i_strLen) {
+    uint8_t i;
+
+    for (i = 0; i < i_strLen; i++) {
+        LCDBuffer[i] = i_str[i];
+    }
+}
+
+// BufferToWrite
+
+void BufferToLCD(void) {
+    SetPosLineLCD(0);
+    Write1LineToLCD(LCDBuffer, 8);
+    SetPosLineLCD(1);
+    Write1LineToLCD(&LCDBuffer[8], 8);
 }
 
 // Write1LineToLCD()

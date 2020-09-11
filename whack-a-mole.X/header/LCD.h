@@ -52,6 +52,13 @@ void LCDInitialize(void);
 inline void SetPosLCD(uint8_t i_pos);   // アドレス指定
 inline void SetPosLineLCD(bool i_row);  // 1行目か2行目の先頭を指定
 
+// LCDバッファに書き込む
+void WriteToBuffer(uint8_t *i_str, uint8_t i_strLen);
+
+// LCDバッファをLCDに書き込む
+void BufferToLCD(void);
+
+// 1行書き込む
 void Write1LineToLCD(uint8_t *i_str, uint8_t i_len);
 
 void ClrLineDisplay(uint8_t i_line);
