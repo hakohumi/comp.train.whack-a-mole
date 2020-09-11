@@ -48,7 +48,7 @@
         UpdateLCDFlg = OFF; \
     } while (0)
 
-void InitLCD(void);
+void LCDInitialize(void);
 
 // LCD上の書き込む位置を指定する
 inline void SetPosLCD(uint8_t i_pos);   // アドレス指定
@@ -59,7 +59,7 @@ void Write1LineToLCD(uint8_t *i_str, uint8_t i_len);
 void ClrLineDisplay(uint8_t i_line);
 void ClrDisplay(void);
 
-uint8_t *ItoStr(uint8_t i_value, uint8_t *o_strAdd, uint8_t i_strLen);
+uint8_t *ItoStr(uint16_t i_value, uint8_t *o_strAdd, uint8_t i_strLen);
 
 // LCDResetFlg
 // LCDのリセット処理を、このリセット処理が終わってから行うようにするためのフラグ

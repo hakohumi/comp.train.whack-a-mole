@@ -63,24 +63,25 @@ void main(void) {
     INTERRUPT_PeripheralInterruptEnable();
 
     // LCD初期化
-    InitLCD();
+    LCDInitialize();
     // LCDをON
     DisplayON();
 
-    uint8_t *l_str  = "0000000000000000";
+    uint8_t *l_str = "0000000000000000";
+    uint8_t l_str3[9];
     uint8_t *l_str2 = "aaaaa";
 
     uint16_t rand = 0;
 
     while (1) {
         rand = GetRand();
-        ItoStr(rand, l_str, 8);
+        ItoStr(rand, &l_str3, 8);
 
-        UpdateLED(l_str);
+        UpdateLED(rand);
 
         // 1行目に" "を表示
         SetPosLineLCD(0);
-        Write1LineToLCD(l_str, 8);
+        Write1LineToLCD(l_str3, 8);
         __delay_ms(500);
     }
 }

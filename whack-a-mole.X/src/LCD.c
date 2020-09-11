@@ -50,7 +50,7 @@ char *utoa(unsigned int value, char *s, int radix);
 // を送信
 // ③その後、7bitのデータを送信する
 
-void InitLCD(void) {
+void LCDInitialize(void) {
     uint8_t l_commandTable[10] = {0x38, 0x39, 0x14, 0x70, 0x52, 0x6C, 0x38, 0x0C, 0x01};
     uint8_t c;
 
@@ -154,8 +154,8 @@ uint8_t Itochar(uint8_t value) {
 }
 
 // 受取った数値を文字列へ変換
-uint8_t *ItoStr(uint8_t i_value, uint8_t *o_strAdd, uint8_t i_strLen) {
-    if (i_strLen != 0) {
+uint8_t *ItoStr(uint16_t i_value, uint8_t *o_strAdd, uint8_t i_strLen) {
+    while (i_strLen != 0) {
         o_strAdd[i_strLen - 1] = Itochar(i_value % 10);
         i_value /= 10;
         i_strLen--;
