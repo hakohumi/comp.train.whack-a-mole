@@ -154,14 +154,12 @@ uint8_t Itochar(uint8_t value) {
 }
 
 // 受取った数値を文字列へ変換
-uint8_t *ItoStr(uint16_t i_value, uint8_t *o_strAdd, uint8_t i_strLen) {
+void ItoStr(uint16_t i_value, uint8_t *o_strAdd, uint8_t i_strLen) {
     while (i_strLen != 0) {
         o_strAdd[i_strLen - 1] = Itochar(i_value % 10);
         i_value /= 10;
         i_strLen--;
     }
-
-    return 0;
 }
 
 // Display ON

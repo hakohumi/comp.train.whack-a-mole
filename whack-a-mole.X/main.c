@@ -67,21 +67,22 @@ void main(void) {
     // LCDをON
     DisplayON();
 
-    uint8_t *l_str = "0000000000000000";
-    uint8_t l_str3[9];
-    uint8_t *l_str2 = "aaaaa";
+    uint8_t l_str[9];
 
     uint16_t rand = 0;
 
     while (1) {
+        // 乱数発生
         rand = GetRand();
-        ItoStr(rand, &l_str3, 8);
 
+        ItoStr(rand, &l_str, 8);
+
+        // デバッグ用のLED表示
         UpdateLED(rand);
 
         // 1行目に" "を表示
         SetPosLineLCD(0);
-        Write1LineToLCD(l_str3, 8);
+        Write1LineToLCD(l_str, 8);
         __delay_ms(500);
     }
 }
