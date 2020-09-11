@@ -111,9 +111,9 @@ static void BGM_returnBeginPlayPos(void);
 static void SE_returnBeginPlayPos(void);
 /* -------------------------------------------------- */
 
-// ブザーの初期化
+// BGMの初期化
 
-void Buzzer_Initialize(void) {
+void BGM_Initialize(void) {
     uint16_t Tempo = 0;
     uint8_t l_pich = 0;
 
