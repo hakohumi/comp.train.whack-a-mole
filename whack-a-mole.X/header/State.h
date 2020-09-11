@@ -33,7 +33,7 @@ typedef struct {
     uint8_t action;
 } SystemState;
 
-SystemState MoleStrike;
+SystemState systemState;
 
 void ChangeState(uint8_t);
 void TitleProcess(void);

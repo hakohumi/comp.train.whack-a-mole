@@ -2,16 +2,17 @@
 
 void ChangeState(uint8_t i_displayState)
 {
-    MoleStrike.displayState = i_displayState;
+    systemState.displayState = i_displayState;
 }
 
 void TitleProcess(void){
-    switch(MoleStrike.action){
+    switch(systemState.action){
         case ENTRY:
-            
+            systemState.action = DO;
             break;
         case DO:
-            MoleStrike.displayState = SELECT_LEVEL;
+            systemState.displayState = SELECT_LEVEL;
+            SystemState.action = ENTRY;
             break;
         default:
             break;
@@ -19,10 +20,16 @@ void TitleProcess(void){
 }
 
 void SelectLevelProcess(void){
-    switch(MoleStrike.action){
+    switch(systemState.action){
         case ENTRY:
+            systemState.action = DO;
             break;
         case DO:
+            systemState.displayState = HS_CLEAR;
+            SystemState.action = ENTRY;
+            
+            systemState.displayState = START_COUNT_DOWN;
+            SystemState.action = ENTRY;
             break;
         default:
             break;
@@ -30,10 +37,13 @@ void SelectLevelProcess(void){
 }
 
 void HSClearProcess(void){
-    switch(MoleStrike.action){
+    switch(systemState.action){
         case ENTRY:
+            systemState.action = DO;
             break;
         case DO:
+            systemState.displayState = SELECT_LEVEL;
+            SystemState.action = ENTRY;
             break;
         default:
             break;
@@ -41,10 +51,13 @@ void HSClearProcess(void){
 }
 
 void StartCountDownProcess(void){
-    switch(MoleStrike.action){
+    switch(systemState.action){
         case ENTRY:
+            systemState.action = DO;
             break;
         case DO:
+            systemState.displayState = PLAYING_GAME;
+            SystemState.action = ENTRY;
             break;
         default:
             break;
@@ -52,10 +65,13 @@ void StartCountDownProcess(void){
 }
 
 void PlayingGameProcess(void){
-    switch(MoleStrike.action){
+    switch(systemState.action){
         case ENTRY:
+            systemState.action = DO;
             break;
         case DO:
+            systemState.displayState = RESULT;
+            SystemState.action = ENTRY;
             break;
         default:
             break;
@@ -63,10 +79,13 @@ void PlayingGameProcess(void){
 }
 
 void ResultProcess(void){
-    switch(MoleStrike.action){
+    switch(systemState.action){
         case ENTRY:
+            systemState.action = DO;
             break;
         case DO:
+            systemState.displayState = TITLE;
+            SystemState.action = ENTRY;
             break;
         default:
             break;

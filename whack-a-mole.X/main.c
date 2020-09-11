@@ -41,8 +41,9 @@
     SOFTWARE.
  */
 
-#include "LCD.h"
-#include "mcc.h"
+#include "header/LCD.h"
+#include "header/State.h"
+#include "mcc_generated_files/mcc.h"
 
 // マイコンに書き込み時にEEPROMに値を書き込む
 // 8バイトずつ
@@ -68,6 +69,29 @@ void main(void) {
     uint8_t *l_str = "test";
 
     while (1) {
+        switch(systemState.displayState){
+            case TITLE:
+                TitleProcess();
+                break;
+            case SELECT_LEVEL:
+                SelectLevelProcess();
+                break;
+            case HS_CLEAR:
+                HSClearProcess();
+                break;
+            case START_COUNT_DOWN:
+                StartCountDownProcess();
+                break;
+            case PLAYING_GAME:
+                PlayingGameProcess();
+                break;
+            case RESULT:
+                ResultProcess();
+                break;
+            default:
+                break;
+        }
+        
         // 1行目に"test"を表示
         SetPosLineLCD(0);
         Write1LineToLCD(l_str, 4);
