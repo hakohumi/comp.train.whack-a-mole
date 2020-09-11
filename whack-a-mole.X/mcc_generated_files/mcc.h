@@ -55,8 +55,8 @@
 #include "interrupt_manager.h"
 #include "i2c1_master.h"
 #include "pwm3.h"
-#include "memory.h"
 #include "tmr1.h"
+#include "memory.h"
 #include "tmr2.h"
 #include "tmr0.h"
 

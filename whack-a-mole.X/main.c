@@ -42,6 +42,8 @@
  */
 
 #include "LCD.h"
+#include "LED.h"
+#include "Rand.h"
 #include "mcc.h"
 
 // マイコンに書き込み時にEEPROMに値を書き込む
@@ -65,12 +67,21 @@ void main(void) {
     // LCDをON
     DisplayON();
 
-    uint8_t *l_str = "test";
+    uint8_t *l_str  = "0000000000000000";
+    uint8_t *l_str2 = "aaaaa";
+
+    uint16_t rand = 0;
 
     while (1) {
-        // 1行目に"test"を表示
+        rand = GetRand();
+        ItoStr(rand, l_str, 8);
+
+        UpdateLED(l_str);
+
+        // 1行目に" "を表示
         SetPosLineLCD(0);
-        Write1LineToLCD(l_str, 4);
+        Write1LineToLCD(l_str, 8);
+        __delay_ms(500);
     }
 }
 
