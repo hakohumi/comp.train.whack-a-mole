@@ -34,10 +34,10 @@ typedef struct {
 } MoleType;
 
 //モグラ1-4
-MoleType mole1 = {0,0,0x00,0};     
-MoleType mole2 = {0,0,0x01,0};
-MoleType mole3 = {0,0,0x02,0};
-MoleType mole4 = {0,0,0x04,0};
+MoleType mole1 = {0,0,0x01,0};     
+MoleType mole2 = {0,0,0x02,0};
+MoleType mole3 = {0,0,0x04,0};
+MoleType mole4 = {0,0,0x08,0};
 
 /* モグラ処理関数
  * モグラ1-4の処理を行う関数
