@@ -12,7 +12,6 @@
         <itemPath>header/MusicSheets.h</itemPath>
         <itemPath>header/LCD.h</itemPath>
         <itemPath>src/State.h</itemPath>
-        <itemPath>src/State.c</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -31,6 +30,12 @@
         <itemPath>mcc_generated_files/pwm3.h</itemPath>
         <itemPath>mcc_generated_files/i2c1_master.h</itemPath>
       </logicalFolder>
+      <itemPath>header/Input.h</itemPath>
+      <itemPath>header/Level.h</itemPath>
+      <itemPath>header/Mole.h</itemPath>
+      <itemPath>header/Score.h</itemPath>
+      <itemPath>header/State.h</itemPath>
+      <itemPath>header/Time.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -62,6 +67,13 @@
       <itemPath>src/Rand.c</itemPath>
       <itemPath>src/MusicSheets.c</itemPath>
       <itemPath>src/LCD.c</itemPath>
+      <itemPath>src/State.c</itemPath>
+      <itemPath>src/Common.c</itemPath>
+      <itemPath>src/Input.c</itemPath>
+      <itemPath>src/Level.c</itemPath>
+      <itemPath>src/Mole.c</itemPath>
+      <itemPath>src/Score.c</itemPath>
+      <itemPath>src/Time.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
