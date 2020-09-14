@@ -95,6 +95,8 @@ void main(void) {
         // 1行目に"test"を表示
         SetPosLineLCD(0);
         Write1LineToLCD(l_str, 4);
+        
+        //ブザー更新
     }
 }
 
