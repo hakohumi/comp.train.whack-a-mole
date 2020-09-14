@@ -48,10 +48,16 @@
   Section: Included Files
  */
 
+#include "../header/Time.h"
+#include "../header/Input.h"
+
 #include "tmr1.h"
 
 #include <xc.h>
 
+static uint8_t count5msec = 0;
+//static uint8_t count10msec = 0;
+static uint8_t count1sec = 0;
 
 #ifdef NO_BUZZER
 #include "Buzzer.h"
@@ -170,6 +176,24 @@ void TMR1_SetInterruptHandler(void (*InterruptHandler)(void)) {
 }
 
 void TMR1_DefaultInterruptHandler(void) {
+    if(TimeForRand>=0xFFFF){
+        TimeForRand = 0;
+    }
+    else{
+        TimeForRand++;
+    }
+    if(count5msec++>=4){
+        DetectPushSW();
+        count1sec++;
+        count5msec = 0;
+    }
+    if(count1sec>=199){
+        CountDown();
+        count1sec = 0;
+    }
+    //MoleTimerProcess();
+    
+    
 #ifdef NO_BUZZER
     static uint16_t l_LengthNote16th_ms = 0;
     /* -------------------------------------------------- */

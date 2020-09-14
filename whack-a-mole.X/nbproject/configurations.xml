@@ -5,8 +5,11 @@
                    displayName="Header Files"
                    projectFiles="true">
       <logicalFolder name="header" displayName="header" projectFiles="true">
+        <itemPath>header/LED.h</itemPath>
         <itemPath>header/Rand.h</itemPath>
+        <itemPath>header/Buzzer.h</itemPath>
         <itemPath>header/Common.h</itemPath>
+        <itemPath>header/MusicSheets.h</itemPath>
         <itemPath>header/LCD.h</itemPath>
         <itemPath>src/State.h</itemPath>
         <itemPath>src/State.c</itemPath>
@@ -54,10 +57,11 @@
         <itemPath>mcc_generated_files/i2c1_master.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
-      <itemPath>src/Rand.c</itemPath>
-      <itemPath>src/LCD.c</itemPath>
       <itemPath>src/LED.c</itemPath>
-      <itemPath>src/Common.c</itemPath>
+      <itemPath>src/Buzzer.c</itemPath>
+      <itemPath>src/Rand.c</itemPath>
+      <itemPath>src/MusicSheets.c</itemPath>
+      <itemPath>src/LCD.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

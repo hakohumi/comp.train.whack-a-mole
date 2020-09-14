@@ -6,6 +6,7 @@
  */
 
 #include <stdint.h>
+#include <stdbool.h>
 
 #ifndef INPUT_H
 #define	INPUT_H
@@ -29,14 +30,14 @@ SWType sw3 = { 0, 0x04, 0, 0};
 SWType sw4 = { 0, 0x08, 0, 0};
 SWType sw5 = { 0, 0x10, 0, 0};
 
-//ポートの入力値(加工)
+//DetectPushSWの入力値(加工)
 uint8_t InputPort;
 
 //SW入力状態
 uint8_t SWState;
 
 //
-void detectPushSW(void);
+void DetectPushSW(void);
 
 //
 void detectPushSWX(SWType*); 

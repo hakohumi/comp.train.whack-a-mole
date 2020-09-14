@@ -20,7 +20,7 @@ typedef enum LevelType_Type{
 }LevelType;
 
 //ゲーム難易度グローバル変数
-uint8_t Level;
+extern uint8_t Level;
 
 /* 難易度設定関数
  * 入力 ゲーム難易度

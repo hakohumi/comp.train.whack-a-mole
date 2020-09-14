@@ -1,6 +1,6 @@
 #include "../header/Input.h"
 
-void detectPushSW(void){
+void DetectPushSW(void){
     InputPort = (uint8_t)(~PORTA & 0x2F);
     detectPushSWX(&sw1);
     detectPushSWX(&sw2);
