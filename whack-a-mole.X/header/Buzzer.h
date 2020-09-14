@@ -12,19 +12,21 @@
 
 #include "Common.h"
 
-void Buzzer_Initialize(void);
-void PlayBGM(void);
-void UpdateBuzzer(void);
+#define REST 0
+#define NOTE_LENGTH 0
+#define NOTE_PITCH 1
 
-// BGMの現在の再生位置
-uint16_t GetBGMPlayPos(void);
+void Buzzer_Initialize(void);
+void UpdateBuzzer(void);
 
 // LengthNote16thFlgを立てる
 void Buzzer_SetLengthNote16thFlg(void);
-bool GetIsPlayBGM(void);
-bool GetIsPlaySE(void);
+
 uint16_t GetLengthNote16th_ms(void);
 
-#define REST 0
+void PlayBuzzer(void);
+void ChangePich(uint8_t i_Pich);
+
+extern uint8_t PichTable[SCALE_NUM];
 
 #endif /* BUZZER_H */

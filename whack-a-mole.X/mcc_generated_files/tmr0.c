@@ -53,6 +53,8 @@
 
 #include <xc.h>
 
+// 1秒ごとに効果音を鳴らすテスト用
+#include "SE.h"
 
 /**
   Section: Global Variables Definitions
@@ -138,6 +140,7 @@ void TMR0_SetInterruptHandler(void (*InterruptHandler)(void)) {
 }
 
 void TMR0_DefaultInterruptHandler(void) {
+    PlaySE();
 }
 
 /**

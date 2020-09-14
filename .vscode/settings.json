@@ -9,6 +9,10 @@
         "pwm.h": "c",
         "stdint.h": "c",
         "common.h": "c",
-        "bgm_musicsheets.h": "c"
+        "bgm_musicsheets.h": "c",
+        "bgm.h": "c",
+        "se.h": "c",
+        "tmr1.h": "c",
+        "se_musicsheets.h": "c"
     }
 }

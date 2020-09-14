@@ -13,17 +13,12 @@ BGMとSEを管理する
 
 #include "Buzzer.h"
 
-#include "BGM_MusicSheets.h"
+#include "BGM.h"
+#include "SE.h"
 #include "tmr2.h"
 // PWMのデューティ比を変更するため
+#include "BGM_MusicSheets.h"
 #include "pwm3.h"
-
-// LEDでデバッグするため
-#include "LED.h"
-
-#define NOTE_LENGTH 0
-#define NOTE_PITCH 1
-
 /* -------------------------------------------------- */
 // パブリック変数
 /* -------------------------------------------------- */
@@ -33,7 +28,7 @@ BGMとSEを管理する
 /* -------------------------------------------------- */
 
 // 音程テープル
-static uint8_t PichTable[SCALE_NUM] = {
+uint8_t PichTable[SCALE_NUM] = {
     0x00,  // REST
 
     0xEE,  // DO
@@ -58,58 +53,11 @@ static uint8_t PichTable[SCALE_NUM] = {
 
 };
 
-/* -------------------------------------------------- */
-// BGM
-/* -------------------------------------------------- */
-
-static bool LengthNote16thFlg     = OFF;
 static uint16_t LengthNote16th_ms = 0;
 
-// BGMの再生位置
-static uint16_t BGMPlayNotePos = 0;
-// BGMの終端位置
-static uint16_t BGMEndPos = 0;
+static bool LengthNote16thFlg = OFF;
 
-// 音符中の再生位置
-static uint8_t currentNoteLength = 0;
-
-// BGM再生中フラグ
-static bool IsPlayBGM = OFF;
-// BGM再生開始フラグ
-static bool BGMStartFlg = OFF;
-// BGM停止開始フラグ
-static bool BGMStopFlg = OFF;
-/* -------------------------------------------------- */
-
-/* -------------------------------------------------- */
-// SE
-/* -------------------------------------------------- */
-
-/* -------------------------------------------------- */
-
-static bool SEStartFlg = OFF;
-static bool SEStopFlg  = OFF;
-
-// SEの再生位置
-static uint16_t SE_PlayNotePos = 0;
-// SEの終端位置
-static uint16_t SE_EndPos = 0;
-
-// SE再生中フラグ
-static bool IsPlaySE = OFF;
-
-/* -------------------------------------------------- */
-// プライベート関数
-/* -------------------------------------------------- */
-
-static void updateBGMState(void);
-static void updateBGMManager(void);
-static void SE_updateState(void);
-static void SE_updateManager(void);
-static void changePich(uint8_t i_Pich);
-static void BGM_returnBeginPlayPos(void);
-static void SE_returnBeginPlayPos(void);
-/* -------------------------------------------------- */
+static bool IsPlayingBuzzer = OFF;
 
 // ブザーの初期化
 
@@ -124,14 +72,8 @@ void Buzzer_Initialize(void) {
     // LengthNote16th_ms = 15 * 1000 / テンポ = 16分音符の長さ(ms)
     LengthNote16th_ms = 15000 / Tempo;
 
-    // 楽譜の最後の位置を記録
-    BGMEndPos = GetBGMMaxNotes();
-}
-
-// BGM再生開始フラグのON
-
-void PlayBGM(void) {
-    BGMStartFlg = ON;
+    BGM_Initialize();
+    SE_Initialize();
 }
 
 // ブザーの更新
@@ -140,6 +82,13 @@ void UpdateBuzzer(void) {
     // BGMStateの切り替え
     updateBGMState();
     // SEStateの切り替え
+    SE_updateState();
+
+    // どっちも再生中でなければ、PWMをストップさせる
+    if (!(GetIsPlayBGM() || SE_GetIsPlay()) == ON) {
+        IsPlayingBuzzer = OFF;
+        TMR2_StopTimer();
+    }
 
     // LengthNote16thフラグ
     if (LengthNote16thFlg == ON) {
@@ -152,167 +101,12 @@ void UpdateBuzzer(void) {
     }
 }
 
-// BGM頭出し処理
-
-static void BGM_returnBeginPlayPos(void) {
-    uint8_t l_pich = 0;
-
-    // 選択された音符の長さをcurrentNoteLengthにセットする
-    currentNoteLength = *(GetBGMCurrentNote(0));
-
-    // 音符の高さに合わせて、タイマの周期を変える
-    l_pich = GetBGMCurrentNotePich(0);
-    changePich(l_pich);
-}
-
-// BGMStateの切り替え
-static void updateBGMState(void) {
-    // BGM再生フラグが立ったか？
-    // BGMStartFlg
-    if (BGMStartFlg == ON) {
-        // BGMStartFlgを下げる
-        BGMStartFlg = OFF;
-        // IsPlayBGMをtrueに変更する
-        IsPlayBGM = true;
-
-        // 最初の処理
-        BGM_returnBeginPlayPos();
-
-        // PWMを開始させる
+// PWMを開始する
+void PlayBuzzer(void) {
+    if (IsPlayingBuzzer == OFF) {
         TMR2_StartTimer();
+        IsPlayingBuzzer = ON;
     }
-
-    // BGM停止フラグが立ったか?
-    // BGMStopFlg
-    if (BGMStopFlg == ON) {
-        // BGMStopFlgを下げる
-        BGMStopFlg = OFF;
-
-        //IsPlayBGMをfalseに変更する
-        IsPlayBGM = false;
-        // PWMを停止させる
-        TMR2_StopTimer();
-    }
-}
-
-// BGMの更新
-
-static void updateBGMManager(void) {
-    uint8_t l_pich = 0;
-
-    // 現在BGMが再生されているか
-    if (IsPlayBGM == ON) {
-        // 現在選択されている音符の長さ分の時間は経過したか？
-        if (currentNoteLength == 0) {
-            // currentBGMNotePosを1増やす
-            BGMPlayNotePos++;
-
-            // BGMの再生位置は終端か？
-            if (BGMPlayNotePos >= BGMEndPos) {
-                // BGMの再生位置を最初へ戻す
-                BGMPlayNotePos = 0;
-            }
-
-            // 選択された音符の長さをcurrentNoteLengthにセットする
-            currentNoteLength = *(GetBGMCurrentNote(BGMPlayNotePos));
-            // 音符の高さに合わせて、タイマの周期を変える
-            // 音の高さを取得する
-            l_pich = GetBGMCurrentNotePich(BGMPlayNotePos);
-            // 音の高さに合わせて、タイマの周期とデューティー比を変更
-            changePich(l_pich);
-
-        } else {
-            // currentNoteLengthを1下げる
-            currentNoteLength--;
-        }
-
-        // デバッグ用
-        // currentNoteLengthをLEDで表示
-        UpdateLED(currentNoteLength);
-    }
-}
-
-/* -------------------------------------------------- */
-// SE頭出し処理
-/* -------------------------------------------------- */
-
-static void SE_returnBeginPlayPos(void) {
-    uint8_t l_pich = 0;
-
-    // 選択された音符の長さをcurrentNoteLengthにセットする
-    currentNoteLength = *(SE_GetCurrentNote(0));
-
-    // 音符の高さに合わせて、タイマの周期を変える
-    l_pich = SE_GetCurrentNotePich(0);
-    changePich(l_pich);
-}
-
-// SEStateの切り替え
-static void SE_updateState(void) {
-    // SE再生フラグが立ったか？
-    // SEStartFlg
-    if (SEStartFlg == ON) {
-        // SEStartFlgを下げる
-        SEStartFlg = OFF;
-        // IsPlaySEをtrueに変更する
-        IsPlaySE = true;
-
-        // 最初の処理
-        SE_returnBeginPlayPos();
-
-        // PWMを開始させる
-        TMR2_StartTimer();
-    }
-
-    // SE停止フラグが立ったか?
-    // SEStopFlg
-    if (SEStopFlg == ON) {
-        // SEStopFlgを下げる
-        SEStopFlg = OFF;
-
-        //IsPlaySEをfalseに変更する
-        IsPlaySE = false;
-        // PWMを停止させる
-        TMR2_StopTimer();
-    }
-}
-
-// SEの更新
-
-static void SE_updateManager(void) {
-    uint8_t l_pich = 0;
-
-    // 現在SEが再生されているか
-    if (IsPlaySE == ON) {
-        // 現在選択されている音符の長さ分の時間は経過したか？
-        if (currentNoteLength == 0) {
-            // currentBGMNotePosを1増やす
-            SE_PlayNotePos++;
-
-            // SEの再生位置は終端か？
-            if (SE_PlayNotePos >= SE_EndPos) {
-                // BGMの再生位置を最初へ戻す
-                SE_PlayNotePos = 0;
-            }
-
-            // 選択された音符の長さをcurrentNoteLengthにセットする
-            currentNoteLength = *(SE_GetCurrentNote(SE_PlayNotePos));
-            // 音符の高さに合わせて、タイマの周期を変える
-            // 音の高さを取得する
-            l_pich = SE_GetCurrentNotePich(SE_PlayNotePos);
-            // 音の高さに合わせて、タイマの周期とデューティー比を変更
-            changePich(l_pich);
-        } else {
-            // currentNoteLengthを1下げる
-            currentNoteLength--;
-        }
-    }
-}
-
-// BGMの再生位置を取得
-
-uint16_t GetBGMPlayPos(void) {
-    return BGMPlayNotePos;
 }
 
 void Buzzer_SetLengthNote16thFlg(void) {
@@ -322,7 +116,7 @@ void Buzzer_SetLengthNote16thFlg(void) {
 // 音程の変更
 // タイマの周期とデューティー比を変更
 
-static void changePich(uint8_t i_Pich) {
+void ChangePich(uint8_t i_Pich) {
     uint8_t l_Pich = PichTable[i_Pich];
 
     if (l_Pich != 0) {
@@ -334,18 +128,6 @@ static void changePich(uint8_t i_Pich) {
         // PWMのデューティー比を0%になるように変更
         PWM3_LoadDutyValue(0);
     }
-}
-
-/* -------------------------------------------------- */
-// ゲッター
-
-/* -------------------------------------------------- */
-bool GetIsPlayBGM() {
-    return IsPlayBGM;
-}
-
-bool GetIsPlaySE() {
-    return IsPlaySE;
 }
 
 uint16_t GetLengthNote16th_ms() {

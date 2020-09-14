@@ -52,7 +52,9 @@
 
 #include <xc.h>
 
+#include "BGM.h"
 #include "Buzzer.h"
+#include "SE.h"
 
 /**
   Section: Global Variables Definitions
@@ -173,7 +175,7 @@ void TMR1_DefaultInterruptHandler(void) {
     /* -------------------------------------------------- */
 
     //BGMか効果音が再生中か
-    if (GetIsPlayBGM() || GetIsPlaySE()) {
+    if (GetIsPlayBGM() || SE_GetIsPlay()) {
         //16分音符分の長さが経過したか？
         if (l_LengthNote16th_ms == 0) {
             l_LengthNote16th_ms = GetLengthNote16th_ms();

@@ -11,6 +11,8 @@
         <itemPath>header/Common.h</itemPath>
         <itemPath>header/BGM_MusicSheets.h</itemPath>
         <itemPath>header/SE_MusicSheets.h</itemPath>
+        <itemPath>header/BGM.h</itemPath>
+        <itemPath>header/SE.h</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -52,6 +54,8 @@
       <itemPath>src/Rand.c</itemPath>
       <itemPath>src/BGM_MusicSheets.c</itemPath>
       <itemPath>src/SE_MusicSheets.c</itemPath>
+      <itemPath>src/BGM.c</itemPath>
+      <itemPath>src/SE.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

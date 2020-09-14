@@ -41,9 +41,12 @@
     SOFTWARE.
  */
 
+#include "BGM.h"
+#include "BGM_MusicSheets.h"
 #include "Buzzer.h"
 #include "LED.h"
-#include "BGM_MusicSheets.h"
+#include "SE.h"
+#include "SE_MusicSheets.h"
 #include "mcc.h"
 // 動いてるかデバッグ用
 #include "tmr2.h"
@@ -67,6 +70,7 @@ void main(void) {
 
     // Myfunction init
     BGM_MusicSheet_Initialize();
+    SE_MusicSheet_Initialize();
     Buzzer_Initialize();
 
     // Enable the Global Interrupts
