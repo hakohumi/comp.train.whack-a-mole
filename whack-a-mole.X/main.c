@@ -62,11 +62,13 @@ void main(void) {
     INTERRUPT_PeripheralInterruptEnable();
 
     // LCD初期化
-    InitLCD();
+    LCDInitialize();
     // LCDをON
     DisplayON();
 
-    uint8_t *l_str = "test";
+    uint8_t l_str[9];
+
+    uint16_t rand = 0;
 
     while (1) {
         switch(SystemState.displayState){

@@ -221,7 +221,7 @@ ${OBJECTDIR}/src/Rand.p1: src/Rand.c  nbproject/Makefile-${CND_CONF}.mk
 	@-${MV} ${OBJECTDIR}/src/Rand.d ${OBJECTDIR}/src/Rand.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/src/Rand.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
-${OBJECTDIR}/src/MusicSheets.p1: src/MusicSheets.c  nbproject/Makefile-${CND_CONF}.mk
+${OBJECTDIR}/src/LCD.p1: src/LCD.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/MusicSheets.p1.d 
 	@${RM} ${OBJECTDIR}/src/MusicSheets.p1 

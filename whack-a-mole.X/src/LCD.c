@@ -50,7 +50,7 @@ char *utoa(unsigned int value, char *s, int radix);
 // を送信
 // ③その後、7bitのデータを送信する
 
-void InitLCD(void) {
+void LCDInitialize(void) {
     uint8_t l_commandTable[10] = {0x38, 0x39, 0x14, 0x70, 0x52, 0x6C, 0x38, 0x0C, 0x01};
     uint8_t c;
 
@@ -96,20 +96,29 @@ inline void SetPosLineLCD(bool i_row) {
     }
 }
 
-// i_str は、8文字分の表示させた文字列が入った uint8_t型の配列
+// Write1LineToLCD()
+// 説明：現在のアドレスに1 ～ 8 文字分の文字を書く
+// 引数:
+// 　i_str は、8文字分の表示させた文字列が入った
+// 　uint8_t型の配列
 
 void Write1LineToLCD(uint8_t *i_str, uint8_t i_len) {
     // MAX_BUF_SIZE = 9
     uint8_t l_buf[MAX_BUF_SIZE];
+    uint8_t *str_error = "error";
     uint8_t c;
+
+    l_buf[0] = WR_CONTROLE_BYTE;
 
     // もし、8文字より多い文字数が入った場合、
     if (i_len > LINE_DIGITS_MAX) {
-        // 何もしないで抜ける
+        // errorを表示
+        for (c = 1; c <= i_len; c++) {
+            l_buf[c] = str_error[c - 1];
+        }
+        I2C1_WriteNBytes(LCD_ADDR, str_error, 6);
 
     } else {
-        l_buf[0] = WR_CONTROLE_BYTE;
-
         for (c = 1; c <= i_len; c++) {
             l_buf[c] = i_str[c - 1];
         }
@@ -144,6 +153,15 @@ uint8_t Itochar(uint8_t value) {
     return "0123456789"[value];
 }
 
+// 受取った数値を文字列へ変換
+void ItoStr(uint16_t i_value, uint8_t *o_strAdd, uint8_t i_strLen) {
+    while (i_strLen != 0) {
+        o_strAdd[i_strLen - 1] = Itochar(i_value % 10);
+        i_value /= 10;
+        i_strLen--;
+    }
+}
+
 // Display ON
 
 void DisplayON(void) {
@@ -155,6 +173,7 @@ void DisplayOFF(void) {
     I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_DISPLAY_OFF);
 }
 
+// 拾ってきた関数
 char *utoa(unsigned int value, char *s, int radix) {
     char *s1 = s;
     char *s2 = s;
