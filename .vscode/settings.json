@@ -10,6 +10,9 @@
         "stdint.h": "c",
         "common.h": "c",
         "i2c1_master_example.h": "c",
-        "lcd.h": "c"
+        "lcd.h": "c",
+        "system_error": "c",
+        "type_traits": "c",
+        "xtr1common": "c"
     }
 }

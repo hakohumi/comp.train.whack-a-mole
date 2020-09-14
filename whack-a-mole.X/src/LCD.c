@@ -2,39 +2,59 @@
 #include "LCD.h"
 
 #include <mcc.h>
+#include <string.h>
 
+#include "Common.h"
 #include "examples/i2c1_master_example.h"
 
 /* -------------------------------------------------- */
 // プライベートなdefine
 /* -------------------------------------------------- */
 
+// Co = 0, RS = 0, Control byte = 0;
+#define CONTROLE_BYTE (uint8_t)(0x00)
+// RSビットが立っているとき
+#define WR_CONTROLE_BYTE (uint8_t)(0x40)
+// LCDに書き込む文字列保存用バッファ 16文字
+#define LCD_BUFF_SIZE_MAX 17
+// 1行の8文字表示用バッファ
+#define BUFF_LINE_SIZE_MAX 9
+// 1行の表示可能桁数
+#define LINE_DIGITS_MAX 8
+
 // LCDの行頭のアドレス
 #define LINE_FIRST_ADDR 0x00
 #define LINE_SECOND_ADDR 0x40
 
+// LCDのSETPOSをするために立てるビット
+#define LCD_SET_POS_DB7 0x80
+
+// ClearDisplay コマンドのデータ部
+#define CMD_LCD_CLR_DISPLAY 0x01
+
+// Display ON コマンドのデータ部
+#define CMD_LCD_DISPLAY_ON 0x0C
+
+// Display OFF コマンドのデータ部
+#define CMD_LCD_DISPLAY_OFF 0x08
+
+/* -------------------------------------------------- */
+
+/* -------------------------------------------------- */
+// プライベート変数
+/* -------------------------------------------------- */
+
+static uint8_t LCDBuffer[LCD_BUFF_SIZE_MAX];
+
+/* -------------------------------------------------- */
+
+/* -------------------------------------------------- */
+// グローバル変数
 /* -------------------------------------------------- */
 
 bool UpdateLCDFlg = OFF;
 // LCDのリセット処理を、このリセット処理が終わってから行うようにするためのフラグ
 bool LCDResetFlg = OFF;
-
-// ---------------------------------------------
-// 文字リテラル
-// =--------------------------------------------
-
-static uint8_t char_blank   = ' ';
-static uint8_t str_blank[8] = "        ";
-
-/* -------------------------------------------------- */
-
-/* -------------------------------------------------- */
-// プライベート関数
-/* -------------------------------------------------- */
-
-uint8_t Itochar(uint8_t value);
-
-char *utoa(unsigned int value, char *s, int radix);
 
 /* -------------------------------------------------- */
 
@@ -70,6 +90,12 @@ void LCDInitialize(void) {
 
     // 1.08ms以上 待つ
     __delay_ms(2);
+
+    // LCDの初期化コマンド
+    ClrDisplay();
+
+    // LCDBuffer変数の初期化
+    memset(LCDBuffer, '\0', sizeof(LCDBuffer) / sizeof(char));
 }
 
 // LCD上の書き込む場所を指定
@@ -96,42 +122,93 @@ inline void SetPosLineLCD(bool i_row) {
     }
 }
 
+// WriteToBuffer
+// 引数
+// 　i_strLen 文字列の文字数。終端文字はカウントしない
+
+void WriteToBuffer(uint8_t *i_str, uint8_t i_strLen) {
+    uint8_t i;
+
+    // もし、指定された文字数が16を超えていたら、
+    if (i_strLen > 16) {
+        // エラー
+        ErrorToBuffer(ERR_W_T_B_OVERSTRLEN);
+    } else {
+        // LCDBufferに空白を入れる
+        strncat(LCDBuffer, *STR_2LINE_BLANK, LCD_BUFF_SIZE_MAX);
+
+        // LCDBufferの先頭から、引数に指定された文字列をコピーする
+        for (i = 0; i < i_strLen; i++) {
+            LCDBuffer[i] = i_str[i];
+        }
+    }
+}
+
+// BufferToWrite
+
+void BufferToLCD(void) {
+    SetPosLineLCD(0);
+    Write1LineToLCD(LCDBuffer, 8);
+    SetPosLineLCD(1);
+    Write1LineToLCD(&LCDBuffer[8], 8);
+}
+
 // Write1LineToLCD()
 // 説明：現在のアドレスに1 ～ 8 文字分の文字を書く
 // 引数:
 // 　i_str は、8文字分の表示させた文字列が入った
 // 　uint8_t型の配列
+// 　終端文字はなし
 
 void Write1LineToLCD(uint8_t *i_str, uint8_t i_len) {
-    // MAX_BUF_SIZE = 9
-    uint8_t l_buf[MAX_BUF_SIZE];
-    uint8_t *str_error = "error";
+    // 先頭のコントロールバイト分と文字数の最大値8、終端文字1文字の
+    // 合計10バイトを確保する
+    // BUFF_LINE_SIZE_MAX = 9
+    uint8_t l_buf[BUFF_LINE_SIZE_MAX];
     uint8_t c;
+
+    // l_bufの初期化
+    memset(l_buf, '\0', BUFF_LINE_SIZE_MAX);
 
     l_buf[0] = WR_CONTROLE_BYTE;
 
     // もし、8文字より多い文字数が入った場合、
     if (i_len > LINE_DIGITS_MAX) {
         // errorを表示
-        for (c = 1; c <= i_len; c++) {
-            l_buf[c] = str_error[c - 1];
+        for (c = 1; c <= 6; c++) {
+            l_buf[c] = STR_ERROR[c - 1];
         }
-        I2C1_WriteNBytes(LCD_ADDR, str_error, 6);
+        // 文字列"ERROR"の数
+        i_len = STR_ERROR_LEN;
 
     } else {
         for (c = 1; c <= i_len; c++) {
             l_buf[c] = i_str[c - 1];
         }
-
-        I2C1_WriteNBytes(LCD_ADDR, l_buf, ++i_len);
     }
+
+    // 書き込み
+    // +1 は先頭のコントロールバイト分
+    I2C1_WriteNBytes(LCD_ADDR, l_buf, i_len + 1);
+}
+
+// errorをBufferに保存
+void ErrorToBuffer(uint8_t num) {
+    uint8_t i, l_len;
+
+    for (i = 0, l_len = STR_ERROR_LEN + 1; i < l_len; i++) {
+        LCDBuffer[i] = STR_ERROR[i];
+    }
+
+    // エラー番号を2行の最初に表記
+    ItoStr(num, &LCDBuffer[8], 2);
 }
 
 // ClearDisplay
 
 void ClrLineDisplay(uint8_t i_line) {
     SetPosLCD(i_line);
-    Write1LineToLCD(str_blank, 8);
+    Write1LineToLCD(STR_LINE_BLANK, 8);
 }
 
 void ClrDisplay(void) {
@@ -144,24 +221,6 @@ inline void SetLCDResetFlg(void) {
 
 // inline void ClrLCDResetFlg(void) { LCDResetFLg = OFF; }
 
-// 数値一文字をchar型へ変換
-
-uint8_t Itochar(uint8_t value) {
-    if (value > DECIMAL_MAX) {
-        return char_blank;
-    }
-    return "0123456789"[value];
-}
-
-// 受取った数値を文字列へ変換
-void ItoStr(uint16_t i_value, uint8_t *o_strAdd, uint8_t i_strLen) {
-    while (i_strLen != 0) {
-        o_strAdd[i_strLen - 1] = Itochar(i_value % 10);
-        i_value /= 10;
-        i_strLen--;
-    }
-}
-
 // Display ON
 
 void DisplayON(void) {
@@ -171,24 +230,4 @@ void DisplayON(void) {
 
 void DisplayOFF(void) {
     I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_DISPLAY_OFF);
-}
-
-// 拾ってきた関数
-char *utoa(unsigned int value, char *s, int radix) {
-    char *s1 = s;
-    char *s2 = s;
-
-    do {
-        *s2++ = "0123456789abcdefghijklmnopqrstuvwxyz"[value % radix];
-        value /= radix;
-    } while (value > 0);
-
-    *s2-- = '\0';
-
-    while (s1 < s2) {
-        char c = *s1;
-        *s1++  = *s2;
-        *s2--  = c;
-    }
-    return s;
 }
