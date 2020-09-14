@@ -69,7 +69,7 @@ void main(void) {
     uint8_t *l_str = "test";
 
     while (1) {
-        switch(systemState.displayState){
+        switch(SystemState.displayState){
             case TITLE:
                 TitleProcess();
                 break;

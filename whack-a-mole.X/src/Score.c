@@ -2,6 +2,7 @@
 
 void incScore(void){
     if(Score<999)
+        //ƒXƒRƒA‚ð1‰ÁŽZ
         Score++;
 }
 

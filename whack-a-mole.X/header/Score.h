@@ -12,11 +12,31 @@
 extern "C" {
 #endif
 
+//ハイスコア配列[難易度-1]
 uint16_t HighScore[3];
+
+//スコア
 uint16_t Score;
 
+/* スコア加算関数
+ * Scoreを1増加する
+ * 入力
+ * 出力 Score(最大999)
+ */
 void IncScore(void);
+
+/* ハイスコア記録関数
+ * 指定された難易度のHighScoreをScoreの値で記録する
+ * 入力 Score
+ * 出力 HighScore[難易度-1]
+ */
 void SaveHighScore(void);
+
+/* ハイスコアクリア関数
+ * 指定された難易度のHighScoreを0クリアする
+ * 入力
+ * 出力 HighScore[難易度-1]
+ */
 void ClearHighScore(void);
 
 #ifdef	__cplusplus

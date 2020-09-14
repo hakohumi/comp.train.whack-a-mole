@@ -3,25 +3,31 @@
 #include "../header/Level.h"
 #include "../header/Score.h"
 #include "../header/Time.h"
+#include "../header/Mole.h"
 
 uint8_t lastTimeForPlaySE = 0;
 
 void ChangeState(uint8_t i_displayState)
 {
-    systemState.displayState = i_displayState;
+    if(i_displayState < 6){
+        //画面状態変更
+        SystemState.displayState = i_displayState;
+    }
 }
 
 void TitleProcess(void){
-    switch(systemState.action){
+    switch(SystemState.action){
         case ENTRY:
             //WriteToBuffer(TITLE);
-            systemState.action = (uint8_t)DO;
+            SystemState.action = (uint8_t)DO;
             break;
         case DO:
             //SW5が押されたか
-            if(SWState == 0x10)
-            ChangeState((uint8_t)SELECT_LEVEL);
-            systemState.action = (uint8_t)ENTRY;
+            if(SWState == 0x10){
+                //難易度選択画面に遷移
+                ChangeState((uint8_t)SELECT_LEVEL);
+                SystemState.action = (uint8_t)ENTRY;
+            }
             break;
         default:
             break;
@@ -29,37 +35,42 @@ void TitleProcess(void){
 }
 
 void SelectLevelProcess(void){
-    switch(systemState.action){
+    switch(SystemState.action){
         case ENTRY:
             //WriteToBuffer(SELECTLEVEL);
-            systemState.action = (uint8_t)DO;
+            SystemState.action = (uint8_t)DO;
             break;
         case DO:
             switch(SWState){
                 //SW1
                 case 0x01:
+                    //難易度設定(EASY)
                     SetLevel((uint8_t)EASY);
                     //BufferToLCD(EASY);
                     break;
                 //SW2
                 case 0x02:
+                    //難易度設定(NORMAL)
                     SetLevel((uint8_t)NORMAL);
                     //BufferToLCD(NORMAL);
                     break;
                 //SW3
                 case 0x04:
+                    //難易度設定(HARD)
                     SetLevel((uint8_t)HARD);
                     //BufferToLCD(HARD);
                     break;
                 //SW4
                 case 0x08:
+                    //ハイスコアクリア確認画面に遷移
                     ChangeState((uint8_t)HS_CLEAR);
-                    systemState.action = (uint8_t)ENTRY;
+                    SystemState.action = (uint8_t)ENTRY;
                     break;
                 //SW5
                 case 0x10:
+                    //ゲーム開始カウントダウン画面に遷移
                     ChangeState((uint8_t)START_COUNT_DOWN);
-                    systemState.action = (uint8_t)ENTRY;                    
+                    SystemState.action = (uint8_t)ENTRY;                    
                     break;
             }
             break;
@@ -69,21 +80,22 @@ void SelectLevelProcess(void){
 }
 
 void HSClearProcess(void){
-    switch(systemState.action){
+    switch(SystemState.action){
         case ENTRY:
             //BufferToLCD(HS_CLEAR);
-            systemState.action = (uint8_t)DO;
+            SystemState.action = (uint8_t)DO;
             break;
         case DO:
             switch(SWState){
                 case 0x01:
+                    //ハイスコアクリア
                     ClearHighScore(Level);
                     ChangeState((uint8_t)SELECT_LEVEL);
-                    systemState.action = (uint8_t)ENTRY;                    
+                    SystemState.action = (uint8_t)ENTRY;                    
                     break;
                 case 0x08:
                     ChangeState((uint8_t)SELECT_LEVEL);
-                    systemState.action = (uint8_t)ENTRY;                    
+                    SystemState.action = (uint8_t)ENTRY;                    
                     break;
                 default:
                     break;
@@ -95,22 +107,25 @@ void HSClearProcess(void){
 }
 
 void StartCountDownProcess(void){
-    switch(systemState.action){
+    switch(SystemState.action){
         case ENTRY:
+            //残り時間設定
             Time = 3;
             //PlaySE(countdown3sec);
-            systemState.action = (uint8_t)DO;
+            SystemState.action = (uint8_t)DO;
             break;
         case DO:
             if(Time){
+                //残り時間が変わった時SEを鳴らす
                 if(Time < lastTimeForPlaySE){
                     //PlaySE(1&2secSE)
                     //WriteBuffer(start countdown);
                 }
             }
+            //残り時間0でゲーム中画面に遷移
             else{
                 ChangeState((uint8_t)PLAYING_GAME);
-                systemState.action = (uint8_t)ENTRY;
+                SystemState.action = (uint8_t)ENTRY;
             }
             break;
         default:
@@ -119,20 +134,28 @@ void StartCountDownProcess(void){
 }
 
 void PlayingGameProcess(void){
-    switch(systemState.action){
+    switch(SystemState.action){
         case ENTRY:
+            //残り時間を60に設定
             Time = 60;
             //WriteTobuffer(playing game);
+            //BGMを鳴らす
             //PlayBGM();
-            systemState.action = (uint8_t)DO;
+            SystemState.action = (uint8_t)DO;
             break;
         case DO:
+            //ゲーム中
             if(Time){
-                //MoleManager();
+                //モグラの処理
+                MoleManager();
             }
+            //残り時間0
             else{
+                //BGM停止
+                //StopBGM
+                //リザルト画面に遷移
                 ChangeState((uint8_t)RESULT);
-                systemState.action = (uint8_t)ENTRY;
+                SystemState.action = (uint8_t)ENTRY;
             }
             //UpdateLED();
             break;
@@ -142,21 +165,24 @@ void PlayingGameProcess(void){
 }
 
 void ResultProcess(void){
-    switch(systemState.action){
+    switch(SystemState.action){
         case ENTRY:
             //WriteToBuffer(result);
-            systemState.action = (uint8_t)DO;
+            SystemState.action = (uint8_t)DO;
             break;
         case DO:
+            //SW5が押されたか
             if(SWState == 0x10){
+                //ハイスコア更新処理
                 if(Score>HighScore[Level-1]){
                     SaveHighScore(Level);
                 }
                 else{
                     //何もしない
                 }
+                //タイトル画面に遷移
                 ChangeState((uint8_t)TITLE);
-                systemState.action = (uint8_t)ENTRY;           
+                SystemState.action = (uint8_t)ENTRY;           
             }
             else{
                     //何もしない
