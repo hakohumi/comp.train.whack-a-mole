@@ -4,13 +4,16 @@
 #include "../header/Score.h"
 #include "../header/Time.h"
 #include "../header/Mole.h"
+#include "../header/LCD.h"
 
 uint8_t lastTimeForPlaySE = 0;
+
+static uint8_t *str_displayState = {"ãƒ¢ã‚¯ ãƒ©ã‚¿ã‚¿ã‚­"};
 
 void ChangeState(uint8_t i_displayState)
 {
     if(i_displayState < 6){
-        //‰æ–Êó‘Ô•ÏX
+        //ç”»é¢çŠ¶æ…‹å¤‰æ›´
         SystemState.displayState = i_displayState;
     }
 }
@@ -18,13 +21,13 @@ void ChangeState(uint8_t i_displayState)
 void TitleProcess(void){
     switch(SystemState.action){
         case ENTRY:
-            //WriteToBuffer(TITLE);
+            WriteToBuffer(,);
             SystemState.action = (uint8_t)DO;
             break;
         case DO:
-            //SW5‚ª‰Ÿ‚³‚ê‚½‚©
+            //SW5ãŒæŠ¼ã•ã‚ŒãŸã‹
             if(SWState == 0x10){
-                //“ïˆÕ“x‘I‘ğ‰æ–Ê‚É‘JˆÚ
+                //é›£æ˜“åº¦é¸æŠç”»é¢ã«é·ç§»
                 ChangeState((uint8_t)SELECT_LEVEL);
                 SystemState.action = (uint8_t)ENTRY;
             }
@@ -44,31 +47,31 @@ void SelectLevelProcess(void){
             switch(SWState){
                 //SW1
                 case 0x01:
-                    //“ïˆÕ“xİ’è(EASY)
+                    //é›£æ˜“åº¦è¨­å®š(EASY)
                     SetLevel((uint8_t)EASY);
                     //BufferToLCD(EASY);
                     break;
                 //SW2
                 case 0x02:
-                    //“ïˆÕ“xİ’è(NORMAL)
+                    //é›£æ˜“åº¦è¨­å®š(NORMAL)
                     SetLevel((uint8_t)NORMAL);
                     //BufferToLCD(NORMAL);
                     break;
                 //SW3
                 case 0x04:
-                    //“ïˆÕ“xİ’è(HARD)
+                    //é›£æ˜“åº¦è¨­å®š(HARD)
                     SetLevel((uint8_t)HARD);
                     //BufferToLCD(HARD);
                     break;
                 //SW4
                 case 0x08:
-                    //ƒnƒCƒXƒRƒAƒNƒŠƒAŠm”F‰æ–Ê‚É‘JˆÚ
+                    //ãƒã‚¤ã‚¹ã‚³ã‚¢ã‚¯ãƒªã‚¢ç¢ºèªç”»é¢ã«é·ç§»
                     ChangeState((uint8_t)HS_CLEAR);
                     SystemState.action = (uint8_t)ENTRY;
                     break;
                 //SW5
                 case 0x10:
-                    //ƒQ[ƒ€ŠJnƒJƒEƒ“ƒgƒ_ƒEƒ“‰æ–Ê‚É‘JˆÚ
+                    //ã‚²ãƒ¼ãƒ é–‹å§‹ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ç”»é¢ã«é·ç§»
                     ChangeState((uint8_t)START_COUNT_DOWN);
                     SystemState.action = (uint8_t)ENTRY;                    
                     break;
@@ -88,7 +91,7 @@ void HSClearProcess(void){
         case DO:
             switch(SWState){
                 case 0x01:
-                    //ƒnƒCƒXƒRƒAƒNƒŠƒA
+                    //ãƒã‚¤ã‚¹ã‚³ã‚¢ã‚¯ãƒªã‚¢
                     ClearHighScore(Level);
                     ChangeState((uint8_t)SELECT_LEVEL);
                     SystemState.action = (uint8_t)ENTRY;                    
@@ -109,20 +112,20 @@ void HSClearProcess(void){
 void StartCountDownProcess(void){
     switch(SystemState.action){
         case ENTRY:
-            //c‚èŠÔİ’è
+            //æ®‹ã‚Šæ™‚é–“è¨­å®š
             Time = 3;
             //PlaySE(countdown3sec);
             SystemState.action = (uint8_t)DO;
             break;
         case DO:
             if(Time){
-                //c‚èŠÔ‚ª•Ï‚í‚Á‚½SE‚ğ–Â‚ç‚·
+                //æ®‹ã‚Šæ™‚é–“ãŒå¤‰ã‚ã£ãŸæ™‚SEã‚’é³´ã‚‰ã™
                 if(Time < lastTimeForPlaySE){
                     //PlaySE(1&2secSE)
                     //WriteBuffer(start countdown);
                 }
             }
-            //c‚èŠÔ0‚ÅƒQ[ƒ€’†‰æ–Ê‚É‘JˆÚ
+            //æ®‹ã‚Šæ™‚é–“0ã§ã‚²ãƒ¼ãƒ ä¸­ç”»é¢ã«é·ç§»
             else{
                 ChangeState((uint8_t)PLAYING_GAME);
                 SystemState.action = (uint8_t)ENTRY;
@@ -136,24 +139,24 @@ void StartCountDownProcess(void){
 void PlayingGameProcess(void){
     switch(SystemState.action){
         case ENTRY:
-            //c‚èŠÔ‚ğ60‚Éİ’è
+            //æ®‹ã‚Šæ™‚é–“ã‚’60ã«è¨­å®š
             Time = 60;
             //WriteTobuffer(playing game);
-            //BGM‚ğ–Â‚ç‚·
+            //BGMã‚’é³´ã‚‰ã™
             //PlayBGM();
             SystemState.action = (uint8_t)DO;
             break;
         case DO:
-            //ƒQ[ƒ€’†
+            //ã‚²ãƒ¼ãƒ ä¸­
             if(Time){
-                //ƒ‚ƒOƒ‰‚Ìˆ—
+                //ãƒ¢ã‚°ãƒ©ã®å‡¦ç†
                 MoleManager();
             }
-            //c‚èŠÔ0
+            //æ®‹ã‚Šæ™‚é–“0
             else{
-                //BGM’â~
+                //BGMåœæ­¢
                 //StopBGM
-                //ƒŠƒUƒ‹ƒg‰æ–Ê‚É‘JˆÚ
+                //ãƒªã‚¶ãƒ«ãƒˆç”»é¢ã«é·ç§»
                 ChangeState((uint8_t)RESULT);
                 SystemState.action = (uint8_t)ENTRY;
             }
@@ -171,21 +174,21 @@ void ResultProcess(void){
             SystemState.action = (uint8_t)DO;
             break;
         case DO:
-            //SW5‚ª‰Ÿ‚³‚ê‚½‚©
+            //SW5ãŒæŠ¼ã•ã‚ŒãŸã‹
             if(SWState == 0x10){
-                //ƒnƒCƒXƒRƒAXVˆ—
+                //ãƒã‚¤ã‚¹ã‚³ã‚¢æ›´æ–°å‡¦ç†
                 if(Score>HighScore[Level-1]){
                     SaveHighScore(Level);
                 }
                 else{
-                    //‰½‚à‚µ‚È‚¢
+                    //ä½•ã‚‚ã—ãªã„
                 }
-                //ƒ^ƒCƒgƒ‹‰æ–Ê‚É‘JˆÚ
+                //ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢ã«é·ç§»
                 ChangeState((uint8_t)TITLE);
                 SystemState.action = (uint8_t)ENTRY;           
             }
             else{
-                    //‰½‚à‚µ‚È‚¢
+                    //ä½•ã‚‚ã—ãªã„
             }
             break;
         default:

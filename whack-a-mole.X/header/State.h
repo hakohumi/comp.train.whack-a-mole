@@ -14,7 +14,7 @@ extern "C" {
 
 #include <stdint.h>
 
-//��ʏ�Ԃ̒�`    
+//画面状態の定義    
 typedef enum DisplayStateType_Type{
     TITLE,
     SELECT_LEVEL,
@@ -24,67 +24,67 @@ typedef enum DisplayStateType_Type{
     RESULT
 } DisplayStateType;
 
-//�e��ʏ�Ԃ̃A�N�V�������`(EXIT�͏ȗ�)
+//各画面状態のアクションを定義(EXITは省略)
 typedef enum ActionType_Type{
     ENTRY,
     DO
 } ActionType;
 
-//�V�X�e���S�̂̍\����
+//システム全体の構造体
 typedef struct {
     uint8_t displayState;
     uint8_t action;
 } SystemStateType;
 
-//�V�X�e���\���̕ϐ�
+//システム構造体変数
 SystemStateType SystemState;
 
-/* ��ʏ�ԍX�V�ϐ�
- * ��ʏ�Ԃ�ύX����
- * ���� (uint8_t)DisPlayStateType ��ʏ�Ԓ萔
- * �o�� SystemState.displayState �V�X�e���̉�ʏ��
+/* 画面状態更新変数
+ * 画面状態を変更する
+ * 入力 (uint8_t)DisPlayStateType 画面状態定数
+ * 出力 SystemState.displayState システムの画面状態
  */
 void ChangeState(uint8_t);
 
-/* �^�C�g����ʏ����֐�
- * �^�C�g����ʂ̏������s��
- * ����
- * �o��
+/* タイトル画面処理関数
+ * タイトル画面の処理を行う
+ * 入力
+ * 出力
  */
 void TitleProcess(void);
 
-/* ��Փx�I����ʏ����֐�
- * ��Փx�I����ʂ̏������s��
- * ����
- * �o��
+/* 難易度選択画面処理関数
+ * 難易度選択画面の処理を行う
+ * 入力
+ * 出力
  */
 void SelectLevelProcess(void);
 
-/* �n�C�X�R�A�N���A�m�F�ʏ����֐�
- *�n�C�X�R�A�N���A�m�F��ʂ̏������s��
- * ����
- * �o��
+/* ハイスコアクリア確認面処理関数
+ *ハイスコアクリア確認画面の処理を行う
+ * 入力
+ * 出力
  */
 void HSClearProcess(void);
 
-/* �Q�[���J�n�J�E���g�_�E����ʏ����֐�
- * �Q�[���J�n�J�E���g�_�E����ʂ̏������s��
- * ����
- * �o��
+/* ゲーム開始カウントダウン画面処理関数
+ * ゲーム開始カウントダウン画面の処理を行う
+ * 入力
+ * 出力
  */
 void StartCountDownProcess(void);
 
-/* �Q�[������ʏ����֐�
- * �Q�[������ʂ̏������s��
- * ����
- * �o��
+/* ゲーム中画面処理関数
+ * ゲーム中画面の処理を行う
+ * 入力
+ * 出力
  */
 void PlayingGameProsess(void);
 
-/* ���U���g��ʏ����֐�
- * ���U���g��ʂ̏������s��
- * ����
- * �o��
+/* リザルト画面処理関数
+ * リザルト画面の処理を行う
+ * 入力
+ * 出力
  */
 void ResultProcess(void);
 

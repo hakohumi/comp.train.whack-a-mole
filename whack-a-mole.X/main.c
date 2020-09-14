@@ -75,9 +75,6 @@ void main(void) {
     // LCDのバッファ
     uint8_t *l_str = "LCD test";
 
-    // 乱数保存用
-    uint16_t rand = 0;
-
     while (1) {
         switch(SystemState.displayState){
             case TITLE:
@@ -101,16 +98,6 @@ void main(void) {
             default:
                 break;
         }
-        
-        
-        //ブザー更新
-        // 乱数発生
-        // rand = GetRand();
-
-        //         ItoStr(rand, &l_str, 8);
-
-        // デバッグ用のLED表示
-        // UpdateLED(rand);
 
         // l_strに入っている文字列をバッファへ書き込む
         // strlenで文字列の文字数を取得している、

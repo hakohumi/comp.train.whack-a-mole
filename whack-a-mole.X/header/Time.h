@@ -12,23 +12,23 @@
 extern "C" {
 #endif
 
-//Žc‚èŽžŠÔ
-uint8_t Time;
+//æ®‹ã‚Šæ™‚é–“
+extern uint8_t Time;
 
-//—”‹K’è’l—pŽžŠÔ
-uint16_t TimeForRand;
+//ä¹±æ•°è¦å®šå€¤ç”¨æ™‚é–“
+extern uint16_t TimeForRand;
 
-/* ƒyƒiƒ‹ƒeƒBŠÖ”
- * ƒyƒiƒ‹ƒeƒB‚ð”­¶‚³‚¹‚é
- * “ü—Í
- * o—Í Time Žc‚èŽžŠÔ
+/* ãƒšãƒŠãƒ«ãƒ†ã‚£é–¢æ•°
+ * ãƒšãƒŠãƒ«ãƒ†ã‚£ã‚’ç™ºç”Ÿã•ã›ã‚‹
+ * å…¥åŠ›
+ * å‡ºåŠ› Time æ®‹ã‚Šæ™‚é–“
  */
 void Penalty(void);
 
-/* ƒJƒEƒ“ƒgƒ_ƒEƒ“ŠÖ”
- * ƒJƒEƒ“ƒgƒ_ƒEƒ“‚ðs‚¤
- * “ü—Í
- * o—Í Time Žc‚èŽžŠÔ
+/* ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³é–¢æ•°
+ * ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã‚’è¡Œã†
+ * å…¥åŠ›
+ * å‡ºåŠ› Time æ®‹ã‚Šæ™‚é–“
  */
 void CountDown(void);
 
