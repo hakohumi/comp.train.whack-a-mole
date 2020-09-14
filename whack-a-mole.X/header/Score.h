@@ -30,14 +30,14 @@ void IncScore(void);
  * 入力 Score
  * 出力 HighScore[難易度-1]
  */
-void SaveHighScore(void);
+void SaveHighScore(uint8_t);
 
 /* ハイスコアクリア関数
  * 指定された難易度のHighScoreを0クリアする
  * 入力
  * 出力 HighScore[難易度-1]
  */
-void ClearHighScore(void);
+void ClearHighScore(uint8_t);
 
 #ifdef	__cplusplus
 }

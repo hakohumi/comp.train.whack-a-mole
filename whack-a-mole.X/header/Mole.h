@@ -6,6 +6,7 @@
  */
 
 #include <stdint.h>
+#include <stdbool.h>
 
 #ifndef MOLE_H
 #define	MOLE_H
