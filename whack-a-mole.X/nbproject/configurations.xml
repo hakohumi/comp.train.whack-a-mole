@@ -57,6 +57,7 @@
       <itemPath>src/Rand.c</itemPath>
       <itemPath>src/LCD.c</itemPath>
       <itemPath>src/LED.c</itemPath>
+      <itemPath>src/Common.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

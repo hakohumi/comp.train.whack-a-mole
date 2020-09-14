@@ -245,6 +245,14 @@ ${OBJECTDIR}/_ext/1169544159/State.p1: ../../../../Desktop/PIC/comp.train.whack-
 	@-${MV} ${OBJECTDIR}/_ext/1169544159/State.d ${OBJECTDIR}/_ext/1169544159/State.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/1169544159/State.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
+${OBJECTDIR}/src/Common.p1: src/Common.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/src" 
+	@${RM} ${OBJECTDIR}/src/Common.p1.d 
+	@${RM} ${OBJECTDIR}/src/Common.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"header" -I"mcc_generated_files" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mc90lib $(COMPARISON_BUILD)  -std=c90 -gdwarf-3 -mstack=compiled:auto:auto     -o ${OBJECTDIR}/src/Common.p1 src/Common.c 
+	@-${MV} ${OBJECTDIR}/src/Common.d ${OBJECTDIR}/src/Common.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/src/Common.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
 else
 ${OBJECTDIR}/src/State.p1: src/State.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/src" 
@@ -397,6 +405,14 @@ ${OBJECTDIR}/_ext/1169544159/State.p1: ../../../../Desktop/PIC/comp.train.whack-
 	${MP_CC} --pass1 $(MP_EXTRA_CC_PRE) --chip=$(MP_PROCESSOR_OPTION) -Q -G  --double=32 --float=32 --opt=none --addrqual=ignore -P -N255 -I"header" -I"mcc_generated_files" --warn=-3 --asmlist -DXPRJ_default=$(CND_CONF)  --summary=default,-psect,-class,+mem,-hex,-file --output=default,-inhx032 --runtime=default,+clear,+init,-keep,-no_startup,-osccal,-resetbits,-download,-stackcall,+clib $(COMPARISON_BUILD)  --output=-mcof,+elf:multilocs --stack=compiled:auto:auto "--errformat=%f:%l: error: (%n) %s" "--warnformat=%f:%l: warning: (%n) %s" "--msgformat=%f:%l: advisory: (%n) %s"    -o${OBJECTDIR}/_ext/1169544159/State.p1  ../../../../Desktop/PIC/comp.train.whack-a-mole/whack-a-mole.X/src/State.c 
 	@-${MV} ${OBJECTDIR}/_ext/1169544159/State.d ${OBJECTDIR}/_ext/1169544159/State.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/1169544159/State.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
+${OBJECTDIR}/src/Common.p1: src/Common.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/src" 
+	@${RM} ${OBJECTDIR}/src/Common.p1.d 
+	@${RM} ${OBJECTDIR}/src/Common.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"header" -I"mcc_generated_files" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mc90lib $(COMPARISON_BUILD)  -std=c90 -gdwarf-3 -mstack=compiled:auto:auto     -o ${OBJECTDIR}/src/Common.p1 src/Common.c 
+	@-${MV} ${OBJECTDIR}/src/Common.d ${OBJECTDIR}/src/Common.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/src/Common.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
 endif
 

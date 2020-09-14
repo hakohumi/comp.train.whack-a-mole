@@ -41,9 +41,15 @@
     SOFTWARE.
  */
 
-#include "header/LCD.h"
 #include "header/State.h"
-#include "mcc_generated_files/mcc.h"
+
+#include <string.h>
+
+#include "Common.h"
+#include "LCD.h"
+#include "LED.h"
+#include "Rand.h"
+#include "mcc.h"
 
 // マイコンに書き込み時にEEPROMに値を書き込む
 // 8バイトずつ
@@ -66,8 +72,10 @@ void main(void) {
     // LCDをON
     DisplayON();
 
-    uint8_t l_str[9];
+    // LCDのバッファ
+    uint8_t *l_str = "LCD test";
 
+    // 乱数保存用
     uint16_t rand = 0;
 
     while (1) {
@@ -94,11 +102,22 @@ void main(void) {
                 break;
         }
         
-        // 1行目に"test"を表示
-        SetPosLineLCD(0);
-        Write1LineToLCD(l_str, 4);
         
         //ブザー更新
+        // 乱数発生
+        // rand = GetRand();
+
+        //         ItoStr(rand, &l_str, 8);
+
+        // デバッグ用のLED表示
+        // UpdateLED(rand);
+
+        // l_strに入っている文字列をバッファへ書き込む
+        // strlenで文字列の文字数を取得している、
+        WriteToBuffer(l_str, 17);
+
+        BufferToLCD();
+        __delay_ms(500);
     }
 }
 

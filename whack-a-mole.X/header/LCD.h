@@ -13,30 +13,10 @@
 
 // (B0111110);
 #define LCD_ADDR (i2c1_address_t)(0x3E)
-// Co = 0, RS = 0, Control byte = 0;
-#define CONTROLE_BYTE (uint8_t)(0x00)
-// RSビットが立っているとき
-#define WR_CONTROLE_BYTE (uint8_t)(0x40)
-// 1つコマンド 8文字表示
-#define MAX_BUF_SIZE 9
 
 // LCDの1行目、2行目の意味の引数
 #define LINE_FIRST 0x00
 #define LINE_SECOND 0x01
-
-#define LINE_DIGITS_MAX 8
-#define LCD_SET_POS_DB7 0x80
-
-// 10進数の最大の数
-#define DECIMAL_MAX 9
-// ClearDisplay コマンドのデータ部
-#define CMD_LCD_CLR_DISPLAY 0x01
-
-// Display ON コマンドのデータ部
-#define CMD_LCD_DISPLAY_ON 0x0C
-
-// Display OFF コマンドのデータ部
-#define CMD_LCD_DISPLAY_OFF 0x08
 
 // UpdateLCDフラグをONにする
 #define SetUpdateLCDFlg()  \
@@ -48,18 +28,28 @@
         UpdateLCDFlg = OFF; \
     } while (0)
 
+// mainの最初に呼ぶ
 void LCDInitialize(void);
 
 // LCD上の書き込む位置を指定する
 inline void SetPosLCD(uint8_t i_pos);   // アドレス指定
 inline void SetPosLineLCD(bool i_row);  // 1行目か2行目の先頭を指定
 
+// LCDバッファに書き込む
+// 引数：uint8_t i_str
+// 16文字までの文字列の先頭アドレスを設定する
+// 9文字目から自動的に改行される
+
+void WriteToBuffer(uint8_t *i_str, uint8_t i_strLen);
+
+// LCDバッファをLCDに書き込む
+void BufferToLCD(void);
+
+// 1行書き込む
 void Write1LineToLCD(uint8_t *i_str, uint8_t i_len);
 
 void ClrLineDisplay(uint8_t i_line);
 void ClrDisplay(void);
-
-void ItoStr(uint16_t i_value, uint8_t *o_strAdd, uint8_t i_strLen);
 
 // LCDResetFlg
 // LCDのリセット処理を、このリセット処理が終わってから行うようにするためのフラグ
@@ -69,10 +59,11 @@ inline void SetLCDResetFlg(void);  // ON
 void DisplayON(void);
 void DisplayOFF(void);
 
+// 文字列"エラー"をBufferに格納
+void ErrorToBuffer(uint8_t num);
+
 extern bool UpdateLCDFlg;
 // LCDのリセット処理を、このリセット処理が終わってから行うようにするためのフラグ
 extern bool LCDResetFlg;
-
-char *utoa(unsigned int value, char *s, int radix);
 
 #endif /* LCDCLASS_H */
