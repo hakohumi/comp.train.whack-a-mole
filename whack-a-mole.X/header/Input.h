@@ -14,7 +14,7 @@
 extern "C" {
 #endif
 
-//SW\‘¢‘Ì
+//SWæ§‹é€ ä½“
 typedef struct {
     uint8_t isPushed;
     uint8_t lastPushed;
@@ -28,10 +28,10 @@ SWType sw3 = { 0, 0, 0};
 SWType sw4 = { 0, 0, 0};
 SWType sw5 = { 0, 0, 0};
 
-//ƒ|[ƒg‚Ì“ü—Í’l(‰ÁH)
+//ãƒãƒ¼ãƒˆã®å…¥åŠ›å€¤(åŠ å·¥)
 uint8_t InputPort;
 
-//SW“ü—Íó‘Ô
+//SWå…¥åŠ›çŠ¶æ…‹
 uint8_t SWState;
 
 //
