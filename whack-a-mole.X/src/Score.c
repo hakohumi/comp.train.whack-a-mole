@@ -1,4 +1,4 @@
-#include "../header/Score.h"
+#include "Score.h"
 
 void incScore(void){
     if(Score<999)
@@ -7,9 +7,9 @@ void incScore(void){
 }
 
 void SaveHighScore(uint8_t i_level){
-    HighScore[i_level-1] = Score;
+    HighScore[i_level] = Score;
 }
 
 void ClearHighScore(uint8_t i_level){
-    HighScore[i_level-1] = 0;
+    HighScore[i_level] = 0;
 }

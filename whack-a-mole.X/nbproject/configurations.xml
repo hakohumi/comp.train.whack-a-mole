@@ -8,8 +8,13 @@
         <itemPath>header/Rand.h</itemPath>
         <itemPath>header/Common.h</itemPath>
         <itemPath>header/LCD.h</itemPath>
-        <itemPath>src/State.h</itemPath>
-        <itemPath>src/State.c</itemPath>
+        <itemPath>header/Input.h</itemPath>
+        <itemPath>header/LED.h</itemPath>
+        <itemPath>header/Level.h</itemPath>
+        <itemPath>header/Mole.h</itemPath>
+        <itemPath>header/Score.h</itemPath>
+        <itemPath>header/State.h</itemPath>
+        <itemPath>header/Timer.h</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -58,6 +63,12 @@
       <itemPath>src/LCD.c</itemPath>
       <itemPath>src/LED.c</itemPath>
       <itemPath>src/Common.c</itemPath>
+      <itemPath>src/State.c</itemPath>
+      <itemPath>src/Input.c</itemPath>
+      <itemPath>src/Level.c</itemPath>
+      <itemPath>src/Mole.c</itemPath>
+      <itemPath>src/Score.c</itemPath>
+      <itemPath>src/Timer.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

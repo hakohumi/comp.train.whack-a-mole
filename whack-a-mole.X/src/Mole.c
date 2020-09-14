@@ -1,7 +1,7 @@
-#include "../header/Mole.h"
-#include "../header/Input.h"
-#include "../header/Time.h"
-#include "../header/Score.h"
+#include "Mole.h"
+#include "Input.h"
+#include "../header/Timer.h"
+#include "Score.h"
 
 void MoleManager(void){
     MoleXProcess(&mole1);

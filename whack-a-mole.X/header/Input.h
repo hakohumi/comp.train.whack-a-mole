@@ -6,6 +6,7 @@
  */
 
 #include <stdint.h>
+#include <stdbool.h>
 
 #ifndef INPUT_H
 #define	INPUT_H
@@ -14,10 +15,11 @@
 extern "C" {
 #endif
 
-//SW構造体
+//SW構�??�?
 typedef struct {
-    uint8_t isPushed;
-    uint8_t lastPushed;
+    bool isPushed;
+    bool lastPushed;
+    uint8_t valueForCompareSW;
     uint8_t chattCount;
 } SWType;
 
@@ -28,10 +30,10 @@ SWType sw3 = { 0, 0, 0};
 SWType sw4 = { 0, 0, 0};
 SWType sw5 = { 0, 0, 0};
 
-//ポートの入力値(加工)
+//ポ�?�ト�?�入力�?�(�?工)
 uint8_t InputPort;
 
-//SW入力状態
+//SW入力状�?
 uint8_t SWState;
 
 //

@@ -1,10 +1,10 @@
-#include "../header/State.h"
-#include "../header/Input.h"
-#include "../header/Level.h"
-#include "../header/Score.h"
-#include "../header/Time.h"
-#include "../header/Mole.h"
-#include "../header/LCD.h"
+#include "State.h"
+#include "Input.h"
+#include "Level.h"
+#include "Score.h"
+#include "Timer.h"
+#include "Mole.h"
+#include "LCD.h"
 
 uint8_t lastTimeForPlaySE = 0;
 

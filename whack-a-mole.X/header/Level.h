@@ -5,6 +5,8 @@
  * Created on 2020/09/11, 16:37
  */
 
+#include <stdint.h>
+
 #ifndef LEVEL_H
 #define	LEVEL_H
 
