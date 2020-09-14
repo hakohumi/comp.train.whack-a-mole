@@ -9,7 +9,8 @@
         <itemPath>header/Rand.h</itemPath>
         <itemPath>header/Buzzer.h</itemPath>
         <itemPath>header/Common.h</itemPath>
-        <itemPath>header/MusicSheets.h</itemPath>
+        <itemPath>header/BGM_MusicSheets.h</itemPath>
+        <itemPath>header/SE_MusicSheets.h</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -49,7 +50,8 @@
       <itemPath>src/LED.c</itemPath>
       <itemPath>src/Buzzer.c</itemPath>
       <itemPath>src/Rand.c</itemPath>
-      <itemPath>src/MusicSheets.c</itemPath>
+      <itemPath>src/BGM_MusicSheets.c</itemPath>
+      <itemPath>src/SE_MusicSheets.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

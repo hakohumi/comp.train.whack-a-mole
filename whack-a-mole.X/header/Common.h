@@ -14,4 +14,29 @@
 #define ON true
 #define OFF false
 
+typedef enum {
+    REST,
+    DO,
+    DO_SHARP,
+    RE,
+    RE_SHARP,
+    MI,
+    FA,
+    FA_SHARP,
+    SO,
+    SO_SHARP,
+    RA_,
+    RA_SHARP,
+    SI,
+    DO2,
+    RE2,
+    MI2,
+    FA2,
+    SO2,
+    RA2_,
+    SI2,
+    SCALE_NUM
+
+} ScaleType;
+
 #endif /* COMMON_H */
