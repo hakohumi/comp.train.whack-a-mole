@@ -28,13 +28,13 @@ CP=cp
 CND_CONF=default
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 IMAGE_TYPE=debug
-OUTPUT_SUFFIX=null
-DEBUGGABLE_SUFFIX=null
+OUTPUT_SUFFIX=elf
+DEBUGGABLE_SUFFIX=elf
 FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/whack-a-mole.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 else
 IMAGE_TYPE=production
-OUTPUT_SUFFIX=null
-DEBUGGABLE_SUFFIX=null
+OUTPUT_SUFFIX=hex
+DEBUGGABLE_SUFFIX=elf
 FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/whack-a-mole.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 endif
 
@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=mcc_generated_files/device_config.c mcc_generated_files/mcc.c mcc_generated_files/pin_manager.c mcc_generated_files/tmr0.c mcc_generated_files/interrupt_manager.c mcc_generated_files/memory.c mcc_generated_files/pwm3.c mcc_generated_files/tmr1.c mcc_generated_files/tmr2.c main.c src/LED.c src/Buzzer.c src/Rand.c src/MusicSheets.c
+SOURCEFILES_QUOTED_IF_SPACED=mcc_generated_files/device_config.c mcc_generated_files/mcc.c mcc_generated_files/pin_manager.c mcc_generated_files/tmr0.c mcc_generated_files/interrupt_manager.c mcc_generated_files/memory.c mcc_generated_files/pwm3.c mcc_generated_files/tmr1.c mcc_generated_files/tmr2.c main.c src/LED.c src/Buzzer.c src/Rand.c src/BGM_MusicSheets.c src/SE_MusicSheets.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/mcc_generated_files/device_config.p1 ${OBJECTDIR}/mcc_generated_files/mcc.p1 ${OBJECTDIR}/mcc_generated_files/pin_manager.p1 ${OBJECTDIR}/mcc_generated_files/tmr0.p1 ${OBJECTDIR}/mcc_generated_files/interrupt_manager.p1 ${OBJECTDIR}/mcc_generated_files/memory.p1 ${OBJECTDIR}/mcc_generated_files/pwm3.p1 ${OBJECTDIR}/mcc_generated_files/tmr1.p1 ${OBJECTDIR}/mcc_generated_files/tmr2.p1 ${OBJECTDIR}/main.p1 ${OBJECTDIR}/src/LED.p1 ${OBJECTDIR}/src/Buzzer.p1 ${OBJECTDIR}/src/Rand.p1 ${OBJECTDIR}/src/MusicSheets.p1
-POSSIBLE_DEPFILES=${OBJECTDIR}/mcc_generated_files/device_config.p1.d ${OBJECTDIR}/mcc_generated_files/mcc.p1.d ${OBJECTDIR}/mcc_generated_files/pin_manager.p1.d ${OBJECTDIR}/mcc_generated_files/tmr0.p1.d ${OBJECTDIR}/mcc_generated_files/interrupt_manager.p1.d ${OBJECTDIR}/mcc_generated_files/memory.p1.d ${OBJECTDIR}/mcc_generated_files/pwm3.p1.d ${OBJECTDIR}/mcc_generated_files/tmr1.p1.d ${OBJECTDIR}/mcc_generated_files/tmr2.p1.d ${OBJECTDIR}/main.p1.d ${OBJECTDIR}/src/LED.p1.d ${OBJECTDIR}/src/Buzzer.p1.d ${OBJECTDIR}/src/Rand.p1.d ${OBJECTDIR}/src/MusicSheets.p1.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/mcc_generated_files/device_config.p1 ${OBJECTDIR}/mcc_generated_files/mcc.p1 ${OBJECTDIR}/mcc_generated_files/pin_manager.p1 ${OBJECTDIR}/mcc_generated_files/tmr0.p1 ${OBJECTDIR}/mcc_generated_files/interrupt_manager.p1 ${OBJECTDIR}/mcc_generated_files/memory.p1 ${OBJECTDIR}/mcc_generated_files/pwm3.p1 ${OBJECTDIR}/mcc_generated_files/tmr1.p1 ${OBJECTDIR}/mcc_generated_files/tmr2.p1 ${OBJECTDIR}/main.p1 ${OBJECTDIR}/src/LED.p1 ${OBJECTDIR}/src/Buzzer.p1 ${OBJECTDIR}/src/Rand.p1 ${OBJECTDIR}/src/BGM_MusicSheets.p1 ${OBJECTDIR}/src/SE_MusicSheets.p1
+POSSIBLE_DEPFILES=${OBJECTDIR}/mcc_generated_files/device_config.p1.d ${OBJECTDIR}/mcc_generated_files/mcc.p1.d ${OBJECTDIR}/mcc_generated_files/pin_manager.p1.d ${OBJECTDIR}/mcc_generated_files/tmr0.p1.d ${OBJECTDIR}/mcc_generated_files/interrupt_manager.p1.d ${OBJECTDIR}/mcc_generated_files/memory.p1.d ${OBJECTDIR}/mcc_generated_files/pwm3.p1.d ${OBJECTDIR}/mcc_generated_files/tmr1.p1.d ${OBJECTDIR}/mcc_generated_files/tmr2.p1.d ${OBJECTDIR}/main.p1.d ${OBJECTDIR}/src/LED.p1.d ${OBJECTDIR}/src/Buzzer.p1.d ${OBJECTDIR}/src/Rand.p1.d ${OBJECTDIR}/src/BGM_MusicSheets.p1.d ${OBJECTDIR}/src/SE_MusicSheets.p1.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/mcc_generated_files/device_config.p1 ${OBJECTDIR}/mcc_generated_files/mcc.p1 ${OBJECTDIR}/mcc_generated_files/pin_manager.p1 ${OBJECTDIR}/mcc_generated_files/tmr0.p1 ${OBJECTDIR}/mcc_generated_files/interrupt_manager.p1 ${OBJECTDIR}/mcc_generated_files/memory.p1 ${OBJECTDIR}/mcc_generated_files/pwm3.p1 ${OBJECTDIR}/mcc_generated_files/tmr1.p1 ${OBJECTDIR}/mcc_generated_files/tmr2.p1 ${OBJECTDIR}/main.p1 ${OBJECTDIR}/src/LED.p1 ${OBJECTDIR}/src/Buzzer.p1 ${OBJECTDIR}/src/Rand.p1 ${OBJECTDIR}/src/MusicSheets.p1
+OBJECTFILES=${OBJECTDIR}/mcc_generated_files/device_config.p1 ${OBJECTDIR}/mcc_generated_files/mcc.p1 ${OBJECTDIR}/mcc_generated_files/pin_manager.p1 ${OBJECTDIR}/mcc_generated_files/tmr0.p1 ${OBJECTDIR}/mcc_generated_files/interrupt_manager.p1 ${OBJECTDIR}/mcc_generated_files/memory.p1 ${OBJECTDIR}/mcc_generated_files/pwm3.p1 ${OBJECTDIR}/mcc_generated_files/tmr1.p1 ${OBJECTDIR}/mcc_generated_files/tmr2.p1 ${OBJECTDIR}/main.p1 ${OBJECTDIR}/src/LED.p1 ${OBJECTDIR}/src/Buzzer.p1 ${OBJECTDIR}/src/Rand.p1 ${OBJECTDIR}/src/BGM_MusicSheets.p1 ${OBJECTDIR}/src/SE_MusicSheets.p1
 
 # Source Files
-SOURCEFILES=mcc_generated_files/device_config.c mcc_generated_files/mcc.c mcc_generated_files/pin_manager.c mcc_generated_files/tmr0.c mcc_generated_files/interrupt_manager.c mcc_generated_files/memory.c mcc_generated_files/pwm3.c mcc_generated_files/tmr1.c mcc_generated_files/tmr2.c main.c src/LED.c src/Buzzer.c src/Rand.c src/MusicSheets.c
+SOURCEFILES=mcc_generated_files/device_config.c mcc_generated_files/mcc.c mcc_generated_files/pin_manager.c mcc_generated_files/tmr0.c mcc_generated_files/interrupt_manager.c mcc_generated_files/memory.c mcc_generated_files/pwm3.c mcc_generated_files/tmr1.c mcc_generated_files/tmr2.c main.c src/LED.c src/Buzzer.c src/Rand.c src/BGM_MusicSheets.c src/SE_MusicSheets.c
 
 
 
@@ -198,13 +198,21 @@ ${OBJECTDIR}/src/Rand.p1: src/Rand.c  nbproject/Makefile-${CND_CONF}.mk
 	@-${MV} ${OBJECTDIR}/src/Rand.d ${OBJECTDIR}/src/Rand.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/src/Rand.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
-${OBJECTDIR}/src/MusicSheets.p1: src/MusicSheets.c  nbproject/Makefile-${CND_CONF}.mk
+${OBJECTDIR}/src/BGM_MusicSheets.p1: src/BGM_MusicSheets.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/src" 
-	@${RM} ${OBJECTDIR}/src/MusicSheets.p1.d 
-	@${RM} ${OBJECTDIR}/src/MusicSheets.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"header" -I"mcc_generated_files" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mc90lib $(COMPARISON_BUILD)  -std=c90 -gdwarf-3 -mstack=compiled:auto:auto     -o ${OBJECTDIR}/src/MusicSheets.p1 src/MusicSheets.c 
-	@-${MV} ${OBJECTDIR}/src/MusicSheets.d ${OBJECTDIR}/src/MusicSheets.p1.d 
-	@${FIXDEPS} ${OBJECTDIR}/src/MusicSheets.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	@${RM} ${OBJECTDIR}/src/BGM_MusicSheets.p1.d 
+	@${RM} ${OBJECTDIR}/src/BGM_MusicSheets.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"header" -I"mcc_generated_files" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mc90lib $(COMPARISON_BUILD)  -std=c90 -gdwarf-3 -mstack=compiled:auto:auto     -o ${OBJECTDIR}/src/BGM_MusicSheets.p1 src/BGM_MusicSheets.c 
+	@-${MV} ${OBJECTDIR}/src/BGM_MusicSheets.d ${OBJECTDIR}/src/BGM_MusicSheets.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/src/BGM_MusicSheets.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
+${OBJECTDIR}/src/SE_MusicSheets.p1: src/SE_MusicSheets.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/src" 
+	@${RM} ${OBJECTDIR}/src/SE_MusicSheets.p1.d 
+	@${RM} ${OBJECTDIR}/src/SE_MusicSheets.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"header" -I"mcc_generated_files" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mc90lib $(COMPARISON_BUILD)  -std=c90 -gdwarf-3 -mstack=compiled:auto:auto     -o ${OBJECTDIR}/src/SE_MusicSheets.p1 src/SE_MusicSheets.c 
+	@-${MV} ${OBJECTDIR}/src/SE_MusicSheets.d ${OBJECTDIR}/src/SE_MusicSheets.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/src/SE_MusicSheets.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
 else
 ${OBJECTDIR}/mcc_generated_files/device_config.p1: mcc_generated_files/device_config.c  nbproject/Makefile-${CND_CONF}.mk
@@ -311,13 +319,21 @@ ${OBJECTDIR}/src/Rand.p1: src/Rand.c  nbproject/Makefile-${CND_CONF}.mk
 	@-${MV} ${OBJECTDIR}/src/Rand.d ${OBJECTDIR}/src/Rand.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/src/Rand.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
-${OBJECTDIR}/src/MusicSheets.p1: src/MusicSheets.c  nbproject/Makefile-${CND_CONF}.mk
+${OBJECTDIR}/src/BGM_MusicSheets.p1: src/BGM_MusicSheets.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/src" 
-	@${RM} ${OBJECTDIR}/src/MusicSheets.p1.d 
-	@${RM} ${OBJECTDIR}/src/MusicSheets.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"header" -I"mcc_generated_files" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mc90lib $(COMPARISON_BUILD)  -std=c90 -gdwarf-3 -mstack=compiled:auto:auto     -o ${OBJECTDIR}/src/MusicSheets.p1 src/MusicSheets.c 
-	@-${MV} ${OBJECTDIR}/src/MusicSheets.d ${OBJECTDIR}/src/MusicSheets.p1.d 
-	@${FIXDEPS} ${OBJECTDIR}/src/MusicSheets.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	@${RM} ${OBJECTDIR}/src/BGM_MusicSheets.p1.d 
+	@${RM} ${OBJECTDIR}/src/BGM_MusicSheets.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"header" -I"mcc_generated_files" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mc90lib $(COMPARISON_BUILD)  -std=c90 -gdwarf-3 -mstack=compiled:auto:auto     -o ${OBJECTDIR}/src/BGM_MusicSheets.p1 src/BGM_MusicSheets.c 
+	@-${MV} ${OBJECTDIR}/src/BGM_MusicSheets.d ${OBJECTDIR}/src/BGM_MusicSheets.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/src/BGM_MusicSheets.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
+${OBJECTDIR}/src/SE_MusicSheets.p1: src/SE_MusicSheets.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/src" 
+	@${RM} ${OBJECTDIR}/src/SE_MusicSheets.p1.d 
+	@${RM} ${OBJECTDIR}/src/SE_MusicSheets.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"header" -I"mcc_generated_files" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mc90lib $(COMPARISON_BUILD)  -std=c90 -gdwarf-3 -mstack=compiled:auto:auto     -o ${OBJECTDIR}/src/SE_MusicSheets.p1 src/SE_MusicSheets.c 
+	@-${MV} ${OBJECTDIR}/src/SE_MusicSheets.d ${OBJECTDIR}/src/SE_MusicSheets.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/src/SE_MusicSheets.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
 endif
 

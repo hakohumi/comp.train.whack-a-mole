@@ -13,7 +13,7 @@ BGMとSEを管理する
 
 #include "Buzzer.h"
 
-#include "MusicSheets.h"
+#include "BGM_MusicSheets.h"
 #include "tmr2.h"
 // PWMのデューティ比を変更するため
 #include "pwm3.h"

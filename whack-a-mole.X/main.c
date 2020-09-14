@@ -43,7 +43,7 @@
 
 #include "Buzzer.h"
 #include "LED.h"
-#include "MusicSheets.h"
+#include "BGM_MusicSheets.h"
 #include "mcc.h"
 // 動いてるかデバッグ用
 #include "tmr2.h"
@@ -66,7 +66,7 @@ void main(void) {
     // Interrupt Enable bits Use the following macros to:
 
     // Myfunction init
-    MusicSheet_Initialize();
+    BGM_MusicSheet_Initialize();
     Buzzer_Initialize();
 
     // Enable the Global Interrupts

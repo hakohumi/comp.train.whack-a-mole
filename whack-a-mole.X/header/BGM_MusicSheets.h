@@ -1,22 +1,21 @@
 /*
- * File:   MusicSheets.h
+ * File:   BGM_MusicSheets.h
  * Author: fuminori.hakoishi
  *
  * Created on September 4, 2020, 4:46 PM
  */
 
-#ifndef MUSICSHEETS_H
-#define MUSICSHEETS_H
+#ifndef BGM_MUSICSHEETS_H
+#define BGM_MUSICSHEETS_H
 
 #include "Common.h"
 
-
 // 音符データの要素
 typedef enum {
-    LENGTH,
-    PITCH,
-    NOTE_ARRAY_NUM,
-} NoteArrayType;
+    BGM_LENGTH,
+    BGM_PITCH,
+    BGM_NOTE_ARRAY_NUM,
+} BGM_NoteArrayType;
 
 // 楽譜クラス
 typedef struct {
@@ -32,9 +31,9 @@ typedef struct {
     // 楽譜の長さ(音符の総数)
     uint16_t MAX_NOTE;
 
-} MusicSheets_t;
+} BGM_MusicSheets_t;
 
-void MusicSheet_Initialize(void);
+void BGM_MusicSheet_Initialize(void);
 
 uint16_t GetBGMTempo(void);
 uint8_t *GetBGMCurrentNote(uint16_t pos);
@@ -42,4 +41,4 @@ uint8_t GetBGMCurrentNoteLength(uint16_t pos);
 uint8_t GetBGMCurrentNotePich(uint16_t pos);
 uint16_t GetBGMMaxNotes(void);
 
-#endif /* MUSICSHEETS_H */
+#endif /* BGM_sMUSICSHEETS_H */
