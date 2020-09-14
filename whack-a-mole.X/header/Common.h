@@ -17,6 +17,9 @@
 // 10進数の最大の数
 #define DECIMAL_MAX 9
 
+// 文字列"エラー"の長さ
+#define STR_ERROR_LEN 5
+
 /* -------------------------------------------------- */
 // パブリック関数
 /* -------------------------------------------------- */
@@ -30,8 +33,21 @@ char *utoa(unsigned int value, char *s, int radix);
 // グローバル変数
 // =--------------------------------------------
 
-extern uint8_t char_blank;
-extern uint8_t str_blank[8];
+extern uint8_t *STR_CHAR_BLANK;
+extern uint8_t *STR_LINE_BLANK;
+extern uint8_t *STR_2LINE_BLANK;
+extern uint8_t *STR_ERROR;
+
+/* -------------------------------------------------- */
+
+/* -------------------------------------------------- */
+// エラー番号
+/* -------------------------------------------------- */
+
+typedef enum {
+    ERR_W_T_B_OVERSTRLEN,
+    ERR_1,
+} MY_ERROR;
 
 /* -------------------------------------------------- */
 

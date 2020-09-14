@@ -14,8 +14,10 @@ char *utoa(unsigned int value, char *s, int radix);
 // 文字リテラル
 // =--------------------------------------------
 
-uint8_t char_blank   = ' ';
-uint8_t str_blank[8] = "        ";
+uint8_t *STR_CHAR_BLANK  = ' ';
+uint8_t *STR_LINE_BLANK  = "        ";
+uint8_t *STR_2LINE_BLANK = "                ";
+uint8_t *STR_ERROR       = "error";
 
 /* -------------------------------------------------- */
 
@@ -23,7 +25,7 @@ uint8_t str_blank[8] = "        ";
 
 uint8_t itochar(uint8_t value) {
     if (value > DECIMAL_MAX) {
-        return char_blank;
+        return STR_CHAR_BLANK;
     }
     return "0123456789"[value];
 }

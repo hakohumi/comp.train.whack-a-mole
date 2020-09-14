@@ -41,6 +41,8 @@
     SOFTWARE.
  */
 
+#include <string.h>
+
 #include "Common.h"
 #include "LCD.h"
 #include "LED.h"
@@ -69,7 +71,7 @@ void main(void) {
     DisplayON();
 
     // LCDのバッファ
-    uint8_t *l_str = "testabcdefgh";
+    uint8_t *l_str = "LCD test";
 
     // 乱数保存用
     uint16_t rand = 0;
@@ -78,12 +80,14 @@ void main(void) {
         // 乱数発生
         // rand = GetRand();
 
-        // ItoStr(rand, &l_str, 8);
+        //         ItoStr(rand, &l_str, 8);
 
         // デバッグ用のLED表示
         // UpdateLED(rand);
 
-        WriteToBuffer(l_str, 8);
+        // l_strに入っている文字列をバッファへ書き込む
+        // strlenで文字列の文字数を取得している、
+        WriteToBuffer(l_str, 17);
 
         BufferToLCD();
         __delay_ms(500);
