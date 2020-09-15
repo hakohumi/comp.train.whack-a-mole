@@ -12,13 +12,8 @@
 
 static const uint8_t BGMNotes_Doremi[7][BGM_NOTE_ARRAY_NUM] = {
 
-    {4, DO},
-    {4, RE},
-    {4, MI},
-    {4, FA},
-    {4, SO},
-    {4, RA_},
-    {4, SI}
+    {4, DO}, {4, RE},  {4, MI}, {4, FA},
+    {4, SO}, {4, RA_}, {4, SI}
 
 };
 
@@ -43,22 +38,14 @@ static const BGM_MusicSheets_t BGM_Doremi = {
 
 static const uint8_t DEBUG_PICH_DO[8][BGM_NOTE_ARRAY_NUM] = {
 
-    {4, RA_},
-    {4, SI},
-    {4, DO2},
-    {4, DO},
-    {4, SO},
-    {4, RA_},
-    {4, SI},
-    {4, DO2}
+    {4, RA_}, {4, SI}, {4, DO2}, {4, DO}, {4, SO},
+    {4, RA_}, {4, SI}, {4, DO2}
 
 };
 
 static const BGM_MusicSheets_t BGM_DO = {
 
-    30,
-    DEBUG_PICH_DO,
-    8
+    30, DEBUG_PICH_DO, 8
 
 };
 
@@ -67,37 +54,18 @@ static const BGM_MusicSheets_t BGM_DO = {
 /* -------------------------------------------------- */
 
 static const uint8_t BGMNotes_Tetris[][BGM_NOTE_ARRAY_NUM] = {
-    {8, MI2},  //1
-    {4, SI},
-    {4, DO2},
-    {4, RE2},
-    {4, DO2},
-    {4, SI},
-    {8, RA_},
-    {4, RA_},
-    {4, DO2},
-    {8, MI2},
-    {4, RE2},
-    {4, DO2},
-    {2, SI},
-    {4, SI},
-    {4, DO2},
-    {8, RE2},
-    {8, MI2},
-    {8, DO2},
-    {8, RA_},
-    {8, RA_},
-    {4, REST},
-    {4, REST}
+    {8, MI2},  // 1
+    {4, SI},  {4, DO2},  {4, RE2}, {4, DO2}, {4, SI},  {8, RA_},
+    {4, RA_}, {4, DO2},  {8, MI2}, {4, RE2}, {4, DO2}, {2, SI},
+    {4, SI},  {4, DO2},  {8, RE2}, {8, MI2}, {8, DO2}, {8, RA_},
+    {8, RA_}, {4, REST}, {4, REST}
 
 };
 
 // 楽譜インスタンス
 static const BGM_MusicSheets_t BGM_Tetris = {
 
-    302,
-    BGMNotes_Tetris,
-    sizeof(BGMNotes_Tetris) / sizeof(uint8_t *)
+    302, BGMNotes_Tetris, sizeof(BGMNotes_Tetris) / sizeof(uint8_t *)
 
 };
 
@@ -122,9 +90,7 @@ void BGM_MusicSheet_Initialize(void) {
 
 // BGMのテンポを取得
 
-uint16_t GetBGMTempo(void) {
-    return BGM_MusicSheet->Tempo;
-}
+uint16_t GetBGMTempo(void) { return BGM_MusicSheet->Tempo; }
 
 // BGMの指定された位置の音符を取得
 
@@ -141,6 +107,4 @@ uint8_t GetBGMCurrentNotePich(uint16_t pos) {
 }
 
 // BGMの最大音符数を取得
-uint16_t GetBGMMaxNotes(void) {
-    return BGM_MusicSheet->MAX_NOTE;
-}
+uint16_t GetBGMMaxNotes(void) { return BGM_MusicSheet->MAX_NOTE; }
