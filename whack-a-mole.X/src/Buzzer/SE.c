@@ -147,7 +147,11 @@ void SE_updateManager(void) {
         }
         // デバッグ用
         // currentNoteLengthをLEDで表示
-        UpdateLED(currentNoteLength);
+        UpdateLED(*(SE_GetCurrentNote(SE_PlayNotePos)));
+
+        uint8_t l_str[8];
+        ItoStr(currentNoteLength, l_str, 8);
+        WriteToBuffer(l_str, 8);
     }
 }
 

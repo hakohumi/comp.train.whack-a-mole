@@ -7,8 +7,6 @@ BGMを管理する
 - それぞれの再生開始・停止フラグ
 - それぞれの再生中フラグ
 
-
-
  */
 
 #include "BGM_MusicSheets.h"
@@ -38,7 +36,7 @@ static uint16_t BGMPlayNotePos = 0;
 static uint16_t BGMEndPos = 0;
 
 // 音符中の再生位置
-static uint16_t currentNoteLength = 0;
+static uint16_t BGM_currentNoteLength = 0;
 
 // BGM再生中フラグ
 static bool IsPlayBGM = OFF;
@@ -72,7 +70,7 @@ void BGM_returnBeginPlayPos(void) {
     uint8_t l_pich = 0;
 
     // 選択された音符の長さをcurrentNoteLengthにセットする
-    currentNoteLength = Change1msLength(*(GetBGMCurrentNote(0)), GetBGMTempo());
+    BGM_currentNoteLength = Change1msLength(*(GetBGMCurrentNote(0)), GetBGMTempo());
 
     // 音符の高さに合わせて、タイマの周期を変える
     l_pich = GetBGMCurrentNotePich(0);
@@ -120,7 +118,7 @@ void updateBGMManager(void) {
     // 現在BGMが再生されているか
     if (IsPlayBGM == ON) {
         // 現在選択されている音符の長さ分の時間は経過したか？
-        if (currentNoteLength == 0) {
+        if (BGM_currentNoteLength == 0) {
             // currentBGMNotePosを1増やす
             BGMPlayNotePos++;
 
@@ -131,19 +129,19 @@ void updateBGMManager(void) {
             }
 
             //BGMが再生中に効果音が再生していたら、
-            // if (SE_GetIsPlay() == OFF) {
-            // 選択された音符の長さをcurrentNoteLengthにセットする
-            currentNoteLength = Change1msLength(*(GetBGMCurrentNote(BGMPlayNotePos)), GetBGMTempo());
-            // 音符の高さに合わせて、タイマの周期を変える
-            // 音の高さを取得する
-            l_pich = GetBGMCurrentNotePich(BGMPlayNotePos);
-            // 音の高さに合わせて、タイマの周期とデューティー比を変更
-            ChangePich(l_pich);
-            // }
+            if (SE_GetIsPlay() == OFF) {
+                // 選択された音符の長さをcurrentNoteLengthにセットする
+                BGM_currentNoteLength = Change1msLength(*(GetBGMCurrentNote(BGMPlayNotePos)), GetBGMTempo());
+                // 音符の高さに合わせて、タイマの周期を変える
+                // 音の高さを取得する
+                l_pich = GetBGMCurrentNotePich(BGMPlayNotePos);
+                // 音の高さに合わせて、タイマの周期とデューティー比を変更
+                ChangePich(l_pich);
+            }
 
         } else {
             // currentNoteLengthを1下げる
-            currentNoteLength--;
+            BGM_currentNoteLength--;
         }
 
         // デバッグ用

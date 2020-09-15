@@ -146,7 +146,6 @@ void ChangePich(uint8_t i_Pich) {
 // 出力はmsか
 
 uint16_t Change1msLength(uint8_t i_NoteLength, uint16_t i_Tempo) {
-    // 16分音符の長さを計算する
     // LengthNote16th_ms = 15 * 1000 / テンポ = 16分音符の長さ(ms)
     return ((15000 / i_Tempo) * i_NoteLength);
 }

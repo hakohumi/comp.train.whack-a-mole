@@ -43,15 +43,15 @@
 
 #include <string.h>
 
-#include "BGM.h"
-#include "BGM_MusicSheets.h"
-#include "Buzzer.h"
+#include "./Buzzer/BGM.h"
+#include "./Buzzer/BGM_MusicSheets.h"
+#include "./Buzzer/Buzzer.h"
+#include "./Buzzer/SE.h"
+#include "./Buzzer/SE_MusicSheets.h"
 #include "Common.h"
 #include "LCD.h"
 #include "LED.h"
 #include "Rand.h"
-#include "SE.h"
-#include "SE_MusicSheets.h"
 #include "mcc.h"
 
 // マイコンに書き込み時にEEPROMに値を書き込む
@@ -84,26 +84,42 @@ void main(void) {
     DisplayON();
 
     // LCDのバッファ
-    uint8_t *l_str = "LCD test";
+    uint8_t l_str[17];
 
-    // 乱数保存用
-    uint16_t rand = 0;
+    memset(l_str, '\0', 17);
+
+    uint8_t *l_str_BGM = "BGM ON";
+    uint8_t *l_str_SE  = "SE  ON";
+
+    // PlayBGM();
+
+    bool l_isBGM = OFF;
+    bool l_isSE  = OFF;
 
     while (1) {
-        // 乱数発生
-        // rand = GetRand();
+        l_isBGM = GetIsPlayBGM();
+        l_isSE  = SE_GetIsPlay();
 
-        //         ItoStr(rand, &l_str, 8);
+        SetPosLineLCD(0);
+        if (l_isBGM == ON) {
+            Write1LineToLCD(l_str_BGM, 6);
+        } else {
+            Write1LineToLCD(STR_LINE_BLANK, 8);
+        }
 
-        // デバッグ用のLED表示
-        // UpdateLED(rand);
+        SetPosLineLCD(1);
+        if (l_isSE == ON) {
+            Write1LineToLCD(l_str_SE, 6);
+        } else {
+            Write1LineToLCD(STR_LINE_BLANK, 8);
+        }
 
         // l_strに入っている文字列をバッファへ書き込む
         // strlenで文字列の文字数を取得している、
-        WriteToBuffer(l_str, 17);
+        // WriteToBuffer(l_str, 16);
 
         BufferToLCD();
-        __delay_ms(500);
+        UpdateBuzzer();
     }
 }
 
