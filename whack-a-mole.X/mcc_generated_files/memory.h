@@ -60,18 +60,17 @@ extern "C" {
 
 #endif
 
-    /**
+/**
       Section: Macro Declarations
      */
 
-#define WRITE_FLASH_BLOCKSIZE    8
-#define ERASE_FLASH_BLOCKSIZE    32
-#define END_FLASH                0x1000
+#define WRITE_FLASH_BLOCKSIZE 8
+#define ERASE_FLASH_BLOCKSIZE 32
+#define END_FLASH 0x1000
 
+void DATAEE_WriteByte(uint8_t bAdd, uint8_t bData);
 
-    void DATAEE_WriteByte(uint8_t bAdd, uint8_t bData);
-
-    /**
+/**
       @Summary
         Reads a data byte from Data EEPROM
 
@@ -95,15 +94,28 @@ extern "C" {
         readData = DATAEE_ReadByte(dataeeAddr);
         </code>
      */
-    uint8_t DATAEE_ReadByte(uint8_t bAdd);
+uint8_t DATAEE_ReadByte(uint8_t bAdd);
+
+/* -------------------------------------------------- */
+// EEPROMの予約リスト
+// アドレス 0 ~ 255
+// データ幅 8bit
+/* -------------------------------------------------- */
+typedef enum {
+    EEPROM_ADDR_HIGHSCORE_EASY_H,
+    EEPROM_ADDR_HIGHSCORE_EASY_L,
+    EEPROM_ADDR_HIGHSCORE_NORMAL_H,
+    EEPROM_ADDR_HIGHSCORE_NORMAL_L,
+    EEPROM_ADDR_HIGHSCORE_HARD_H,
+    EEPROM_ADDR_HIGHSCORE_HARD_L,
+} EEPROMListType;
 
 #ifdef __cplusplus  // Provide C++ Compatibility
-
 }
 
 #endif
 
-#endif // MEMORY_H
+#endif  // MEMORY_H
 /**
  End of File
  */

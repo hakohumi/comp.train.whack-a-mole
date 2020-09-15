@@ -14,7 +14,6 @@
 extern "C" {
 #endif
 
-extern uint16_t HighScore[3];
 extern uint16_t Score;
 
 /* スコア加算関数
@@ -37,6 +36,8 @@ void SaveHighScore(uint8_t);
  * 出力 HighScore[難易度-1]
  */
 void ClearHighScore(uint8_t);
+
+uint16_t GetHighScore(uint8_t);
 
 #ifdef __cplusplus
 }

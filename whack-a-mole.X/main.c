@@ -55,7 +55,7 @@
 
 // マイコンに書き込み時にEEPROMに値を書き込む
 // 8バイトずつ
-// __EEPROM_DATA(0, 2, 4, 6, 7, 5, 3, 1);
+__EEPROM_DATA(0, 1, 2, 3, 4, 5, 6, 7);
 
 // global variable
 
@@ -109,11 +109,7 @@ void main(void) {
             default:
                 break;
         }
-        //LCD更新
-        if (UpdateLCDFlg) {
-            //            BufferToLCD();
-            UpdateLCDFlg = OFF;
-        }
+        BufferToLCD();
     }
 }
 
