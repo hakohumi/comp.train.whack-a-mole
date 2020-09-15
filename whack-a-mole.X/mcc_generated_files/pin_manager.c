@@ -57,7 +57,7 @@ void PIN_MANAGER_Initialize(void)
     /**
     LATx registers
      */
-    LATA = 0x80;
+    LATA = 0xD7;
     LATB = 0xED;
 
     /**
@@ -69,7 +69,7 @@ void PIN_MANAGER_Initialize(void)
     /**
     ANSELx registers
      */
-    ANSELB = 0xEC;
+    ANSELB = 0xE0;
     ANSELA = 0x08;
 
     /**
@@ -85,12 +85,7 @@ void PIN_MANAGER_Initialize(void)
      */
     APFCON0 = 0x00;
     APFCON1 = 0x00;
-
-
-
-
-   
-    
+ 
 }
 
 void PIN_MANAGER_IOC(void)

@@ -31,7 +31,7 @@ void TitleProcess(void){
             break;
         case DO:
             //SW5が押されたか
-            if(SWState == 0x08){
+            if(SWState == SW5){
                 SWState = 0x00;
                 //難易度選択画面に遷移
                 ChangeState((uint8_t)SELECT_LEVEL);
@@ -52,35 +52,35 @@ void SelectLevelProcess(void){
         case DO:
             switch(SWState){
                 //SW1
-                case 0x01:
+                case SW1:
                     SWState = 0x00;
                     //難易度設�?(EASY)
                     SetLevel((uint8_t)EASY);
                     //BufferToLCD(EASY);
                     break;
                 //SW2
-                case 0x02:
+                case SW2:
                     SWState = 0x00;
                     //難易度設�?(NORMAL)
                     SetLevel((uint8_t)NORMAL);
                     //BufferToLCD(NORMAL);
                     break;
                 //SW3
-                case 0x04:
+                case SW3:
                     SWState = 0x00;
                     //難易度設�?(HARD)
                     SetLevel((uint8_t)HARD);
                     //BufferToLCD(HARD);
                     break;
                 //SW4
-                case 0x08:
+                case SW4:
                     SWState = 0x00;
                     //ハイスコアクリア確認画面に遷移
                     ChangeState((uint8_t)HS_CLEAR);
                     SystemState.action = (uint8_t)ENTRY;
                     break;
                 //SW5
-                case 0x10:
+                case SW5:
                     SWState = 0x00;
                     //ゲー�?開始カウントダウン画面に遷移
                     ChangeState((uint8_t)START_COUNT_DOWN);
@@ -101,14 +101,14 @@ void HSClearProcess(void){
             break;
         case DO:
             switch(SWState){
-                case 0x01:
+                case SW1:
                     SWState = 0x00;
                     //ハイスコアクリア
                     ClearHighScore(Level);
                     ChangeState((uint8_t)SELECT_LEVEL);
                     SystemState.action = (uint8_t)ENTRY;                    
                     break;
-                case 0x08:
+                case SW4:
                     SWState = 0x00;
                     ChangeState((uint8_t)SELECT_LEVEL);
                     SystemState.action = (uint8_t)ENTRY;                    
@@ -189,7 +189,7 @@ void ResultProcess(void){
             break;
         case DO:
             //SW5が押されたか
-            if(SWState == 0x10){
+            if(SWState == SW5){
                 SWState = 0x00;
                 //ハイスコア更新処�?
                 if(Score>HighScore[Level-1]){

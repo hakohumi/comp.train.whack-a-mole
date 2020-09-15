@@ -186,9 +186,10 @@ void TMR1_DefaultInterruptHandler(void) {
         count5msec = 0;
         count1sec++;
     }
-    if(count1sec>=200){
+    if(count1sec>=20){
         CountDown();
         count1sec = 0;
+        RB2 = ~RB2;
     }
     
     //buzzer

@@ -2,7 +2,7 @@
 #include "xc.h"
 
 void DetectPushSW(void){
-    InputPort = (uint8_t)(~PORTA & 0x03F);
+    InputPort = (uint8_t)(~PORTA & 0x057);
     detectPushSWX(&sw1);
     detectPushSWX(&sw2);
     detectPushSWX(&sw3);
@@ -15,8 +15,6 @@ void detectPushSWX(SWType* i_swType){
     if(!(SWState & i_swType->valueForCompareSW)){
         //SWが押されて�?るか
         if(InputPort & i_swType->valueForCompareSW){
-            i_swType->chattCount = 0;
-            i_swType->isPushed = 0;
             //チャタリング処�?回数は3以上か
             if(i_swType->chattCount>=3){
                 i_swType->isPushed = 1;
@@ -24,6 +22,7 @@ void detectPushSWX(SWType* i_swType){
                 if(i_swType->isPushed == 1 &&
                    i_swType->lastPushed == 0){
                     SWState |= i_swType->valueForCompareSW;
+                    RB3 = ~RB3;
                 }
                 else{
                     //何もしな�?

@@ -81,9 +81,6 @@ void main(void) {
     LCDInitialize();
     // LCDをON
     DisplayON();
-   
-    // LCDのバッファ
-    uint8_t *l_str = "LCD test";
 
     while (1) {
         switch(SystemState.displayState){
@@ -114,7 +111,6 @@ void main(void) {
         //WriteToBuffer(l_str, 17);
 
         BufferToLCD();
-        __delay_ms(500);
     }
 }
 
