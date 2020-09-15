@@ -35,7 +35,7 @@ char *utoa(unsigned int value, char *s, int radix);
 // グローバル変数
 // =--------------------------------------------
 
-extern uint8_t *STR_CHAR_BLANK;
+extern uint8_t STR_CHAR_BLANK;
 extern uint8_t *STR_LINE_BLANK;
 extern uint8_t *STR_2LINE_BLANK;
 extern uint8_t *STR_ERROR;
