@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Score.h
  * Author: tomohiro.sasaki
  *
@@ -26,18 +26,24 @@ void IncScore(void);
 /* ハイスコア記録関数
  * 指定された難易度のHighScoreをScoreの値で記録する
  * 入力 Score
- * 出力 HighScore[難易度-1]
+ * 出力 void
  */
-void SaveHighScore(uint8_t);
+void SaveHighScore(uint8_t i_level);
 
 /* ハイスコアクリア関数
  * 指定された難易度のHighScoreを0クリアする
- * 入力
- * 出力 HighScore[難易度-1]
+ * 入力 難易度
+ * 出力 void
  */
-void ClearHighScore(uint8_t);
+void ClearHighScore(uint8_t i_level);
 
-uint16_t GetHighScore(uint8_t);
+/* ハイスコア取得関数
+ * 指定された難易度のHighScoreをEEEPROMから取得する
+ * 入力 難易度
+ * 出力 HighScore uint16_t
+ */
+
+uint16_t GetHighScore(uint8_t i_level);
 
 #ifdef __cplusplus
 }
