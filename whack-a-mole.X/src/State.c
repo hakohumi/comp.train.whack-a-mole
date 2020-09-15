@@ -7,6 +7,9 @@
 #include "Score.h"
 #include "Timer.h"
 
+// memset用
+#include <string.h>
+
 uint8_t lastTimeForPlaySE = 0;
 
 static uint8_t *str_TitleState          = {"TITLE"};
@@ -28,7 +31,6 @@ void TitleProcess(void) {
         case ENTRY:
             //タイトル文字列書き込み
             WriteToBuffer(str_TitleState, 5);
-            UpdateLCDFlg = ON;
 
             SystemState.action = (uint8_t)DO;
             break;
@@ -47,6 +49,10 @@ void TitleProcess(void) {
 }
 
 void SelectLevelProcess(void) {
+    uint16_t l_HighScore = 0;
+    uint8_t l_str_line[8];
+    memset(l_str_line, '\0', 8);
+
     switch (SystemState.action) {
         case ENTRY:
             WriteToBuffer(str_SelectLevelState, 5);
@@ -59,21 +65,41 @@ void SelectLevelProcess(void) {
                 case SW1:
                     //難易度設�?(EASY)
                     SetLevel((uint8_t)EASY);
-                    WriteToBuffer
+                    // 1行目に"EASY"を書く
+                    WriteToBufferFirst(STR_LEVEL_EASY, STR_LEVEL_EASY_LEN);
+                    // ハイスコアをEEPROMから取り出す
+                    l_HighScore = GetHighScore(EASY);
+                    // 取り出したハイスコアを文字列へ変換
+                    ItoStr(l_HighScore, l_str_line, 3);
+                    // 2行目にハイスコアを書く
+                    WriteToBufferSecond(l_str_line, 3);
 
-                        BufferToLCD(EASY);
                     break;
                     //SW2
                 case SW2:
                     //難易度設�?(NORMAL)
                     SetLevel((uint8_t)NORMAL);
-                    BufferToLCD(NORMAL);
+                    // 1行目に"NORMAL"を書く
+                    WriteToBufferFirst(STR_LEVEL_NORMAL, STR_LEVEL_NORMAL_LEN);
+                    // ハイスコアをEEPROMから取り出す
+                    l_HighScore = GetHighScore(NORMAL);
+                    // 取り出したハイスコアを文字列へ変換
+                    ItoStr(l_HighScore, l_str_line, 3);
+                    // 2行目にハイスコアを書く
+                    WriteToBufferSecond(l_str_line, 3);
                     break;
                     //SW3
                 case SW3:
                     //難易度設�?(HARD)
                     SetLevel((uint8_t)HARD);
-                    BufferToLCD(HARD);
+                    // 1行目に"HARD"を書く
+                    WriteToBufferFirst(STR_LEVEL_HARD, STR_LEVEL_HARD_LEN);
+                    // ハイスコアをEEPROMから取り出す
+                    l_HighScore = GetHighScore(HARD);
+                    // 取り出したハイスコアを文字列へ変換
+                    ItoStr(l_HighScore, l_str_line, 3);
+                    // 2行目にハイスコアを書く
+                    WriteToBufferSecond(l_str_line, 3);
                     break;
                     //SW4
                 case SW4:
@@ -99,7 +125,6 @@ void HSClearProcess(void) {
     switch (SystemState.action) {
         case ENTRY:
             WriteToBuffer(str_HSClearState, 7);
-            UpdateLCDFlg       = ON;
             SystemState.action = (uint8_t)DO;
             break;
         case DO:
@@ -129,8 +154,7 @@ void StartCountDownProcess(void) {
         case ENTRY:
             //残り時間設�?
             WriteToBuffer(str_StartCOuntDownState, 8);
-            UpdateLCDFlg = ON;
-            Time         = 3;
+            Time = 3;
             //PlaySE(countdown3sec);
             SystemState.action = (uint8_t)DO;
             break;
@@ -158,7 +182,6 @@ void PlayingGameProcess(void) {
             //残り時間�?60に設�?
             Time = 60;
             WriteToBuffer(str_PlayingGameState, 8);
-            UpdateLCDFlg = ON;
             //BGMを鳴らす
             //PlayBGM();
             SystemState.action = (uint8_t)DO;
@@ -187,7 +210,7 @@ void ResultProcess(void) {
     switch (SystemState.action) {
         case ENTRY:
             WriteToBuffer(str_ResultState, 6);
-            UpdateLCDFlg       = ON;
+
             SystemState.action = (uint8_t)DO;
             break;
         case DO:

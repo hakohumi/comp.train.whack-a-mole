@@ -34,6 +34,10 @@ extern uint8_t *STR_LEVEL_EASY;
 extern uint8_t *STR_LEVEL_NORMAL;
 extern uint8_t *STR_LEVEL_HARD;
 
+#define STR_LEVEL_EASY_LEN 4
+#define STR_LEVEL_NORMAL_LEN 6
+#define STR_LEVEL_HARD_LEN 4
+
 #ifdef __cplusplus
 }
 #endif
