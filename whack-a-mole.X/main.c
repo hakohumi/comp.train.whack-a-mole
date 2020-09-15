@@ -71,7 +71,8 @@ void main(void) {
     DisplayON();
 
     // LCDのバッファ
-    uint8_t *l_str = "LCD test";
+    uint8_t *l_str  = "LCD";
+    uint8_t *l_str2 = "test";
 
     // 乱数保存用
     uint16_t rand = 0;
@@ -87,7 +88,8 @@ void main(void) {
 
         // l_strに入っている文字列をバッファへ書き込む
         // strlenで文字列の文字数を取得している、
-        WriteToBuffer(l_str, 17);
+        WriteToBufferFirst(l_str, 3);
+        WriteToBufferSecond(l_str2, 4);
 
         BufferToLCD();
         __delay_ms(500);
