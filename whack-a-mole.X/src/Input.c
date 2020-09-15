@@ -2,7 +2,7 @@
 #include "xc.h"
 
 void DetectPushSW(void){
-    InputPort = (uint8_t)(~PORTA & 0x02F);
+    InputPort = (uint8_t)(~PORTA & 0x03F);
     detectPushSWX(&sw1);
     detectPushSWX(&sw2);
     detectPushSWX(&sw3);
