@@ -89,7 +89,7 @@ void main(void) {
         // l_strに入っている文字列をバッファへ書き込む
         // strlenで文字列の文字数を取得している、
         WriteToBufferFirst(l_str, 3);
-        WriteToBufferSecond(l_str2, 4);
+        WriteToBufferFirst(l_str2, 4);
 
         BufferToLCD();
         __delay_ms(500);

@@ -14,7 +14,7 @@ char *utoa(unsigned int value, char *s, int radix);
 // 文字リテラル
 // =--------------------------------------------
 
-uint8_t *STR_CHAR_BLANK  = ' ';
+uint8_t STR_CHAR_BLANK  = ' ';
 uint8_t *STR_LINE_BLANK  = "        ";
 uint8_t *STR_2LINE_BLANK = "                ";
 uint8_t *STR_ERROR       = "error";
