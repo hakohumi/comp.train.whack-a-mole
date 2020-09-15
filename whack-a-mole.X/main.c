@@ -41,22 +41,24 @@
     SOFTWARE.
  */
 
-#include "Buzzer.h"
+#include <string.h>
+
+#include "./Buzzer/BGM.h"
+#include "./Buzzer/BGM_MusicSheets.h"
+#include "./Buzzer/Buzzer.h"
+#include "./Buzzer/SE.h"
+#include "./Buzzer/SE_MusicSheets.h"
+#include "Common.h"
+#include "LCD.h"
 #include "LED.h"
-#include "BGM_MusicSheets.h"
+#include "Rand.h"
 #include "mcc.h"
-// 動いてるかデバッグ用
-#include "tmr2.h"
 
 // マイコンに書き込み時にEEPROMに値を書き込む
 // 8バイトずつ
 // __EEPROM_DATA(0, 2, 4, 6, 7, 5, 3, 1);
 
 // global variable
-
-// randで0~7の間で出力された値を格納する変数
-// 1秒タイマで操作
-uint8_t RandLED = 0;
 
 void main(void) {
     // initialize the device
@@ -67,6 +69,7 @@ void main(void) {
 
     // Myfunction init
     BGM_MusicSheet_Initialize();
+    SE_MusicSheet_Initialize();
     Buzzer_Initialize();
 
     // Enable the Global Interrupts
@@ -75,16 +78,39 @@ void main(void) {
     // Enable the Peripheral Interrupts
     INTERRUPT_PeripheralInterruptEnable();
 
-    // Disable the Global Interrupts
-    // INTERRUPT_GlobalInterruptDisable();
+    // LCD初期化
+    LCDInitialize();
+    // LCDをON
+    DisplayON();
 
-    // Disable the Peripheral Interrupts
-    // INTERRUPT_PeripheralInterruptDisable();
+    // LCDのバッファ
+
+    uint8_t *l_str_BGM = "BGM ON";
+    uint8_t *l_str_SE  = "SE  ON";
 
     PlayBGM();
 
+    bool l_isBGM = OFF;
+    bool l_isSE  = OFF;
+
     while (1) {
+        l_isBGM = GetIsPlayBGM();
+        l_isSE  = SE_GetIsPlay();
+
+        if (l_isBGM == ON) {
+            WriteToBufferFirst(l_str_BGM, 6);
+        } else {
+            WriteToBufferFirst(STR_LINE_BLANK, 8);
+        }
+
+        if (l_isSE == ON) {
+            WriteToBufferSecond(l_str_SE, 6);
+        } else {
+            WriteToBufferSecond(STR_LINE_BLANK, 8);
+        }
+
         UpdateBuzzer();
+        BufferToLCD();
     }
 }
 

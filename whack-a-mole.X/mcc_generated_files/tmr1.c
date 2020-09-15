@@ -19,7 +19,7 @@
     The generated drivers are tested against the following:
         Compiler          :  XC8 2.20 and above
         MPLAB 	          :  MPLAB X 5.40
-*/
+ */
 
 /*
     (c) 2018 Microchip Technology Inc. and its subsidiaries. 
@@ -42,27 +42,29 @@
     CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT 
     OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
     SOFTWARE.
-*/
+ */
 
 /**
   Section: Included Files
-*/
+ */
 
 #include "tmr1.h"
 
 #include <xc.h>
 
+#include "BGM.h"
 #include "Buzzer.h"
+#include "SE.h"
 
 /**
   Section: Global Variables Definitions
-*/
+ */
 volatile uint16_t timer1ReloadVal;
 void (*TMR1_InterruptHandler)(void);
 
 /**
   Section: TMR1 APIs
-*/
+ */
 
 void TMR1_Initialize(void) {
     //Set the Timer to the options selected in the GUI
@@ -167,25 +169,20 @@ void TMR1_SetInterruptHandler(void (*InterruptHandler)(void)) {
 }
 
 void TMR1_DefaultInterruptHandler(void) {
-    static uint16_t l_LengthNote16th_ms = 0;
-    /* -------------------------------------------------- */
-    // ブザー タイマ処理
-    /* -------------------------------------------------- */
+    // /* -------------------------------------------------- */
+    // // ブザー タイマ処理
+    // /* -------------------------------------------------- */
+    static uint16_t Buzzer10msFlg = 10;
 
-    //BGMか効果音が再生中か
-    if (GetIsPlayBGM() || GetIsPlaySE()) {
-        //16分音符分の長さが経過したか？
-        if (l_LengthNote16th_ms == 0) {
-            l_LengthNote16th_ms = GetLengthNote16th_ms();
-            // LengthNote16thフラグを立てる
-            Buzzer_SetLengthNote16thFlg();
-        } else {
-            l_LengthNote16th_ms--;
-        }
+    if (Buzzer10msFlg == 0) {
+        Buzzer10msFlg = 10;
+        SetUpdate10msBuzzerFlg();
+    } else {
+        Buzzer10msFlg--;
     }
-    //
+    /* -------------------------------------------------- */
 }
 
 /**
   End of File
-*/
+ */
