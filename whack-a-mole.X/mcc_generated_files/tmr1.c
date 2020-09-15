@@ -19,7 +19,7 @@
     The generated drivers are tested against the following:
         Compiler          :  XC8 2.20 and above
         MPLAB 	          :  MPLAB X 5.40
-*/
+ */
 
 /*
     (c) 2018 Microchip Technology Inc. and its subsidiaries. 
@@ -42,11 +42,11 @@
     CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT 
     OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
     SOFTWARE.
-*/
+ */
 
 /**
   Section: Included Files
-*/
+ */
 
 #include "tmr1.h"
 
@@ -58,13 +58,13 @@
 
 /**
   Section: Global Variables Definitions
-*/
+ */
 volatile uint16_t timer1ReloadVal;
 void (*TMR1_InterruptHandler)(void);
 
 /**
   Section: TMR1 APIs
-*/
+ */
 
 void TMR1_Initialize(void) {
     //Set the Timer to the options selected in the GUI
@@ -109,7 +109,7 @@ uint16_t TMR1_ReadTimer(void) {
     uint8_t readValHigh;
     uint8_t readValLow;
 
-    readValLow  = TMR1L;
+    readValLow = TMR1L;
     readValHigh = TMR1H;
 
     readVal = ((uint16_t)readValHigh << 8) | readValLow;
@@ -191,4 +191,4 @@ void TMR1_DefaultInterruptHandler(void) {
 
 /**
   End of File
-*/
+ */

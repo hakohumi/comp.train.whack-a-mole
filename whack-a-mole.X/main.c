@@ -41,25 +41,24 @@
     SOFTWARE.
  */
 
+#include <string.h>
+
 #include "BGM.h"
 #include "BGM_MusicSheets.h"
 #include "Buzzer.h"
+#include "Common.h"
+#include "LCD.h"
 #include "LED.h"
+#include "Rand.h"
 #include "SE.h"
 #include "SE_MusicSheets.h"
 #include "mcc.h"
-// 動いてるかデバッグ用
-#include "tmr2.h"
 
 // マイコンに書き込み時にEEPROMに値を書き込む
 // 8バイトずつ
 // __EEPROM_DATA(0, 2, 4, 6, 7, 5, 3, 1);
 
 // global variable
-
-// randで0~7の間で出力された値を格納する変数
-// 1秒タイマで操作
-uint8_t RandLED = 0;
 
 void main(void) {
     // initialize the device
@@ -79,16 +78,32 @@ void main(void) {
     // Enable the Peripheral Interrupts
     INTERRUPT_PeripheralInterruptEnable();
 
-    // Disable the Global Interrupts
-    // INTERRUPT_GlobalInterruptDisable();
+    // LCD初期化
+    LCDInitialize();
+    // LCDをON
+    DisplayON();
 
-    // Disable the Peripheral Interrupts
-    // INTERRUPT_PeripheralInterruptDisable();
+    // LCDのバッファ
+    uint8_t *l_str = "LCD test";
 
-    PlayBGM();
+    // 乱数保存用
+    uint16_t rand = 0;
 
     while (1) {
-        UpdateBuzzer();
+        // 乱数発生
+        // rand = GetRand();
+
+        //         ItoStr(rand, &l_str, 8);
+
+        // デバッグ用のLED表示
+        // UpdateLED(rand);
+
+        // l_strに入っている文字列をバッファへ書き込む
+        // strlenで文字列の文字数を取得している、
+        WriteToBuffer(l_str, 17);
+
+        BufferToLCD();
+        __delay_ms(500);
     }
 }
 

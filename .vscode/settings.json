@@ -14,5 +14,10 @@
         "se.h": "c",
         "tmr1.h": "c",
         "se_musicsheets.h": "c"
+        "i2c1_master_example.h": "c",
+        "lcd.h": "c",
+        "system_error": "c",
+        "type_traits": "c",
+        "xtr1common": "c"
     }
 }

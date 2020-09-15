@@ -5,9 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <logicalFolder name="header" displayName="header" projectFiles="true">
-        <itemPath>header/LED.h</itemPath>
         <itemPath>header/Rand.h</itemPath>
-        <itemPath>header/Buzzer.h</itemPath>
         <itemPath>header/Common.h</itemPath>
         <itemPath>header/BGM_MusicSheets.h</itemPath>
         <itemPath>header/SE_MusicSheets.h</itemPath>
@@ -17,6 +15,9 @@
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
                      projectFiles="true">
+        <logicalFolder name="examples" displayName="examples" projectFiles="true">
+          <itemPath>mcc_generated_files/examples/i2c1_master_example.h</itemPath>
+        </logicalFolder>
         <itemPath>mcc_generated_files/device_config.h</itemPath>
         <itemPath>mcc_generated_files/pin_manager.h</itemPath>
         <itemPath>mcc_generated_files/mcc.h</itemPath>
@@ -26,6 +27,7 @@
         <itemPath>mcc_generated_files/tmr1.h</itemPath>
         <itemPath>mcc_generated_files/tmr2.h</itemPath>
         <itemPath>mcc_generated_files/pwm3.h</itemPath>
+        <itemPath>mcc_generated_files/i2c1_master.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
@@ -38,6 +40,9 @@
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
                      projectFiles="true">
+        <logicalFolder name="examples" displayName="examples" projectFiles="true">
+          <itemPath>mcc_generated_files/examples/i2c1_master_example.c</itemPath>
+        </logicalFolder>
         <itemPath>mcc_generated_files/device_config.c</itemPath>
         <itemPath>mcc_generated_files/mcc.c</itemPath>
         <itemPath>mcc_generated_files/pin_manager.c</itemPath>
@@ -47,10 +52,9 @@
         <itemPath>mcc_generated_files/pwm3.c</itemPath>
         <itemPath>mcc_generated_files/tmr1.c</itemPath>
         <itemPath>mcc_generated_files/tmr2.c</itemPath>
+        <itemPath>mcc_generated_files/i2c1_master.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
-      <itemPath>src/LED.c</itemPath>
-      <itemPath>src/Buzzer.c</itemPath>
       <itemPath>src/Rand.c</itemPath>
       <itemPath>src/BGM_MusicSheets.c</itemPath>
       <itemPath>src/SE_MusicSheets.c</itemPath>
