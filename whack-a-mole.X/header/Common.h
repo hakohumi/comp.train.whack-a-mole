@@ -46,6 +46,8 @@ typedef enum {
 // 文字列"エラー"の長さ
 #define STR_ERROR_LEN 5
 
+#define LCD_LINE_LEN 8
+
 /* -------------------------------------------------- */
 // パブリック関数
 /* -------------------------------------------------- */
@@ -72,6 +74,8 @@ extern uint8_t *STR_ERROR;
 
 typedef enum {
     ERR_W_T_B_OVERSTRLEN,
+    ERR_W_T_B_F_OVERSTRLEN,
+    ERR_W_T_B_S_OVERSTRLEN,
     ERR_1,
 } MY_ERROR;
 

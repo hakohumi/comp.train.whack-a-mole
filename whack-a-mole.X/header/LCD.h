@@ -40,7 +40,10 @@ inline void SetPosLineLCD(bool i_row);  // 1行目か2行目の先頭を指定
 // 16文字までの文字列の先頭アドレスを設定する
 // 9文字目から自動的に改行される
 
+// ちゃんと文字数を指定しないと、範囲外のデータも表示するので注意
 void WriteToBuffer(uint8_t *i_str, uint8_t i_strLen);
+void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen);
+void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen);
 
 // LCDバッファをLCDに書き込む
 void BufferToLCD(void);
