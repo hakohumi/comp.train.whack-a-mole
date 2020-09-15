@@ -14,19 +14,19 @@
 extern "C" {
 #endif
 
-//�Q�[����Փx�̒�`
+//ゲーム難易度の定義
 typedef enum LevelType_Type{
-    EASY = 1,
+    EASY,
     NORMAL,
-    HARD,
+    HARD
 }LevelType;
 
-//�Q�[����Փx�O���[�o���ϐ�
+//ゲーム難易度グローバル変数
 uint8_t Level;
 
-/* ��Փx�ݒ�֐�
- * ���� �Q�[����Փx
- * �o�́@Level��ύX����
+/* 難易度設定関数
+ * 入力 ゲーム難易度
+ * 出力　Levelを変更する
  */
 void SetLevel(uint8_t);
 

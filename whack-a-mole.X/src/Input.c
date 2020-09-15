@@ -2,7 +2,9 @@
 #include "xc.h"
 
 void DetectPushSW(void){
+    //ポート値(1~3,5,7ビット目が各SWに対応、SWが押されているとき1)
     InputPort = (uint8_t)(~PORTA & 0x057);
+    //SW1~5のSW押下を検知
     detectPushSWX(&sw1);
     detectPushSWX(&sw2);
     detectPushSWX(&sw3);
@@ -11,37 +13,39 @@ void DetectPushSW(void){
 }
 
 void detectPushSWX(SWType* i_swType){
-    //SWXに対応する�?��?が終�?して�?るか
+    //SWXに対応するメイン処理が終了しているか
     if(!(SWState & i_swType->valueForCompareSW)){
-        //SWが押されて�?るか
+        //SWXが押されているか
         if(InputPort & i_swType->valueForCompareSW){
-            //チャタリング処�?回数は3以上か
-            if(i_swType->chattCount>=3){
+            //チャタリング処理回数は3以上か
+            if(i_swType->chattCount>=2){
+                //SW入力値を1にする
                 i_swType->isPushed = 1;
-                //SW入力�?��?1かつ、前回�?�SW入力�?��?0�?
+                //SW入力値が1かつ、前回のSW入力値が0か？
                 if(i_swType->isPushed == 1 &&
                    i_swType->lastPushed == 0){
+                    //SWStateを更新
                     SWState |= i_swType->valueForCompareSW;
                     RB3 = ~RB3;
                 }
                 else{
-                    //何もしな�?
+                    //何もしない
                 }
             }
-            //チャタリング処�?回数�?3未�?のと�?
+            //チャタリング処理回数が3未満のとき
             else{
                 i_swType->chattCount++;
             }
         }
-        //SWが押されて�?な�?と�?
+        //SWXが押されていないとき
         else{
             i_swType->chattCount = 0;
             i_swType->isPushed = 0;            
         }
         i_swType->lastPushed = i_swType->isPushed;
     }
-    //SWXに対応する�?��?が終�?して�?な�?と�?
+    //SWXに対応するメイン処理が終了していないとき
     else{
-        //何もしな�?
+        //何もしない
     }
 }

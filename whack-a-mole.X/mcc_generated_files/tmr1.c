@@ -59,7 +59,6 @@
 #include "Buzzer.h"
 #endif
 
-static uint8_t count5msec = 0;
 static uint8_t count1sec = 0;
 
 /**
@@ -78,11 +77,11 @@ void TMR1_Initialize(void) {
     //T1GSS T1G_pin; TMR1GE disabled; T1GTM disabled; T1GPOL low; T1GGO done; T1GSPM disabled;
     T1GCON = 0x00;
 
-    //TMR1H 240;
-    TMR1H = 0xF0;
+    //TMR1H 99; 
+    TMR1H = 0x63;
 
-    //TMR1L 96;
-    TMR1L = 0x60;
+    //TMR1L 192; 
+    TMR1L = 0xC0;
 
     // Clearing IF flag before enabling the interrupt.
     PIR1bits.TMR1IF = 0;
@@ -175,22 +174,15 @@ void TMR1_SetInterruptHandler(void (*InterruptHandler)(void)) {
 }
 
 void TMR1_DefaultInterruptHandler(void) {
-    if(TimeForRand>=0xFFFF){
+    if(++TimeForRand>=0xFFFF){
         TimeForRand = 0;
     }
-    else{
-        TimeForRand++;
-    }
-    if(++count5msec>=5){
-        DetectPushSW();        
-        count5msec = 0;
-        count1sec++;
-    }
-    if(count1sec>=20){
+    if(++count1sec>=100){
         CountDown();
         count1sec = 0;
         RB2 = ~RB2;
     }
+    DetectPushSW();
     
     //buzzer
     

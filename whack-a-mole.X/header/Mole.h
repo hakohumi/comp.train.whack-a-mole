@@ -8,6 +8,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "Input.h"
+
 #ifndef MOLE_H
 #define	MOLE_H
 
@@ -15,7 +17,7 @@
 extern "C" {
 #endif
 
-//���O���̏�Ԃ��`
+//SW
 typedef enum MoleStateType_Type{
     HOLE,   //���O���̌�
     MOLE,   //���O���o����
@@ -35,10 +37,10 @@ typedef struct {
 } MoleType;
 
 //���O��1-4
-MoleType mole1 = {0,0,0x00,0};     
-MoleType mole2 = {0,0,0x01,0};
-MoleType mole3 = {0,0,0x02,0};
-MoleType mole4 = {0,0,0x04,0};
+MoleType mole1 = {0,0,(uint8_t)SW1,0};     
+MoleType mole2 = {0,0,(uint8_t)SW2,0};
+MoleType mole3 = {0,0,(uint8_t)SW3,0};
+MoleType mole4 = {0,0,(uint8_t)SW4,0};
 
 /* ���O�������֐�
  * ���O��1-4�̏������s���֐�

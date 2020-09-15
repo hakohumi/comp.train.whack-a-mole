@@ -83,34 +83,41 @@ void main(void) {
     DisplayON();
 
     while (1) {
+        //状態処理
         switch(SystemState.displayState){
+            //タイトル画面
             case TITLE:
                 TitleProcess();
                 break;
+            //難易度選択画面
             case SELECT_LEVEL:
                 SelectLevelProcess();
                 break;
+            //ハイスコアクリア確認画面
             case HS_CLEAR:
                 HSClearProcess();
                 break;
+            //ゲーム開始カウントダウン画面
             case START_COUNT_DOWN:
                 StartCountDownProcess();
                 break;
+            //ゲーム中画面
             case PLAYING_GAME:
                 PlayingGameProcess();
                 break;
+            //リザルト画面
             case RESULT:
                 ResultProcess();
                 break;
             default:
                 break;
         }
+        //LCD更新
+        if(UpdateLCDFlg){
+//            BufferToLCD();
+            UpdateLCDFlg = OFF;
+        }
 
-        // l_strに入っている文字列をバッファへ書き込む
-        // strlenで文字列の文字数を取得している、
-        //WriteToBuffer(l_str, 17);
-
-        BufferToLCD();
     }
 }
 
