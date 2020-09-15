@@ -10,10 +10,6 @@
 
 #include <stdint.h>
 
-// 32bit 乱数発生器
-// ※実験用
-uint32_t GetRand32(void);
-
 // 16bitのxorshiftを使った乱数発生関数
 uint16_t GetRand(void);
 
@@ -23,5 +19,13 @@ void SetRandSeed(uint16_t x, uint16_t y);
 uint16_t GetRandSeedX(void);
 // 16bitのxorshiftのシードYの値を取得する
 uint16_t GetRandSeedY(void);
+
+/* -------------------------------------------------- */
+
+// 32bit 乱数発生器
+// ※実験用
+uint32_t GetRand32(void);
+
+/* -------------------------------------------------- */
 
 #endif /* RAND_H */
