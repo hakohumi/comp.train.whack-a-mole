@@ -42,6 +42,9 @@
  */
 
 #include "State.h"
+#include "Timer.h"
+#include "Input.h"
+#include "Score.h"
 
 #include <string.h>
 
@@ -66,12 +69,19 @@ void main(void) {
 
     // Enable the Peripheral Interrupts
     INTERRUPT_PeripheralInterruptEnable();
-
+    
+    //SystemDataInitialize();
+    ChangeState((uint8_t)TITLE);
+    SystemState.action = (uint8_t)ENTRY;
+    Time = 0;
+    Score = 0;
+    SWState = 0;
+    
     // LCD初期化
     LCDInitialize();
     // LCDをON
     DisplayON();
-
+   
     // LCDのバッファ
     uint8_t *l_str = "LCD test";
 
@@ -101,7 +111,7 @@ void main(void) {
 
         // l_strに入っている文字列をバッファへ書き込む
         // strlenで文字列の文字数を取得している、
-        WriteToBuffer(l_str, 17);
+        //WriteToBuffer(l_str, 17);
 
         BufferToLCD();
         __delay_ms(500);

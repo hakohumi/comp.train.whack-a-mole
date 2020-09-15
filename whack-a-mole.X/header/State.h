@@ -79,7 +79,7 @@ void StartCountDownProcess(void);
  * 入力
  * 出力
  */
-void PlayingGameProsess(void);
+void PlayingGameProcess(void);
 
 /* リザルト画面処理関数
  * リザルト画面の処理を行う

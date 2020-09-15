@@ -15,17 +15,17 @@
 extern "C" {
 #endif
 
-//ƒ‚ƒOƒ‰‚Ìó‘Ô‚ð’è‹`
+//ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ìï¿½Ô‚ï¿½ï¿½`
 typedef enum MoleStateType_Type{
-    HOLE,   //ƒ‚ƒOƒ‰‚ÌŒŠ
-    MOLE,   //ƒ‚ƒOƒ‰oŒ»’†
-    HIT     //ƒ‚ƒOƒ‰Œ‚‘Þ
+    HOLE,   //ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ÌŒï¿½
+    MOLE,   //ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½
+    HIT     //ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 } MoleStateType;
 
-/* ƒ‚ƒOƒ‰\‘¢‘Ì
- * state ƒ‚ƒOƒ‰‚Ìó‘Ô 
- * popTime ƒ‚ƒOƒ‰‚ÌoŒ»ŽžŠÔ
- * popFlag ƒ‚ƒOƒ‰‚ÌoŒ»”»’è ON‚ÅoŒ»
+/* ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½
+ * state ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ìï¿½ï¿½ 
+ * popTime ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ìoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * popFlag ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ìoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ONï¿½Åoï¿½ï¿½
  */
 typedef struct {
     uint8_t state;
@@ -34,49 +34,49 @@ typedef struct {
     bool popFlag;
 } MoleType;
 
-//ƒ‚ƒOƒ‰1-4
+//ï¿½ï¿½ï¿½Oï¿½ï¿½1-4
 MoleType mole1 = {0,0,0x00,0};     
 MoleType mole2 = {0,0,0x01,0};
 MoleType mole3 = {0,0,0x02,0};
 MoleType mole4 = {0,0,0x04,0};
 
-/* ƒ‚ƒOƒ‰ˆ—ŠÖ”
- * ƒ‚ƒOƒ‰1-4‚Ìˆ—‚ðs‚¤ŠÖ”
+/* ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½
+ * ï¿½ï¿½ï¿½Oï¿½ï¿½1-4ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Öï¿½
  */
 void MoleManager(void);
 
-/* ƒ‚ƒOƒ‰Xˆ—ŠÖ”
- * ƒ‚ƒOƒ‰1•C‚É‘Î‚·‚éˆ—‚ðs‚¤ŠÖ”
- * “ü—Í ƒ‚ƒOƒ‰‚Ì”Ô†(1-4)
+/* ï¿½ï¿½ï¿½Oï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½
+ * ï¿½ï¿½ï¿½Oï¿½ï¿½1ï¿½Cï¿½É‘Î‚ï¿½ï¿½éˆï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Öï¿½
+ * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ì”Ôï¿½(1-4)
  */ 
-void MoleXProess(MoleType*);
+void MoleXProcess(MoleType*);
 
-/* ƒ‚ƒOƒ‰oŒ»ŠÖ”
- * “ü—Í ƒ‚ƒOƒ‰‚Ì”Ô†(1-4)
- * o—Í “ü—Í‚É‘Î‰ž‚·‚éƒ‚ƒOƒ‰‚Ìstate‚ðMOLE‚É
- * @@ popTime‚ðƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è‚·‚é
+/* ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Öï¿½
+ * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ì”Ôï¿½(1-4)
+ * ï¿½oï¿½ï¿½ ï¿½ï¿½ï¿½Í‚É‘Î‰ï¿½ï¿½ï¿½ï¿½éƒ‚ï¿½Oï¿½ï¿½ï¿½ï¿½stateï¿½ï¿½MOLEï¿½ï¿½
+ * ï¿½@ï¿½@ popTimeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ÉŒï¿½ï¿½è‚·ï¿½ï¿½
  */
 void OutOfHole(MoleType*);
 
-/* ƒ‚ƒOƒ‰Œ‚‘ÞŠÖ”
- * “ü—Í ƒ‚ƒOƒ‰‚Ì”Ô†(1-4)
- * o—Í “ü—Í‚É‘Î‰ž‚·‚éƒ‚ƒOƒ‰‚Ìstate‚ðHIT‚É
- * @@ popTime‚ðŒÅ’è’l‚ÅŒˆ’è‚·‚é
+/* ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ÞŠÖï¿½
+ * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ì”Ôï¿½(1-4)
+ * ï¿½oï¿½ï¿½ ï¿½ï¿½ï¿½Í‚É‘Î‰ï¿½ï¿½ï¿½ï¿½éƒ‚ï¿½Oï¿½ï¿½ï¿½ï¿½stateï¿½ï¿½HITï¿½ï¿½
+ * ï¿½@ï¿½@ popTimeï¿½ï¿½ï¿½Å’ï¿½lï¿½ÅŒï¿½ï¿½è‚·ï¿½ï¿½
  */
 void Attacked(MoleType*);
 
-/* ƒ‚ƒOƒ‰–¢oŒ»ŠÖ”
- * “ü—Í ƒ‚ƒOƒ‰‚Ì”Ô†(1-4)
- * o—Í “ü—Í‚É‘Î‰ž‚·‚éƒ‚ƒOƒ‰‚Ìstate‚ðHOLE‚É‚·‚é
+/* ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Öï¿½
+ * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ì”Ôï¿½(1-4)
+ * ï¿½oï¿½ï¿½ ï¿½ï¿½ï¿½Í‚É‘Î‰ï¿½ï¿½ï¿½ï¿½éƒ‚ï¿½Oï¿½ï¿½ï¿½ï¿½stateï¿½ï¿½HOLEï¿½É‚ï¿½ï¿½ï¿½
  */
 void BackToHole(MoleType*);
 
-/* ƒ‚ƒOƒ‰oŒ»”»’èŠÖ”
- * “ü—Í ƒ‚ƒOƒ‰oŒ»”»’è’l(0x00-0xFFFF)
- *      oŒ»”»’è’l‚Í•Ê“rƒe[ƒuƒ‹‚©‚çŽæ“¾‚·‚é
- * @@ oŒ»”»’è’l‚ª0x7FFF‚Ìê‡A50%‚ÌŠm—¦‚ÅTRUE‚ð•Ô‚·
- * o—Í TRUE    ƒ‚ƒOƒ‰‚ðoŒ»‚³‚¹‚é
- * @@ False   ƒ‚ƒOƒ‰‚ðoŒ»‚³‚¹‚È‚¢
+/* ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½
+ * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½l(0x00-0xFFFF)
+ *      ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½Í•Ê“rï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
+ * ï¿½@ï¿½@ ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½0x7FFFï¿½Ìê‡ï¿½A50%ï¿½ÌŠmï¿½ï¿½ï¿½ï¿½TRUEï¿½ï¿½Ô‚ï¿½
+ * ï¿½oï¿½ï¿½ TRUE    ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½@ï¿½@ False   ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
  */
 bool PopDecision(uint16_t);
 

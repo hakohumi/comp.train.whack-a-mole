@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 
-//SWæ§‹é??ä½?
+//SWæ§‹ï¿½??ï¿½?
 typedef struct {
     bool isPushed;
     bool lastPushed;
@@ -24,20 +24,20 @@ typedef struct {
 } SWType;
 
 //SW1-5
-SWType sw1 = { 0, 0, 0};
-SWType sw2 = { 0, 0, 0};
-SWType sw3 = { 0, 0, 0};
-SWType sw4 = { 0, 0, 0};
-SWType sw5 = { 0, 0, 0};
+SWType sw1 = { 0, 0, 0x01, 0};
+SWType sw2 = { 0, 0, 0x02, 0};
+SWType sw3 = { 0, 0, 0x04, 0};
+SWType sw4 = { 0, 0, 0x10, 0};
+SWType sw5 = { 0, 0, 0x10, 0};
 
-//ãƒã?¼ãƒˆã?®å…¥åŠ›å?¤(åŠ?å·¥)
+//ãƒï¿½?ï¿½ãƒˆï¿½?ï¿½å…¥åŠ›ï¿½?ï¿½(ï¿½?å·¥)
 uint8_t InputPort;
 
-//SWå…¥åŠ›çŠ¶æ…?
+//SWå…¥åŠ›çŠ¶ï¿½?
 uint8_t SWState;
 
 //
-void detectPushSW(void);
+void DetectPushSW(void);
 
 //
 void detectPushSWX(SWType*); 

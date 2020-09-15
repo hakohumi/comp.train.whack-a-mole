@@ -1,8 +1,8 @@
 #include "Score.h"
 
-void incScore(void){
+void IncScore(void){
     if(Score<999)
-        //ƒXƒRƒA‚ð1‰ÁŽZ
+        //ï¿½Xï¿½Rï¿½Aï¿½ï¿½1ï¿½ï¿½ï¿½Z
         Score++;
 }
 

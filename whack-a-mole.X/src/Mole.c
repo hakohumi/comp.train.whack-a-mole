@@ -1,6 +1,6 @@
 #include "Mole.h"
 #include "Input.h"
-#include "../header/Timer.h"
+#include "Timer.h"
 #include "Score.h"
 
 void MoleManager(void){
@@ -12,47 +12,49 @@ void MoleManager(void){
 
 void MoleXProcess(MoleType* i_moleX){
     switch(i_moleX->state){
-        //ƒ‚ƒOƒ‰–¢oŒ»Žž‚Ìˆ—
+        //ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
         case HOLE:
-            //ƒ‚ƒOƒ‰oŒ»ˆ—
+            //ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if(i_moleX->popFlag){
                 OutOfHole(&i_moleX);
                 i_moleX->popFlag = 0; //(OFF)
             }
-            //ƒyƒiƒ‹ƒeƒBˆ—
+            //ï¿½yï¿½iï¿½ï¿½ï¿½eï¿½Bï¿½ï¿½ï¿½ï¿½
             else{
+                SWState = 0x00;
                 if(SWState && i_moleX->valueForCompareSW){
-                    Penalty(void);
+                    Penalty();
                 }
                 else{
-                    //‰½‚à‚µ‚È‚¢
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
                 }
             }
             break;
-        //ƒ‚ƒOƒ‰oŒ»Žž‚Ìˆ—
+        //ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
         case MOLE:
-            //ƒ‚ƒOƒ‰Œ‚‘Þˆ—
+            //ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Þï¿½ï¿½ï¿½
             if(i_moleX->popTime){
                 if(SWState && i_moleX->valueForCompareSW){
+                    SWState = 0x00;
                     Attacked(&i_moleX);
                 }
                 else{
-                    //‰½‚à‚µ‚È‚¢
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
                 }
             }
-            //ƒ‚ƒOƒ‰–¢oŒ»(ŒŠ‚É–ß‚é)ˆ—
+            //ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½(ï¿½ï¿½ï¿½É–ß‚ï¿½)ï¿½ï¿½ï¿½ï¿½
             else{
                 BackToHole(&i_moleX);
             }
             break;
-        //ƒ‚ƒOƒ‰Œ‚‘ÞŽžˆ—
+        //ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ÞŽï¿½ï¿½ï¿½ï¿½ï¿½
         case HIT:
-            //ƒ‚ƒOƒ‰–¢oŒ»(ŒŠ‚É–ß‚é)ˆ—
+            //ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½(ï¿½ï¿½ï¿½É–ß‚ï¿½)ï¿½ï¿½ï¿½ï¿½
             if(!i_moleX->popTime){
                 BackToHole(&i_moleX);
             }
             else{
-                //‰½‚à‚µ‚È‚¢
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
             }
             break;
         default:
@@ -60,14 +62,14 @@ void MoleXProcess(MoleType* i_moleX){
     }
 }
 
-//ƒ‚ƒOƒ‰oŒ»ˆ—
+//ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void OutOfHole(MoleType* i_moleX){
     i_moleX->state = (uint8_t)MOLE;
-    //SetpopTime() oŒ»ŽžŠÔÝ’è
+    //SetpopTime() ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ÔÝ’ï¿½
     //WriteToBuffer
 }
 
-//ƒ‚ƒOƒ‰Œ‚‘Þˆ—
+//ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Þï¿½ï¿½ï¿½
 void Attacked(MoleType* i_moleX){
     i_moleX->state = (uint8_t)HIT;
     i_moleX->popTime = 30;
@@ -75,7 +77,7 @@ void Attacked(MoleType* i_moleX){
     //WriteToBuffer
 }
 
-//ƒ‚ƒOƒ‰–¢oŒ»(ŒŠ‚É–ß‚é)ˆ—
+//ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½(ï¿½ï¿½ï¿½É–ß‚ï¿½)ï¿½ï¿½ï¿½ï¿½
 void BackToHole(MoleType* i_moleX){
     i_moleX->state = (uint8_t)HOLE;
     //WriteToBuffer
