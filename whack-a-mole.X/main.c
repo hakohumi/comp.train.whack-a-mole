@@ -41,17 +41,16 @@
     SOFTWARE.
  */
 
-#include "State.h"
-#include "Timer.h"
-#include "Input.h"
-#include "Score.h"
-
 #include <string.h>
 
 #include "Common.h"
+#include "Input.h"
 #include "LCD.h"
 #include "LED.h"
 #include "Rand.h"
+#include "Score.h"
+#include "State.h"
+#include "Timer.h"
 #include "mcc.h"
 
 // マイコンに書き込み時にEEPROMに値を書き込む
@@ -69,14 +68,12 @@ void main(void) {
 
     // Enable the Peripheral Interrupts
     INTERRUPT_PeripheralInterruptEnable();
-    
+
     //SystemDataInitialize();
     ChangeState((uint8_t)TITLE);
     SystemState.action = (uint8_t)ENTRY;
-    Time = 0;
-    Score = 0;
-    SWState = 0;
-    
+    SWState            = 0;
+
     // LCD初期化
     LCDInitialize();
     // LCDをON
@@ -84,7 +81,7 @@ void main(void) {
 
     while (1) {
         //状態処理
-        switch(SystemState.displayState){
+        switch (SystemState.displayState) {
             //タイトル画面
             case TITLE:
                 TitleProcess();
@@ -113,11 +110,10 @@ void main(void) {
                 break;
         }
         //LCD更新
-        if(UpdateLCDFlg){
-//            BufferToLCD();
+        if (UpdateLCDFlg) {
+            //            BufferToLCD();
             UpdateLCDFlg = OFF;
         }
-
     }
 }
 

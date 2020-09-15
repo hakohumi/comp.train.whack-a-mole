@@ -8,17 +8,11 @@
 #include <stdint.h>
 
 #ifndef TIMER_H
-#define	TIMER_H
+#define TIMER_H
 
-#ifdef	__cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
-
-//残り時間
-uint8_t Time;
-
-//乱数規定�?�用時間
-uint16_t TimeForRand;
 
 /* ペナル�?ィ関数
  * ペナル�?ィを発生させる
@@ -34,9 +28,11 @@ void Penalty(void);
  */
 void CountDown(void);
 
-#ifdef	__cplusplus
+extern uint8_t Time;
+extern uint16_t TimeForRand;
+
+#ifdef __cplusplus
 }
 #endif
 
-#endif	/* TIMER_H */
-
+#endif /* TIMER_H */

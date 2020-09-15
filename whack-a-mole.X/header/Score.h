@@ -8,17 +8,14 @@
 #include <stdint.h>
 
 #ifndef SCORE_H
-#define	SCORE_H
+#define SCORE_H
 
-#ifdef	__cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
-//ハイスコア配列[難易度-1]
-uint16_t HighScore[3];
-
-//スコア
-uint16_t Score;
+extern uint16_t HighScore[3];
+extern uint16_t Score;
 
 /* スコア加算関数
  * Scoreを1増加する
@@ -41,9 +38,8 @@ void SaveHighScore(uint8_t);
  */
 void ClearHighScore(uint8_t);
 
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
-#endif	/* SCORE_H */
-
+#endif /* SCORE_H */
