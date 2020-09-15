@@ -144,6 +144,41 @@ void WriteToBuffer(uint8_t *i_str, uint8_t i_strLen) {
     }
 }
 
+void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen) {
+    uint8_t i;
+
+    // もし、指定された文字数が8を超えていたら、
+    if (i_strLen > 8) {
+        // エラー
+        ErrorToBuffer(ERR_W_T_B_F_OVERSTRLEN);
+    } else {
+        // LCDBufferの上の行に空白を入れる
+        strncat(LCDBuffer, *STR_LINE_BLANK, LCD_LINE_LEN);
+
+        // LCDBufferの先頭から、引数に指定された文字列をコピーする
+        for (i = 0; i < i_strLen; i++) {
+            LCDBuffer[i] = i_str[i];
+        }
+    }
+}
+void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen) {
+    uint8_t i;
+
+    // もし、指定された文字数が8を超えていたら、
+    if (i_strLen > 8) {
+        // エラー
+        ErrorToBuffer(ERR_W_T_B_S_OVERSTRLEN);
+    } else {
+        // LCDBufferの下の行に空白を入れる
+        strncat(&LCDBuffer[8], *STR_LINE_BLANK, LCD_LINE_LEN);
+
+        // LCDBufferの先頭から、引数に指定された文字列をコピーする
+        for (i = 0; i < i_strLen; i++) {
+            LCDBuffer[i + LCD_LINE_LEN] = i_str[i];
+        }
+    }
+}
+
 // BufferToWrite
 
 void BufferToLCD(void) {
