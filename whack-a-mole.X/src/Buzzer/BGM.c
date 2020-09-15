@@ -9,6 +9,8 @@ BGMを管理する
 
  */
 
+#include "BGM.h"
+
 #include "BGM_MusicSheets.h"
 #include "Buzzer.h"
 #include "tmr2.h"
@@ -70,7 +72,7 @@ void BGM_returnBeginPlayPos(void) {
     uint8_t l_pich = 0;
 
     // 選択された音符の長さをcurrentNoteLengthにセットする
-    BGM_currentNoteLength = Change1msLength(*(GetBGMCurrentNote(0)), GetBGMTempo());
+    BGM_currentNoteLength = Change10msLength(*(GetBGMCurrentNote(0)), GetBGMTempo());
 
     // 音符の高さに合わせて、タイマの周期を変える
     l_pich = GetBGMCurrentNotePich(0);
@@ -113,8 +115,6 @@ void updateBGMState(void) {
 // BGMの更新
 
 void updateBGMManager(void) {
-    uint8_t l_pich = 0;
-
     // 現在BGMが再生されているか
     if (IsPlayBGM == ON) {
         // 現在選択されている音符の長さ分の時間は経過したか？
@@ -129,15 +129,12 @@ void updateBGMManager(void) {
             }
 
             //BGMが再生中に効果音が再生していたら、
-            if (SE_GetIsPlay() == OFF) {
-                // 選択された音符の長さをcurrentNoteLengthにセットする
-                BGM_currentNoteLength = Change1msLength(*(GetBGMCurrentNote(BGMPlayNotePos)), GetBGMTempo());
-                // 音符の高さに合わせて、タイマの周期を変える
-                // 音の高さを取得する
-                l_pich = GetBGMCurrentNotePich(BGMPlayNotePos);
-                // 音の高さに合わせて、タイマの周期とデューティー比を変更
-                ChangePich(l_pich);
-            }
+            // if (SE_GetIsPlay() == OFF) {
+            // 選択された音符の長さをcurrentNoteLengthにセットする
+            BGM_currentNoteLength = Change10msLength(*(GetBGMCurrentNote(BGMPlayNotePos)), GetBGMTempo());
+
+            ChangeBGMPich();
+            // }
 
         } else {
             // currentNoteLengthを1下げる
@@ -148,6 +145,16 @@ void updateBGMManager(void) {
         // currentNoteLengthをLEDで表示
         // UpdateLED(currentNoteLength);
     }
+}
+
+void ChangeBGMPich(void) {
+    uint8_t l_pich = 0;
+
+    // 音符の高さに合わせて、タイマの周期を変える
+    // 音の高さを取得する
+    l_pich = GetBGMCurrentNotePich(BGMPlayNotePos);
+    // 音の高さに合わせて、タイマの周期とデューティー比を変更
+    ChangePich(l_pich);
 }
 
 // BGMの再生位置を取得

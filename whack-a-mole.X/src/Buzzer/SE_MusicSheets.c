@@ -13,22 +13,24 @@
 // テスト用効果音楽譜
 /* -------------------------------------------------- */
 
-static const uint8_t SENotes_DO[1][SE_NOTE_ARRAY_NUM] = {
+static const uint8_t SENotes_DO[3][SE_NOTE_ARRAY_NUM] = {
 
-    {2, DO2},
+    {1, DO2},
+    {1, RE2},
+    {1, MI2},
 
 };
 
 // SEの楽譜のインスタンス
 static const SE_MusicSheets_t SE_DO = {
     // テンポ
-    106,
+    230,
 
     // データ[ ][ ]
     SENotes_DO,
 
     // 楽譜の長さ
-    1
+    3
 
 };
 /* -------------------------------------------------- */

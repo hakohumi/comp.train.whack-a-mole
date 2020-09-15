@@ -24,4 +24,7 @@ void updateBGMState(void);
 void updateBGMManager(void);
 void BGM_returnBeginPlayPos(void);
 
+// ブザーの音を現在の再生位置の音程に変更
+void ChangeBGMPich(void);
+
 #endif /* BGM_H */

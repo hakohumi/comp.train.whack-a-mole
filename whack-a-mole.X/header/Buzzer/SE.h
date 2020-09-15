@@ -24,4 +24,7 @@ void SE_updateState(void);
 void SE_updateManager(void);
 void SE_returnBeginPlayPos(void);
 
+// ブザーの音を現在の再生位置の音程に変更
+void SE_ChangePich(uint16_t i_pos);
+
 #endif /* SE_H */

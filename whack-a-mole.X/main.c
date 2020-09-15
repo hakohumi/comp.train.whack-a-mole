@@ -84,15 +84,11 @@ void main(void) {
     DisplayON();
 
     // LCDのバッファ
-    uint8_t *l_str  = "LCD";
-    uint8_t *l_str2 = "test";
-
-    memset(l_str, '\0', 17);
 
     uint8_t *l_str_BGM = "BGM ON";
     uint8_t *l_str_SE  = "SE  ON";
 
-    // PlayBGM();
+    PlayBGM();
 
     bool l_isBGM = OFF;
     bool l_isSE  = OFF;
@@ -101,27 +97,20 @@ void main(void) {
         l_isBGM = GetIsPlayBGM();
         l_isSE  = SE_GetIsPlay();
 
-        SetPosLineLCD(0);
         if (l_isBGM == ON) {
-            Write1LineToLCD(l_str_BGM, 6);
+            WriteToBufferFirst(l_str_BGM, 6);
         } else {
-            Write1LineToLCD(STR_LINE_BLANK, 8);
+            WriteToBufferFirst(STR_LINE_BLANK, 8);
         }
 
-        SetPosLineLCD(1);
         if (l_isSE == ON) {
-            Write1LineToLCD(l_str_SE, 6);
+            WriteToBufferSecond(l_str_SE, 6);
         } else {
-            Write1LineToLCD(STR_LINE_BLANK, 8);
+            WriteToBufferSecond(STR_LINE_BLANK, 8);
         }
 
-        // l_strに入っている文字列をバッファへ書き込む
-        // strlenで文字列の文字数を取得している、
-        WriteToBufferFirst(l_str, 3);
-        WriteToBufferSecond(l_str2, 4);
-
-        BufferToLCD();
         UpdateBuzzer();
+        BufferToLCD();
     }
 }
 

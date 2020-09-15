@@ -11,12 +11,19 @@ SEを管理する
 
  */
 
+#include "SE.h"
+
 #include "Buzzer.h"
 #include "SE_MusicSheets.h"
 #include "tmr2.h"
 
+// ChangeBGMPichを使用するため
+#include "BGM.h"
+
 // LEDでデバッグするため
 #include "LED.h"
+// LCDでデバッグするため
+#include "LCD.h"
 
 /* -------------------------------------------------- */
 // パブリック変数
@@ -64,14 +71,11 @@ void PlaySE(void) {
 /* -------------------------------------------------- */
 
 void SE_returnBeginPlayPos(void) {
-    uint8_t l_pich = 0;
-
     // 選択された音符の長さをcurrentNoteLengthにセットする
-    currentNoteLength = Change1msLength(*(SE_GetCurrentNote(0)), SE_GetTempo());
+    currentNoteLength = Change10msLength(*(SE_GetCurrentNote(0)), SE_GetTempo());
 
     // 音符の高さに合わせて、タイマの周期を変える
-    l_pich = SE_GetCurrentNotePich(0);
-    ChangePich(l_pich);
+    SE_ChangePich(0);
 }
 
 // SEStateの切り替え
@@ -108,12 +112,16 @@ void SE_updateState(void) {
         //IsPlaySEをfalseに変更する
         IsPlaySE = false;
 
+        // ブザーの音程をBGMの現在の再生位置の音程へ設定する
+        ChangeBGMPich();
+
         // // PWMを停止させる
         // TMR2_StopTimer();
     }
 }
 
 // SEの更新
+uint8_t l_str[8];
 
 void SE_updateManager(void) {
     uint8_t l_pich = 0;
@@ -134,12 +142,10 @@ void SE_updateManager(void) {
                 SEStopFlg = ON;
             } else {
                 // 選択された音符の長さをcurrentNoteLengthにセットする
-                currentNoteLength = Change1msLength(*(SE_GetCurrentNote(SE_PlayNotePos)), SE_GetTempo());
-                // 音符の高さに合わせて、タイマの周期を変える
-                // 音の高さを取得する
-                l_pich = SE_GetCurrentNotePich(SE_PlayNotePos);
-                // 音の高さに合わせて、タイマの周期とデューティー比を変更
-                ChangePich(l_pich);
+                currentNoteLength = Change10msLength(*(SE_GetCurrentNote(SE_PlayNotePos)), SE_GetTempo());
+
+                // ブザーの周波数を、現在の再生位置の音程へ変更する
+                SE_ChangePich(SE_PlayNotePos);
             }
         } else {
             // currentNoteLengthを1下げる
@@ -149,10 +155,19 @@ void SE_updateManager(void) {
         // currentNoteLengthをLEDで表示
         UpdateLED(*(SE_GetCurrentNote(SE_PlayNotePos)));
 
-        uint8_t l_str[8];
         ItoStr(currentNoteLength, l_str, 8);
-        WriteToBuffer(l_str, 8);
+        WriteToBufferFirst(l_str, 8);
     }
+}
+
+void SE_ChangePich(uint16_t i_pos) {
+    uint8_t l_pich = 0;
+
+    // 音符の高さに合わせて、タイマの周期を変える
+    // 音の高さを取得する
+    l_pich = SE_GetCurrentNotePich(i_pos);
+    // 音の高さに合わせて、タイマの周期とデューティー比を変更
+    ChangePich(l_pich);
 }
 
 /* -------------------------------------------------- */

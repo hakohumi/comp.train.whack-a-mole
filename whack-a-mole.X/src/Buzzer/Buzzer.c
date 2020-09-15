@@ -53,26 +53,13 @@ uint8_t PichTable[SCALE_NUM] = {
 
 };
 
-static uint16_t LengthNote16th_ms = 0;
-
-static bool LengthNote16thFlg  = OFF;
-static bool Update1msBuzzerFlg = OFF;
+static bool Update10msBuzzerFlg = OFF;
 
 static bool IsPlayingBuzzer = OFF;
 
 // ブザーの初期化
 
 void Buzzer_Initialize(void) {
-    uint16_t Tempo = 0;
-    uint8_t l_pich = 0;
-
-    // BGMの楽譜のテンポを取得する
-    Tempo = GetBGMTempo();
-
-    // 16分音符の長さを計算する
-    // LengthNote16th_ms = 15 * 1000 / テンポ = 16分音符の長さ(ms)
-    LengthNote16th_ms = 15000 / Tempo;
-
     BGM_Initialize();
     SE_Initialize();
 }
@@ -91,24 +78,14 @@ void UpdateBuzzer(void) {
         TMR2_StopTimer();
     }
 
-    // // LengthNote16thフラグ
-    // if (LengthNote16thFlg == ON) {
-    //     // BGMManagerを更新
-    //     updateBGMManager();
-    //     // SEManagerを更新
-    //     SE_updateManager();
-    //     // LengthNote16thFlgを下げる
-    //     LengthNote16thFlg = OFF;
-    // }
-
-    // 1msフラグ
-    if (Update1msBuzzerFlg == ON) {
+    // 10msフラグ
+    if (Update10msBuzzerFlg == ON) {
         // BGMManagerを更新
         updateBGMManager();
         // SEManagerを更新
         SE_updateManager();
-        // LengthNote16thFlgを下げる
-        Update1msBuzzerFlg = OFF;
+        // 10msフラグを下げる
+        Update10msBuzzerFlg = OFF;
     }
 }
 
@@ -118,10 +95,6 @@ void PlayBuzzer(void) {
         TMR2_StartTimer();
         IsPlayingBuzzer = ON;
     }
-}
-
-void Buzzer_SetLengthNote16thFlg(void) {
-    LengthNote16thFlg = ON;
 }
 
 // 音程の変更
@@ -141,19 +114,15 @@ void ChangePich(uint8_t i_Pich) {
     }
 }
 
-// 音符の長さを1msに変換
+// 音符の長さを10msに変換
 // 入力は16分音符の個数とテンポ
 // 出力はmsか
 
-uint16_t Change1msLength(uint8_t i_NoteLength, uint16_t i_Tempo) {
+uint16_t Change10msLength(uint8_t i_NoteLength, uint16_t i_Tempo) {
     // LengthNote16th_ms = 15 * 1000 / テンポ = 16分音符の長さ(ms)
-    return ((15000 / i_Tempo) * i_NoteLength);
+    return ((1500 / i_Tempo) * i_NoteLength);
 }
 
-uint16_t GetLengthNote16th_ms(void) {
-    return LengthNote16th_ms;
-}
-
-void SetUpdate1msBuzzerFlg(void) {
-    Update1msBuzzerFlg = ON;
+void SetUpdate10msBuzzerFlg(void) {
+    Update10msBuzzerFlg = ON;
 }
