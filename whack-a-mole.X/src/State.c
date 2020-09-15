@@ -119,21 +119,26 @@ void HSClearProcess(void) {
 }
 
 void StartCountDownProcess(void) {
+    uint8_t l_Time = 0;
+
     switch (SystemState.action) {
         case ENTRY:
             //残り時間設�?
             WriteToBuffer(str_StartCOuntDownState, 8);
 
-            Time = 3;
+            Time   = 3;
+            l_Time = Time;
             //PlaySE(countdown3sec);
             SystemState.action = (uint8_t)DO;
+            WriteToBufferCountDown(Time);
             break;
         case DO:
             if (Time) {
                 //残り時間が変わった時SEを鳴らす
-                if (Time < lastTimeForPlaySE) {
+                if (Time < l_Time) {
                     //PlaySE(1&2secSE)
                     WriteToBufferCountDown(Time);
+                    l_Time = Time;
                 }
             }
             //残り時間0でゲー�?中画面に遷移
