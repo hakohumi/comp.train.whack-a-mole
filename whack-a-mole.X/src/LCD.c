@@ -46,15 +46,29 @@
 
 static uint8_t LCDBuffer[LCD_BUFF_SIZE_MAX];
 
+// LCD更新フラグ
+// バッファに書き込んだ時のみONになる
+static bool updateLCDFlg = OFF;
 /* -------------------------------------------------- */
 
 /* -------------------------------------------------- */
 // グローバル変数
 /* -------------------------------------------------- */
 
-bool UpdateLCDFlg = OFF;
-// LCDのリセット処理を、このリセット処理が終わってから行うようにするためのフラグ
-bool LCDResetFlg = OFF;
+/* -------------------------------------------------- */
+
+/* -------------------------------------------------- */
+// プライベート関数
+/* -------------------------------------------------- */
+
+// 1行書き込む
+static void write1LineToLCD(uint8_t *i_str, uint8_t i_len);
+
+// LCD更新フラグをONにする
+#define setUpdateLCDFlg()  \
+    do {                   \
+        updateLCDFlg = ON; \
+    } while (0)
 
 /* -------------------------------------------------- */
 
@@ -129,6 +143,8 @@ inline void SetPosLineLCD(bool i_row) {
 void WriteToBuffer(uint8_t *i_str, uint8_t i_strLen) {
     uint8_t i;
 
+    setUpdateLCDFlg();
+
     // もし、指定された文字数が16を超えていたら、
     if (i_strLen > 16) {
         // エラー
@@ -147,6 +163,8 @@ void WriteToBuffer(uint8_t *i_str, uint8_t i_strLen) {
 void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen) {
     uint8_t i;
 
+    setUpdateLCDFlg();
+
     // もし、指定された文字数が8を超えていたら、
     if (i_strLen > 8) {
         // エラー
@@ -161,8 +179,11 @@ void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen) {
         }
     }
 }
+
 void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen) {
     uint8_t i;
+
+    setUpdateLCDFlg();
 
     // もし、指定された文字数が8を超えていたら、
     if (i_strLen > 8) {
@@ -179,13 +200,52 @@ void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen) {
     }
 }
 
-// BufferToWrite
+// BufferToLCD
 
 void BufferToLCD(void) {
-    SetPosLineLCD(0);
-    Write1LineToLCD(LCDBuffer, 8);
-    SetPosLineLCD(1);
-    Write1LineToLCD(&LCDBuffer[8], 8);
+    // バッファに変更があった時のみ更新する
+    if (updateLCDFlg == ON) {
+        updateLCDFlg = OFF;
+        SetPosLineLCD(0);
+        write1LineToLCD(LCDBuffer, 8);
+        SetPosLineLCD(1);
+        write1LineToLCD(&LCDBuffer[8], 8);
+    }
+}
+
+// errorをBufferに保存
+
+void ErrorToBuffer(uint8_t num) {
+    uint8_t i, l_len;
+
+    for (i = 0, l_len = STR_ERROR_LEN + 1; i < l_len; i++) {
+        LCDBuffer[i] = STR_ERROR[i];
+    }
+
+    // エラー番号を2行の最初に表記
+    ItoStr(num, &LCDBuffer[8], 2);
+}
+
+// ClearDisplay
+
+void ClrLineDisplay(uint8_t i_line) {
+    SetPosLCD(i_line);
+    Write1LineToLCD(STR_LINE_BLANK, 8);
+}
+
+void ClrDisplay(void) {
+    I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_CLR_DISPLAY);
+}
+
+// Display ON
+
+void DisplayON(void) {
+    I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_DISPLAY_ON);
+}
+// Display OFF
+
+void DisplayOFF(void) {
+    I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_DISPLAY_OFF);
 }
 
 // Write1LineToLCD()
@@ -195,7 +255,7 @@ void BufferToLCD(void) {
 // 　uint8_t型の配列
 // 　終端文字はなし
 
-void Write1LineToLCD(uint8_t *i_str, uint8_t i_len) {
+static void write1LineToLCD(uint8_t *i_str, uint8_t i_len) {
     // 先頭のコントロールバイト分と文字数の最大値8、終端文字1文字の
     // 合計10バイトを確保する
     // BUFF_LINE_SIZE_MAX = 9
@@ -225,44 +285,4 @@ void Write1LineToLCD(uint8_t *i_str, uint8_t i_len) {
     // 書き込み
     // +1 は先頭のコントロールバイト分
     I2C1_WriteNBytes(LCD_ADDR, l_buf, i_len + 1);
-}
-
-// errorをBufferに保存
-void ErrorToBuffer(uint8_t num) {
-    uint8_t i, l_len;
-
-    for (i = 0, l_len = STR_ERROR_LEN + 1; i < l_len; i++) {
-        LCDBuffer[i] = STR_ERROR[i];
-    }
-
-    // エラー番号を2行の最初に表記
-    ItoStr(num, &LCDBuffer[8], 2);
-}
-
-// ClearDisplay
-
-void ClrLineDisplay(uint8_t i_line) {
-    SetPosLCD(i_line);
-    Write1LineToLCD(STR_LINE_BLANK, 8);
-}
-
-void ClrDisplay(void) {
-    I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_CLR_DISPLAY);
-}
-
-inline void SetLCDResetFlg(void) {
-    LCDResetFlg = ON;
-}
-
-// inline void ClrLCDResetFlg(void) { LCDResetFLg = OFF; }
-
-// Display ON
-
-void DisplayON(void) {
-    I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_DISPLAY_ON);
-}
-// Display OFF
-
-void DisplayOFF(void) {
-    I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_DISPLAY_OFF);
 }
