@@ -1,7 +1,7 @@
 /*
-Buzzer
+BGM
 
-BGMとSEを管理する
+BGMを管理する
 管理する項目
 - それぞれの再生位置
 - それぞれの再生開始・停止フラグ
@@ -38,7 +38,7 @@ static uint16_t BGMPlayNotePos = 0;
 static uint16_t BGMEndPos = 0;
 
 // 音符中の再生位置
-static uint8_t currentNoteLength = 0;
+static uint16_t currentNoteLength = 0;
 
 // BGM再生中フラグ
 static bool IsPlayBGM = OFF;
@@ -51,7 +51,6 @@ static bool BGMStopFlg = OFF;
 /* -------------------------------------------------- */
 // プライベート関数
 /* -------------------------------------------------- */
-
 /* -------------------------------------------------- */
 
 // BGMの初期化
@@ -69,11 +68,11 @@ void PlayBGM(void) {
 
 // BGM頭出し処理
 
-static void BGM_returnBeginPlayPos(void) {
+void BGM_returnBeginPlayPos(void) {
     uint8_t l_pich = 0;
 
     // 選択された音符の長さをcurrentNoteLengthにセットする
-    currentNoteLength = *(GetBGMCurrentNote(0));
+    currentNoteLength = Change1msLength(*(GetBGMCurrentNote(0)), GetBGMTempo());
 
     // 音符の高さに合わせて、タイマの周期を変える
     l_pich = GetBGMCurrentNotePich(0);
@@ -88,6 +87,7 @@ void updateBGMState(void) {
     if (BGMStartFlg == ON) {
         // BGMStartFlgを下げる
         BGMStartFlg = OFF;
+
         // IsPlayBGMをtrueに変更する
         IsPlayBGM = true;
 
@@ -130,15 +130,16 @@ void updateBGMManager(void) {
                 BGMPlayNotePos = 0;
             }
 
-            if (SE_GetIsPlay() == OFF) {
-                // 選択された音符の長さをcurrentNoteLengthにセットする
-                currentNoteLength = *(GetBGMCurrentNote(BGMPlayNotePos));
-                // 音符の高さに合わせて、タイマの周期を変える
-                // 音の高さを取得する
-                l_pich = GetBGMCurrentNotePich(BGMPlayNotePos);
-                // 音の高さに合わせて、タイマの周期とデューティー比を変更
-                ChangePich(l_pich);
-            }
+            //BGMが再生中に効果音が再生していたら、
+            // if (SE_GetIsPlay() == OFF) {
+            // 選択された音符の長さをcurrentNoteLengthにセットする
+            currentNoteLength = Change1msLength(*(GetBGMCurrentNote(BGMPlayNotePos)), GetBGMTempo());
+            // 音符の高さに合わせて、タイマの周期を変える
+            // 音の高さを取得する
+            l_pich = GetBGMCurrentNotePich(BGMPlayNotePos);
+            // 音の高さに合わせて、タイマの周期とデューティー比を変更
+            ChangePich(l_pich);
+            // }
 
         } else {
             // currentNoteLengthを1下げる

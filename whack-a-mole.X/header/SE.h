@@ -16,7 +16,7 @@ void SE_Initialize(void);
 void PlaySE(void);
 
 // SEの現在の再生位置
-uint16_t SE_GetPlayPos(void);
+// uint16_t SE_GetPlayPos(void);
 
 bool SE_GetIsPlay(void);
 

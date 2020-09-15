@@ -1,7 +1,7 @@
 /*
-Buzzer
+SE
 
-BGMとSEを管理する
+SEを管理する
 管理する項目
 - それぞれの再生位置
 - それぞれの再生開始・停止フラグ
@@ -25,28 +25,20 @@ BGMとSEを管理する
 /* -------------------------------------------------- */
 // プライベート変数
 /* -------------------------------------------------- */
-
-// 音符中の再生位置
-static uint8_t currentNoteLength = 0;
-
-/* -------------------------------------------------- */
-
 /* -------------------------------------------------- */
 // SE
 /* -------------------------------------------------- */
-
-/* -------------------------------------------------- */
-
-static bool SEStartFlg = OFF;
-static bool SEStopFlg  = OFF;
 
 // SEの再生位置
 static uint16_t SE_PlayNotePos = 0;
 // SEの終端位置
 static uint16_t SE_EndPos = 0;
-
+// 音符中の再生位置
+static uint16_t currentNoteLength = 0;
 // SE再生中フラグ
-static bool IsPlaySE = OFF;
+static bool IsPlaySE   = OFF;
+static bool SEStartFlg = OFF;
+static bool SEStopFlg  = OFF;
 
 /* -------------------------------------------------- */
 // プライベート関数
@@ -75,7 +67,7 @@ void SE_returnBeginPlayPos(void) {
     uint8_t l_pich = 0;
 
     // 選択された音符の長さをcurrentNoteLengthにセットする
-    currentNoteLength = *(SE_GetCurrentNote(0));
+    currentNoteLength = Change1msLength(*(SE_GetCurrentNote(0)), SE_GetTempo());
 
     // 音符の高さに合わせて、タイマの周期を変える
     l_pich = SE_GetCurrentNotePich(0);
@@ -142,7 +134,7 @@ void SE_updateManager(void) {
                 SEStopFlg = ON;
             } else {
                 // 選択された音符の長さをcurrentNoteLengthにセットする
-                currentNoteLength = *(SE_GetCurrentNote(SE_PlayNotePos));
+                currentNoteLength = Change1msLength(*(SE_GetCurrentNote(SE_PlayNotePos)), SE_GetTempo());
                 // 音符の高さに合わせて、タイマの周期を変える
                 // 音の高さを取得する
                 l_pich = SE_GetCurrentNotePich(SE_PlayNotePos);

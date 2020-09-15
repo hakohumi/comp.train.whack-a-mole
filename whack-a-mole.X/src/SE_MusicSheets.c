@@ -19,7 +19,7 @@ static const uint8_t SENotes_DO[1][SE_NOTE_ARRAY_NUM] = {
 
 };
 
-// BGMの楽譜のインスタンス
+// SEの楽譜のインスタンス
 static const SE_MusicSheets_t SE_DO = {
     // テンポ
     106,

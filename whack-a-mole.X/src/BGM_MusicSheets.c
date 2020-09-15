@@ -141,7 +141,6 @@ uint8_t GetBGMCurrentNotePich(uint16_t pos) {
 }
 
 // BGMの最大音符数を取得
-
 uint16_t GetBGMMaxNotes(void) {
     return BGM_MusicSheet->MAX_NOTE;
 }

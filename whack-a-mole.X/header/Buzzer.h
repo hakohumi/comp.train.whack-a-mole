@@ -26,7 +26,10 @@ uint16_t GetLengthNote16th_ms(void);
 
 void PlayBuzzer(void);
 void ChangePich(uint8_t i_Pich);
+uint16_t Change1msLength(uint8_t i_NoteLength, uint16_t i_Tempo);
 
 extern uint8_t PichTable[SCALE_NUM];
+
+void SetUpdate1msBuzzerFlg(void);
 
 #endif /* BUZZER_H */

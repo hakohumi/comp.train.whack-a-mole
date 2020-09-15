@@ -169,23 +169,24 @@ void TMR1_SetInterruptHandler(void (*InterruptHandler)(void)) {
 }
 
 void TMR1_DefaultInterruptHandler(void) {
-    static uint16_t l_LengthNote16th_ms = 0;
-    /* -------------------------------------------------- */
-    // ブザー タイマ処理
-    /* -------------------------------------------------- */
+    // static uint16_t l_LengthNote16th_ms = 0;
+    // /* -------------------------------------------------- */
+    // // ブザー タイマ処理
+    // /* -------------------------------------------------- */
 
-    //BGMか効果音が再生中か
-    if (GetIsPlayBGM() || SE_GetIsPlay()) {
-        //16分音符分の長さが経過したか？
-        if (l_LengthNote16th_ms == 0) {
-            l_LengthNote16th_ms = GetLengthNote16th_ms();
-            // LengthNote16thフラグを立てる
-            Buzzer_SetLengthNote16thFlg();
-        } else {
-            l_LengthNote16th_ms--;
-        }
-    }
-    //
+    // //BGMか効果音が再生中か
+    // if (GetIsPlayBGM() || SE_GetIsPlay()) {
+    //     //16分音符分の長さが経過したか？
+    //     if (l_LengthNote16th_ms == 0) {
+    //         l_LengthNote16th_ms = GetLengthNote16th_ms();
+    //         // LengthNote16thフラグを立てる
+    //         Buzzer_SetLengthNote16thFlg();
+    //     } else {
+    //         l_LengthNote16th_ms--;
+    //     }
+    // }
+
+    SetUpdate1msBuzzerFlg();
 }
 
 /**

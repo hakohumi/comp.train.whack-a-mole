@@ -55,7 +55,8 @@ uint8_t PichTable[SCALE_NUM] = {
 
 static uint16_t LengthNote16th_ms = 0;
 
-static bool LengthNote16thFlg = OFF;
+static bool LengthNote16thFlg  = OFF;
+static bool Update1msBuzzerFlg = OFF;
 
 static bool IsPlayingBuzzer = OFF;
 
@@ -85,19 +86,29 @@ void UpdateBuzzer(void) {
     SE_updateState();
 
     // どっちも再生中でなければ、PWMをストップさせる
-    if (!(GetIsPlayBGM() || SE_GetIsPlay()) == ON) {
+    if ((GetIsPlayBGM() || SE_GetIsPlay()) == OFF) {
         IsPlayingBuzzer = OFF;
         TMR2_StopTimer();
     }
 
-    // LengthNote16thフラグ
-    if (LengthNote16thFlg == ON) {
+    // // LengthNote16thフラグ
+    // if (LengthNote16thFlg == ON) {
+    //     // BGMManagerを更新
+    //     updateBGMManager();
+    //     // SEManagerを更新
+    //     SE_updateManager();
+    //     // LengthNote16thFlgを下げる
+    //     LengthNote16thFlg = OFF;
+    // }
+
+    // 1msフラグ
+    if (Update1msBuzzerFlg == ON) {
         // BGMManagerを更新
         updateBGMManager();
         // SEManagerを更新
         SE_updateManager();
         // LengthNote16thFlgを下げる
-        LengthNote16thFlg = OFF;
+        Update1msBuzzerFlg = OFF;
     }
 }
 
@@ -130,6 +141,20 @@ void ChangePich(uint8_t i_Pich) {
     }
 }
 
-uint16_t GetLengthNote16th_ms() {
+// 音符の長さを1msに変換
+// 入力は16分音符の個数とテンポ
+// 出力はmsか
+
+uint16_t Change1msLength(uint8_t i_NoteLength, uint16_t i_Tempo) {
+    // 16分音符の長さを計算する
+    // LengthNote16th_ms = 15 * 1000 / テンポ = 16分音符の長さ(ms)
+    return ((15000 / i_Tempo) * i_NoteLength);
+}
+
+uint16_t GetLengthNote16th_ms(void) {
     return LengthNote16th_ms;
+}
+
+void SetUpdate1msBuzzerFlg(void) {
+    Update1msBuzzerFlg = ON;
 }
