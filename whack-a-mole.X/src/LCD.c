@@ -171,7 +171,7 @@ void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen) {
         ErrorToBuffer(ERR_W_T_B_F_OVERSTRLEN);
     } else {
         // LCDBufferの上の行に空白を入れる
-        strncat(LCDBuffer, STR_LINE_BLANK, LCD_LINE_LEN);
+        strncpy(LCDBuffer, STR_LINE_BLANK, LCD_LINE_LEN);
 
         // LCDBufferの先頭から、引数に指定された文字列をコピーする
         for (i = 0; i < i_strLen; i++) {
@@ -191,7 +191,7 @@ void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen) {
         ErrorToBuffer(ERR_W_T_B_S_OVERSTRLEN);
     } else {
         // LCDBufferの下の行に空白を入れる
-        strncat(&LCDBuffer[8], STR_LINE_BLANK, LCD_LINE_LEN);
+        strncpy(&LCDBuffer[8], STR_LINE_BLANK, LCD_LINE_LEN);
 
         // LCDBufferの先頭から、引数に指定された文字列をコピーする
         for (i = 0; i < i_strLen; i++) {
