@@ -114,6 +114,16 @@ void ChangePich(uint8_t i_Pich) {
     }
 }
 
+void MS_ChangePich(SheetMusic_t i_SheetMusic, uint16_t i_pos) {
+    uint8_t l_pich = 0;
+
+    // 音符の高さに合わせて、タイマの周期を変える
+    // 音の高さを取得する
+    l_pich = SM_GetCurrentNotePich(i_SheetMusic, i_pos);
+    // 音の高さに合わせて、タイマの周期とデューティー比を変更
+    ChangePich(l_pich);
+}
+
 // 音符の長さを10msに変換
 // 入力は16分音符の個数とテンポ
 // 出力はmsか
@@ -123,6 +133,4 @@ uint16_t Change10msLength(uint8_t i_NoteLength, uint16_t i_Tempo) {
     return ((1500 / i_Tempo) * i_NoteLength);
 }
 
-void SetUpdate10msBuzzerFlg(void) {
-    Update10msBuzzerFlg = ON;
-}
+void SetUpdate10msBuzzerFlg(void) { Update10msBuzzerFlg = ON; }

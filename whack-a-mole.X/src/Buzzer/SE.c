@@ -14,7 +14,7 @@ SEを管理する
 #include "SE.h"
 
 #include "Buzzer.h"
-#include "SE_MusicSheets.h"
+#include "SheetMusic.h"
 #include "tmr2.h"
 
 // ChangeBGMPichを使用するため
@@ -32,6 +32,10 @@ SEを管理する
 /* -------------------------------------------------- */
 // プライベート変数
 /* -------------------------------------------------- */
+
+// SE楽譜が入るポインタ変数
+static SheetMusic_t *SE_SheetMusic;
+
 /* -------------------------------------------------- */
 // SE
 /* -------------------------------------------------- */
@@ -43,9 +47,9 @@ static uint16_t SE_EndPos = 0;
 // 音符中の再生位置
 static uint16_t currentNoteLength = 0;
 // SE再生中フラグ
-static bool IsPlaySE   = OFF;
+static bool IsPlaySE = OFF;
 static bool SEStartFlg = OFF;
-static bool SEStopFlg  = OFF;
+static bool SEStopFlg = OFF;
 
 /* -------------------------------------------------- */
 // プライベート関数
@@ -55,15 +59,14 @@ static bool SEStopFlg  = OFF;
 // ブザーの初期化
 
 void SE_Initialize(void) {
+    // SEの楽譜に、ドレミを指定
+    SheetMusic_Initialize(&SE_SheetMusic, SM_SE_DOREMI);
     // 楽譜の最後の位置を記録
-    SE_EndPos = SE_GetMaxNotes();
+    SE_EndPos = SM_GetMaxNotes(SE_SheetMusic);
 }
 
 // BGM再生開始フラグのON
-
-void PlaySE(void) {
-    SEStartFlg = ON;
-}
+void PlaySE(void) { SEStartFlg = ON; }
 
 /* -------------------------------------------------- */
 // SE頭出し処理
@@ -71,15 +74,17 @@ void PlaySE(void) {
 /* -------------------------------------------------- */
 
 void SE_returnBeginPlayPos(void) {
+    uint8_t l_NoteTempo = SM_GetTempo(SE_SheetMusic);
+    uint8_t l_NoteLength = *(SM_GetCurrentNote(SE_SheetMusic, 0));
+
     // 選択された音符の長さをcurrentNoteLengthにセットする
-    currentNoteLength = Change10msLength(*(SE_GetCurrentNote(0)), SE_GetTempo());
+    currentNoteLength = Change10msLength(l_NoteLength, l_NoteTempo);
 
     // 音符の高さに合わせて、タイマの周期を変える
-    SE_ChangePich(0);
+    SM_ChangePich(SE_SheetMusic, 0);
 }
 
 // SEStateの切り替え
-
 void SE_updateState(void) {
     // SE再生フラグが立ったか？
     // SEStartFlg
@@ -109,7 +114,7 @@ void SE_updateState(void) {
         // SEStopFlgを下げる
         SEStopFlg = OFF;
 
-        //IsPlaySEをfalseに変更する
+        // IsPlaySEをfalseに変更する
         IsPlaySE = false;
 
         // ブザーの音程をBGMの現在の再生位置の音程へ設定する
@@ -124,7 +129,8 @@ void SE_updateState(void) {
 uint8_t l_str[8];
 
 void SE_updateManager(void) {
-    uint8_t l_pich = 0;
+    uint8_t l_NoteTempo = 0;
+    uint8_t l_NoteLength = 0;
 
     // 現在SEが再生されているか
     if (IsPlaySE == ON) {
@@ -141,11 +147,14 @@ void SE_updateManager(void) {
                 // SEの再生状態をOFFにする
                 SEStopFlg = ON;
             } else {
+                l_NoteLength =
+                    *(SM_GetCurrentNote(SE_SheetMusic, SE_PlayNotePos));
+                l_NoteTempo = SM_GetTempo(SE_SheetMusic);
                 // 選択された音符の長さをcurrentNoteLengthにセットする
-                currentNoteLength = Change10msLength(*(SE_GetCurrentNote(SE_PlayNotePos)), SE_GetTempo());
+                currentNoteLength = Change10msLength(l_NoteLength, l_NoteTempo);
 
                 // ブザーの周波数を、現在の再生位置の音程へ変更する
-                SE_ChangePich(SE_PlayNotePos);
+                SM_ChangePich(SE_SheetMusic, SE_PlayNotePos);
             }
         } else {
             // currentNoteLengthを1下げる
@@ -153,21 +162,11 @@ void SE_updateManager(void) {
         }
         // デバッグ用
         // currentNoteLengthをLEDで表示
-        UpdateLED(*(SE_GetCurrentNote(SE_PlayNotePos)));
+        UpdateLED(*(SM_GetCurrentNote(SE_SheetMusic, SE_PlayNotePos)));
 
         ItoStr(currentNoteLength, l_str, 8);
         WriteToBufferFirst(l_str, 8);
     }
-}
-
-void SE_ChangePich(uint16_t i_pos) {
-    uint8_t l_pich = 0;
-
-    // 音符の高さに合わせて、タイマの周期を変える
-    // 音の高さを取得する
-    l_pich = SE_GetCurrentNotePich(i_pos);
-    // 音の高さに合わせて、タイマの周期とデューティー比を変更
-    ChangePich(l_pich);
 }
 
 /* -------------------------------------------------- */
@@ -175,6 +174,4 @@ void SE_ChangePich(uint16_t i_pos) {
 
 /* -------------------------------------------------- */
 
-bool SE_GetIsPlay() {
-    return IsPlaySE;
-}
+bool SE_GetIsPlay() { return IsPlaySE; }

@@ -32,7 +32,14 @@ typedef struct {
 
 } SheetMusic_t;
 
-void SheetMusic_Initialize(void);
+typedef enum {
+    MS_BGM_DOREMI,
+    MS_BGM_TETRIS,
+    MS_SE_DOREMI,
+} SheetMusicList_t;
+
+void SheetMusic_Initialize(SheetMusic_t **i_SheetMusic,
+                           uint8_t i_SheetMusicNum);
 
 uint16_t SM_GetTempo(SheetMusic_t *i_SheetMusic);
 uint8_t *SM_GetCurrentNote(SheetMusic_t *i_SheetMusic, uint16_t pos);

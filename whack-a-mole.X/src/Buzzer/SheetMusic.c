@@ -22,7 +22,7 @@ static const uint8_t BGMNotes_Doremi[7][BGM_NOTE_ARRAY_NUM] = {
 };
 
 // BGMの楽譜のインスタンス
-static const SheetMusic_t BGM_Doremi = {
+static const SheetMusic_t SM_BGM_Doremi = {
     // テンポ
     106,
 
@@ -35,23 +35,6 @@ static const SheetMusic_t BGM_Doremi = {
 };
 
 /* -------------------------------------------------- */
-
-/* -------------------------------------------------- */
-// 音程デバッグ用楽譜
-/* -------------------------------------------------- */
-
-static const uint8_t DEBUG_PICH_DO[8][BGM_NOTE_ARRAY_NUM] = {
-
-    {4, RA_}, {4, SI}, {4, DO2}, {4, DO}, {4, SO},
-    {4, RA_}, {4, SI}, {4, DO2}
-
-};
-
-static const SheetMusic_t BGM_DO = {
-
-    30, DEBUG_PICH_DO, 8
-
-};
 
 /* -------------------------------------------------- */
 // リリース用コロブチカ楽譜
@@ -67,7 +50,7 @@ static const uint8_t BGMNotes_Tetris[][BGM_NOTE_ARRAY_NUM] = {
 };
 
 // 楽譜インスタンス
-static const SheetMusic_t BGM_Tetris = {
+static const SheetMusic_t SM_BGM_Tetris = {
 
     302, BGMNotes_Tetris, sizeof(BGMNotes_Tetris) / sizeof(uint8_t *)
 
@@ -87,7 +70,7 @@ static const uint8_t SENotes_DO[3][SE_NOTE_ARRAY_NUM] = {
 };
 
 // SEの楽譜のインスタンス
-static const SheetMusic_t SE_DO = {
+static const SheetMusic_t SM_SE_Doremi = {
     // テンポ
     230,
 
@@ -102,18 +85,26 @@ static const SheetMusic_t SE_DO = {
 
 /* -------------------------------------------------- */
 
-// BGM楽譜が入るポインタ変数
-static SheetMusic_t *BGM_MusicSheet;
-// SE楽譜が入るポインタ変数
-static SheetMusic_t *SE_MusicSheet;
 
 // 初期化
+// 入力 楽譜ポインタのアドレス
+//      指定する楽譜の番号
 
-void MusicSheet_Initialize(void) {
-    // BGM_Doremiをロード
-    BGM_MusicSheet = &BGM_Doremi;
-    // SE_Doremiをロード
-    SE_MusicSheet = &SE_DO;
+void SheetMusic_Initialize(SheetMusic_t **i_SheetMusic,
+                           uint8_t i_SheetMusicNum) {
+    switch (i_SheetMusicNum) {
+        case MS_DOREMI:
+            *i_SheetMusic = &MS_BGM_Doremi;
+            break;
+        case MS_TETRIS:
+            *i_SheetMusic = &MS_BGM_Tetris;
+            break;
+        case MS_SE_DOREMI:
+            *i_SheetMusic = &MS_SE_Doremi;
+        default:
+            *i_SheetMusic = NULL;
+            break;
+    }
 }
 
 // -------------------------------------------------------------------
