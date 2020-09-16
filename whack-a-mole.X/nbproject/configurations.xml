@@ -89,9 +89,9 @@
         <targetDevice>PIC16F1827</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>PICkit3PlatformTool</platformTool>
+        <platformTool>Simulator</platformTool>
         <languageToolchain>XC8</languageToolchain>
-        <languageToolchainVersion>2.20</languageToolchainVersion>
+        <languageToolchainVersion>1.45</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
@@ -249,10 +249,10 @@
         <property key="codecoverage.outputfile" value=""/>
         <property key="oscillator.auxfrequency" value="120"/>
         <property key="oscillator.auxfrequencyunit" value="Mega"/>
-        <property key="oscillator.frequency" value="1"/>
+        <property key="oscillator.frequency" value="4"/>
         <property key="oscillator.frequencyunit" value="Mega"/>
-        <property key="oscillator.rcfrequency" value="250"/>
-        <property key="oscillator.rcfrequencyunit" value="Kilo"/>
+        <property key="oscillator.rcfrequency" value="16"/>
+        <property key="oscillator.rcfrequencyunit" value="Mega"/>
         <property key="periphADC1.altscl" value="false"/>
         <property key="periphADC1.minTacq" value=""/>
         <property key="periphADC1.tacqunits" value="microseconds"/>

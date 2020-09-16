@@ -59,6 +59,7 @@
 #include "Buzzer.h"
 #endif
 
+//static uint8_t count5msec = 0;
 static uint8_t count1sec = 0;
 
 /**
@@ -80,14 +81,14 @@ void TMR1_Initialize(void) {
     //TMR1H 99; 
     TMR1H = 0x63;
 
-    //TMR1L 192; 
-    TMR1L = 0xC0;
+    //TMR1L 247; 
+    TMR1L = 0xF7;
 
     // Clearing IF flag before enabling the interrupt.
     PIR1bits.TMR1IF = 0;
 
     // Load the TMR value to reload variable
-    timer1ReloadVal = (uint16_t)((TMR1H << 8) | TMR1L);
+    timer1ReloadVal=(uint16_t)((TMR1H << 8) | TMR1L);
 
     // Enabling TMR1 interrupt.
     PIE1bits.TMR1IE = 1;
@@ -177,12 +178,16 @@ void TMR1_DefaultInterruptHandler(void) {
     if(++TimeForRand>=0xFFFF){
         TimeForRand = 0;
     }
-    if(++count1sec>=100){
+    if(++count1sec>=10){
         CountDown();
         count1sec = 0;
         RB2 = ~RB2;
     }
-    DetectPushSW();
+//    if(++count5msec>=5){
+        DetectPushSW();        
+//        count5msec = 0;
+//        count1sec++;
+ //   }
     
     //buzzer
     

@@ -82,6 +82,8 @@ void BackToHole(MoleType*);
  */
 bool PopDecision(uint16_t);
 
+uint8_t GetpopTime(uint8_t,uint8_t);
+
 #ifdef	__cplusplus
 }
 #endif

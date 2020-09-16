@@ -111,7 +111,7 @@ void main(void) {
         }
         //LCD更新
         if (UpdateLCDFlg) {
-            //            BufferToLCD();
+            BufferToLCD();
             UpdateLCDFlg = OFF;
         }
     }
