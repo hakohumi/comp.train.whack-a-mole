@@ -51,16 +51,32 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+# excel用
 ~$*
 
-**/nbproject/private/
+# maplab x ide用
 
-*.i
-*.p1
 
-build/
-dist/
-debug/
-/Sample.X/dist
+whack-a-mole.X/*
+!whack-a-mole.X/Makefile
+!whack-a-mole.X/nbproject
+whack-a-mole.X/nbproject/*
+!whack-a-mole.X/nbproject/configurations.xml
+!whack-a-mole.X/nbproject/project.xml
+!whack-a-mole.X/main.c
+!whack-a-mole.X/mcc_generated_files
+!whack-a-mole.X/src
+!whack-a-mole.X/header
 
-*.mk
+
+# **/nbproject/private/
+
+# *.i
+# *.p1
+
+# build/
+# dist/
+# debug/
+# /Sample.X/dist
+
+# *.mk
