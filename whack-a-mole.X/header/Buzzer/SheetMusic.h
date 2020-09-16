@@ -33,9 +33,9 @@ typedef struct {
 } SheetMusic_t;
 
 typedef enum {
-    MS_BGM_DOREMI,
-    MS_BGM_TETRIS,
-    MS_SE_DOREMI,
+    SM_BGM_DOREMI,
+    SM_BGM_TETRIS,
+    SM_SE_DOREMI,
 } SheetMusicList_t;
 
 void SheetMusic_Initialize(SheetMusic_t **i_SheetMusic,

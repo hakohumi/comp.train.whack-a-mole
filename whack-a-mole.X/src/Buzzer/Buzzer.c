@@ -17,7 +17,7 @@ BGMとSEを管理する
 #include "SE.h"
 #include "tmr2.h"
 // PWMのデューティ比を変更するため
-#include "BGM_MusicSheets.h"
+#include "SheetMusic.h"
 #include "pwm3.h"
 /* -------------------------------------------------- */
 // パブリック変数
@@ -90,6 +90,7 @@ void UpdateBuzzer(void) {
 }
 
 // PWMを開始する
+
 void PlayBuzzer(void) {
     if (IsPlayingBuzzer == OFF) {
         TMR2_StartTimer();
@@ -114,7 +115,7 @@ void ChangePich(uint8_t i_Pich) {
     }
 }
 
-void MS_ChangePich(SheetMusic_t i_SheetMusic, uint16_t i_pos) {
+void SM_ChangePich(SheetMusic_t *i_SheetMusic, uint16_t i_pos) {
     uint8_t l_pich = 0;
 
     // 音符の高さに合わせて、タイマの周期を変える
@@ -133,4 +134,6 @@ uint16_t Change10msLength(uint8_t i_NoteLength, uint16_t i_Tempo) {
     return ((1500 / i_Tempo) * i_NoteLength);
 }
 
-void SetUpdate10msBuzzerFlg(void) { Update10msBuzzerFlg = ON; }
+void SetUpdate10msBuzzerFlg(void) {
+    Update10msBuzzerFlg = ON;
+}

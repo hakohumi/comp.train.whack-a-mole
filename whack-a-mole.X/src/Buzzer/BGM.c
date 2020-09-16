@@ -29,14 +29,14 @@ BGMを管理する
 /* -------------------------------------------------- */
 
 // BGM楽譜が入るポインタ変数
-static SheetMusic_t *BGM_MusicSheet;
+static SheetMusic_t *BGM_SheetMusic;
 
 /* -------------------------------------------------- */
 // BGM
 /* -------------------------------------------------- */
 
 // BGMの再生位置
-static uint16_t BGMPlayNotePos = 0;
+static uint16_t BGM_PlayNotePos = 0;
 // BGMの終端位置
 static uint16_t BGMEndPos = 0;
 
@@ -67,19 +67,28 @@ void BGM_Initialize(void) {
 
 // BGM再生開始フラグのON
 
-void PlayBGM(void) { BGMStartFlg = ON; }
+void PlayBGM(void) {
+    BGMStartFlg = ON;
+}
 
 // BGM頭出し処理
 
 void BGM_returnBeginPlayPos(void) {
-    uint8_t l_NoteTempo = SM_GetTempo(BGM_SheetMusic);
+    uint8_t l_NoteTempo  = SM_GetTempo(BGM_SheetMusic);
     uint8_t l_NoteLength = *(SM_GetCurrentNote(BGM_SheetMusic, 0));
 
     // 選択された音符の長さをcurrentNoteLengthにセットする
-    currentNoteLength = Change10msLength(l_NoteLength, l_NoteTempo);
+    BGM_currentNoteLength = Change10msLength(l_NoteLength, l_NoteTempo);
 
     // 音符の高さに合わせて、タイマの周期を変える
     SM_ChangePich(BGM_SheetMusic, 0);
+}
+
+// 現在のブザーの音程をBGMの現在の再生位置の音程へ変更
+// 効果音側で呼び出す用
+void BGM_ChangeCurrentPich(void) {
+    // 音符の高さに合わせて、タイマの周期を変える
+    SM_ChangePich(BGM_SheetMusic, BGM_PlayNotePos);
 }
 
 // BGMStateの切り替え
@@ -118,7 +127,7 @@ void updateBGMState(void) {
 // BGMの更新
 
 void updateBGMManager(void) {
-    uint8_t l_NoteTempo = 0;
+    uint8_t l_NoteTempo  = 0;
     uint8_t l_NoteLength = 0;
 
     // 現在BGMが再生されているか
@@ -126,12 +135,12 @@ void updateBGMManager(void) {
         // 現在選択されている音符の長さ分の時間は経過したか？
         if (BGM_currentNoteLength == 0) {
             // currentBGMNotePosを1増やす
-            BGMPlayNotePos++;
+            BGM_PlayNotePos++;
 
             // BGMの再生位置は終端か？
-            if (BGMPlayNotePos >= BGMEndPos) {
+            if (BGM_PlayNotePos >= BGMEndPos) {
                 // BGMの再生位置を最初へ戻す
-                BGMPlayNotePos = 0;
+                BGM_PlayNotePos = 0;
             }
 
             // BGMが再生中に効果音が再生していたら、
@@ -140,7 +149,7 @@ void updateBGMManager(void) {
                 *(SM_GetCurrentNote(BGM_SheetMusic, BGM_PlayNotePos));
             l_NoteTempo = SM_GetTempo(BGM_SheetMusic);
             // 選択された音符の長さをcurrentNoteLengthにセットする
-            currentNoteLength = Change10msLength(l_NoteLength, l_NoteTempo);
+            BGM_currentNoteLength = Change10msLength(l_NoteLength, l_NoteTempo);
 
             // ブザーの周波数を、現在の再生位置の音程へ変更する
             SM_ChangePich(BGM_SheetMusic, BGM_PlayNotePos);
@@ -152,8 +161,8 @@ void updateBGMManager(void) {
         }
 
         // デバッグ用
-        // currentNoteLengthをLEDで表示
-        // UpdateLED(currentNoteLength);
+        // BGM_currentNoteLengthをLEDで表示
+        // UpdateLED(BGM_currentNoteLength);
     }
 }
 
@@ -161,4 +170,6 @@ void updateBGMManager(void) {
 // ゲッター
 
 /* -------------------------------------------------- */
-bool GetIsPlayBGM() { return IsPlayBGM; }
+bool GetIsPlayBGM() {
+    return IsPlayBGM;
+}

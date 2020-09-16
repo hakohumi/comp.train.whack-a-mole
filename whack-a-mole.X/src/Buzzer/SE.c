@@ -47,9 +47,9 @@ static uint16_t SE_EndPos = 0;
 // 音符中の再生位置
 static uint16_t currentNoteLength = 0;
 // SE再生中フラグ
-static bool IsPlaySE = OFF;
+static bool IsPlaySE   = OFF;
 static bool SEStartFlg = OFF;
-static bool SEStopFlg = OFF;
+static bool SEStopFlg  = OFF;
 
 /* -------------------------------------------------- */
 // プライベート関数
@@ -66,7 +66,9 @@ void SE_Initialize(void) {
 }
 
 // BGM再生開始フラグのON
-void PlaySE(void) { SEStartFlg = ON; }
+void PlaySE(void) {
+    SEStartFlg = ON;
+}
 
 /* -------------------------------------------------- */
 // SE頭出し処理
@@ -74,7 +76,7 @@ void PlaySE(void) { SEStartFlg = ON; }
 /* -------------------------------------------------- */
 
 void SE_returnBeginPlayPos(void) {
-    uint8_t l_NoteTempo = SM_GetTempo(SE_SheetMusic);
+    uint8_t l_NoteTempo  = SM_GetTempo(SE_SheetMusic);
     uint8_t l_NoteLength = *(SM_GetCurrentNote(SE_SheetMusic, 0));
 
     // 選択された音符の長さをcurrentNoteLengthにセットする
@@ -118,7 +120,7 @@ void SE_updateState(void) {
         IsPlaySE = false;
 
         // ブザーの音程をBGMの現在の再生位置の音程へ設定する
-        ChangeBGMPich();
+        BGM_ChangeCurrentPich();
 
         // // PWMを停止させる
         // TMR2_StopTimer();
@@ -129,7 +131,7 @@ void SE_updateState(void) {
 uint8_t l_str[8];
 
 void SE_updateManager(void) {
-    uint8_t l_NoteTempo = 0;
+    uint8_t l_NoteTempo  = 0;
     uint8_t l_NoteLength = 0;
 
     // 現在SEが再生されているか
@@ -174,4 +176,6 @@ void SE_updateManager(void) {
 
 /* -------------------------------------------------- */
 
-bool SE_GetIsPlay() { return IsPlaySE; }
+bool SE_GetIsPlay() {
+    return IsPlaySE;
+}

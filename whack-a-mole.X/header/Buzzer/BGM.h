@@ -14,7 +14,7 @@
 
 void BGM_Initialize(void);
 void PlayBGM(void);
-
+void BGM_ChangeCurrentPich(void);
 bool GetIsPlayBGM(void);
 
 void updateBGMState(void);

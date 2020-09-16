@@ -7,10 +7,9 @@
       <logicalFolder name="header" displayName="header" projectFiles="true">
         <logicalFolder name="Buzzer" displayName="Buzzer" projectFiles="true">
           <itemPath>header/Buzzer/BGM.h</itemPath>
-          <itemPath>header/Buzzer/BGM_MusicSheets.h</itemPath>
           <itemPath>header/Buzzer/Buzzer.h</itemPath>
           <itemPath>header/Buzzer/SE.h</itemPath>
-          <itemPath>header/Buzzer/SE_MusicSheets.h</itemPath>
+          <itemPath>header/Buzzer/SheetMusic.h</itemPath>
         </logicalFolder>
         <itemPath>header/Common.h</itemPath>
         <itemPath>header/LCD.h</itemPath>
@@ -62,10 +61,9 @@
       <logicalFolder name="src" displayName="src" projectFiles="true">
         <logicalFolder name="Buzzer" displayName="Buzzer" projectFiles="true">
           <itemPath>src/Buzzer/BGM.c</itemPath>
-          <itemPath>src/Buzzer/BGM_MusicSheets.c</itemPath>
           <itemPath>src/Buzzer/Buzzer.c</itemPath>
           <itemPath>src/Buzzer/SE.c</itemPath>
-          <itemPath>src/Buzzer/SE_MusicSheets.c</itemPath>
+          <itemPath>src/Buzzer/SheetMusic.c</itemPath>
         </logicalFolder>
         <itemPath>src/Common.c</itemPath>
         <itemPath>src/LCD.c</itemPath>

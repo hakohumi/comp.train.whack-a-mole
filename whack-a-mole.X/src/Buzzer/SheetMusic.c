@@ -1,5 +1,7 @@
 
 
+#include <__null.h>
+
 #include "SheetMusic.h"
 
 // SheetMusic
@@ -14,10 +16,15 @@
 // ドレミの歌のデータ部
 /* -------------------------------------------------- */
 
-static const uint8_t BGMNotes_Doremi[7][BGM_NOTE_ARRAY_NUM] = {
+static const uint8_t BGMNotes_Doremi[7][NOTE_ARRAY_NUM] = {
 
-    {4, DO}, {4, RE},  {4, MI}, {4, FA},
-    {4, SO}, {4, RA_}, {4, SI}
+    {4, DO},
+    {4, RE},
+    {4, MI},
+    {4, FA},
+    {4, SO},
+    {4, RA_},
+    {4, SI}
 
 };
 
@@ -40,19 +47,36 @@ static const SheetMusic_t SM_BGM_Doremi = {
 // リリース用コロブチカ楽譜
 /* -------------------------------------------------- */
 
-static const uint8_t BGMNotes_Tetris[][BGM_NOTE_ARRAY_NUM] = {
-    {8, MI2},  // 1
-    {4, SI},  {4, DO2},  {4, RE2}, {4, DO2}, {4, SI},  {8, RA_},
-    {4, RA_}, {4, DO2},  {8, MI2}, {4, RE2}, {4, DO2}, {2, SI},
-    {4, SI},  {4, DO2},  {8, RE2}, {8, MI2}, {8, DO2}, {8, RA_},
-    {8, RA_}, {4, REST}, {4, REST}
+static const uint8_t BGMNotes_Tetris[][NOTE_ARRAY_NUM] = {
+    {8, MI2}, // 1
+    {4, SI},
+    {4, DO2},
+    {4, RE2},
+    {4, DO2},
+    {4, SI},
+    {8, RA_},
+    {4, RA_},
+    {4, DO2},
+    {8, MI2},
+    {4, RE2},
+    {4, DO2},
+    {2, SI},
+    {4, SI},
+    {4, DO2},
+    {8, RE2},
+    {8, MI2},
+    {8, DO2},
+    {8, RA_},
+    {8, RA_},
+    {4, REST},
+    {4, REST}
 
 };
 
 // 楽譜インスタンス
 static const SheetMusic_t SM_BGM_Tetris = {
 
-    302, BGMNotes_Tetris, sizeof(BGMNotes_Tetris) / sizeof(uint8_t *)
+    302, BGMNotes_Tetris, sizeof (BGMNotes_Tetris) / sizeof (uint8_t *)
 
 };
 
@@ -61,7 +85,7 @@ static const SheetMusic_t SM_BGM_Tetris = {
 // テスト用効果音楽譜
 /* -------------------------------------------------- */
 
-static const uint8_t SENotes_DO[3][SE_NOTE_ARRAY_NUM] = {
+static const uint8_t SENotes_DO[3][NOTE_ARRAY_NUM] = {
 
     {1, DO2},
     {1, RE2},
@@ -91,16 +115,16 @@ static const SheetMusic_t SM_SE_Doremi = {
 //      指定する楽譜の番号
 
 void SheetMusic_Initialize(SheetMusic_t **i_SheetMusic,
-                           uint8_t i_SheetMusicNum) {
+        uint8_t i_SheetMusicNum) {
     switch (i_SheetMusicNum) {
-        case MS_DOREMI:
-            *i_SheetMusic = &MS_BGM_Doremi;
+        case SM_BGM_DOREMI:
+            *i_SheetMusic = &SM_BGM_Doremi;
             break;
-        case MS_TETRIS:
-            *i_SheetMusic = &MS_BGM_Tetris;
+        case SM_BGM_TETRIS:
+            *i_SheetMusic = &SM_BGM_Tetris;
             break;
-        case MS_SE_DOREMI:
-            *i_SheetMusic = &MS_SE_Doremi;
+        case SM_SE_DOREMI:
+            *i_SheetMusic = &SM_SE_Doremi;
         default:
             *i_SheetMusic = NULL;
             break;
@@ -112,22 +136,27 @@ void SheetMusic_Initialize(SheetMusic_t **i_SheetMusic,
 // -------------------------------------------------------------------
 
 // テンポを取得
-uint16_t SM_GetTempo(SheetMusic_t *i_SheetMusic) { return i_SheetMusic->Tempo; }
+
+uint16_t SM_GetTempo(SheetMusic_t *i_SheetMusic) {
+    return i_SheetMusic->Tempo;
+}
 
 // 指定された位置の音符を取得
+
 uint8_t *SM_GetCurrentNote(SheetMusic_t *i_SheetMusic, uint16_t pos) {
     return i_SheetMusic->Notes + (pos * 2);
 }
 
 uint8_t SM_GetCurrentNotePich(SheetMusic_t *i_SheetMusic, uint16_t pos) {
-    return *(i_MusicSheet->Notes + (pos * 2) + 1);
+    return *(i_SheetMusic->Notes + (pos * 2) + 1);
 }
 
 uint8_t SM_GetCurrentNoteLength(SheetMusic_t *i_SheetMusic, uint16_t pos) {
-    return *(i_MusicSheet->Notes + (pos * 2));
+    return *(i_SheetMusic->Notes + (pos * 2));
 }
 
 // 最大音符数を取得
+
 uint16_t SM_GetMaxNotes(SheetMusic_t *i_SheetMusic) {
-    return i_MusicSheet->MAX_NOTE;
+    return i_SheetMusic->MAX_NOTE;
 }
