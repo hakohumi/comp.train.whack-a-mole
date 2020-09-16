@@ -38,8 +38,7 @@ typedef enum {
     SM_SE_DOREMI,
 } SheetMusicList_t;
 
-void SheetMusic_Initialize(SheetMusic_t **i_SheetMusic,
-                           uint8_t i_SheetMusicNum);
+SheetMusic_t *SheetMusic_Initialize(uint8_t i_SheetMusicNum);
 
 uint16_t SM_GetTempo(SheetMusic_t *i_SheetMusic);
 uint8_t *SM_GetCurrentNote(SheetMusic_t *i_SheetMusic, uint16_t pos);

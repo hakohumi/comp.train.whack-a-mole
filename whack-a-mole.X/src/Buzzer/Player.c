@@ -25,7 +25,6 @@ BGMを管理する
 /* -------------------------------------------------- */
 // プライベート変数
 /* -------------------------------------------------- */
-
 // BGM楽譜が入るインスタンス
 static Player_t BGM;
 // SE楽譜が入るインスタンス
@@ -41,14 +40,20 @@ static Player_t SE;
 // 初期化
 
 void Player_Initialize(void) {
-    // BGMの楽譜に、ドレミを指定
-    SheetMusic_Initialize(&BGM.SheetMusic, SM_BGM_DOREMI);
-    // SEの楽譜に、ドレミを指定
-    SheetMusic_Initialize(&SE.SheetMusic, SM_SE_DOREMI);
+    Player_t_Init(&BGM, SM_BGM_DOREMI);
+    Player_t_Init(&SE, SM_SE_DOREMI);
+}
+
+void Player_t_Init(Player_t *i_Player, uint8_t i_SM) {
+    // SheetMusicのセット
+    i_Player->SheetMusic  = SheetMusic_Initialize(i_SM);
+    i_Player->PlayNotePos = 0;
     // 楽譜の最後の位置を記録
-    BGM.EndPos = SM_GetMaxNotes(BGM.SheetMusic);
-    // 楽譜の最後の位置を記録
-    SE.EndPos = SM_GetMaxNotes(SE.SheetMusic);
+    i_Player->EndPos            = SM_GetMaxNotes(i_Player->SheetMusic);
+    i_Player->currentNoteLength = 0;
+    i_Player->IsPlay            = OFF;
+    i_Player->StartFlg          = OFF;
+    i_Player->StopFlg           = OFF;
 }
 
 // BGM再生開始フラグのON

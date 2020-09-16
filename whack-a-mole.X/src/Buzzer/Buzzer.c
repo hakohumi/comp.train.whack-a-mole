@@ -56,6 +56,8 @@ static bool Update10msBuzzerFlg = OFF;
 
 static bool IsPlayingBuzzer = OFF;
 
+
+
 // ブザーの初期化
 
 void Buzzer_Initialize(void) {

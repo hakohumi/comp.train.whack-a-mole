@@ -54,7 +54,7 @@
 #include <xc.h>
 
 // 1秒ごとに効果音を鳴らすテスト用
-#include "SE.h"
+#include "Buzzer.h"
 
 /**
   Section: Global Variables Definitions

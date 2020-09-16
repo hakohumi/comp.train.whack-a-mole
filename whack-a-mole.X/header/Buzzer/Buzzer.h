@@ -10,9 +10,9 @@
 
 #include <stdint.h>
 
-#include "BGM.h"
+
 #include "Common.h"
-#include "SE.h"
+#include "Player.h"
 #include "SheetMusic.h"
 
 #define REST 0

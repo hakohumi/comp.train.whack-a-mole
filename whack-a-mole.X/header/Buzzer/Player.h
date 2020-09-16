@@ -26,6 +26,7 @@ typedef struct {
 } Player_t;
 
 void Player_Initialize(void);
+void Player_t_Init(Player_t *i_Player, uint8_t i_SM);
 void PlayBGM(void);
 void PlaySE(void);
 

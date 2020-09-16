@@ -48,7 +48,7 @@ static const SheetMusic_t SM_BGM_Doremi = {
 /* -------------------------------------------------- */
 
 static const uint8_t BGMNotes_Tetris[][NOTE_ARRAY_NUM] = {
-    {8, MI2},  // 1
+    {8, MI2}, // 1
     {4, SI},
     {4, DO2},
     {4, RE2},
@@ -76,7 +76,7 @@ static const uint8_t BGMNotes_Tetris[][NOTE_ARRAY_NUM] = {
 // 楽譜インスタンス
 static const SheetMusic_t SM_BGM_Tetris = {
 
-    302, BGMNotes_Tetris, sizeof(BGMNotes_Tetris) / sizeof(uint8_t *)
+    302, BGMNotes_Tetris, sizeof (BGMNotes_Tetris) / sizeof (uint8_t *)
 
 };
 
@@ -113,20 +113,19 @@ static const SheetMusic_t SM_SE_Doremi = {
 // 入力 楽譜ポインタのアドレス
 //      指定する楽譜の番号
 
-void SheetMusic_Initialize(SheetMusic_t **i_SheetMusic,
-    uint8_t i_SheetMusicNum) {
+SheetMusic_t * SheetMusic_Initialize(uint8_t i_SheetMusicNum) {
     switch (i_SheetMusicNum) {
         case SM_BGM_DOREMI:
-            *i_SheetMusic = &SM_BGM_Doremi;
+            return &SM_BGM_Doremi;
             break;
         case SM_BGM_TETRIS:
-            *i_SheetMusic = &SM_BGM_Tetris;
+            return &SM_BGM_Tetris;
             break;
         case SM_SE_DOREMI:
-            *i_SheetMusic = &SM_SE_Doremi;
+            return &SM_SE_Doremi;
             break;
         default:
-            *i_SheetMusic = NULL;
+            return NULL;
             break;
     }
 }
