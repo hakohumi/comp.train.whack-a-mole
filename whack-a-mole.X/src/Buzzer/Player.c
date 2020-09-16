@@ -13,7 +13,6 @@ BGMを管理する
 
 #include "Buzzer.h"
 #include "SheetMusic.h"
-#include "tmr2.h"
 // LEDでデバッグするため
 #include "LCD.h"
 #include "LED.h"
@@ -46,26 +45,22 @@ void Player_Initialize(void) {
 
 void Player_t_Init(Player_t *i_Player, uint8_t i_SM) {
     // SheetMusicのセット
-    i_Player->SheetMusic  = SheetMusic_Initialize(i_SM);
+    i_Player->SheetMusic = SheetMusic_Initialize(i_SM);
     i_Player->PlayNotePos = 0;
     // 楽譜の最後の位置を記録
-    i_Player->EndPos            = SM_GetMaxNotes(i_Player->SheetMusic);
+    i_Player->EndPos = SM_GetMaxNotes(i_Player->SheetMusic);
     i_Player->currentNoteLength = 0;
-    i_Player->IsPlay            = OFF;
-    i_Player->StartFlg          = OFF;
-    i_Player->StopFlg           = OFF;
+    i_Player->IsPlay = OFF;
+    i_Player->StartFlg = OFF;
+    i_Player->StopFlg = OFF;
 }
 
 // BGM再生開始フラグのON
 
-void PlayBGM(void) {
-    BGM.StartFlg = ON;
-}
+void PlayBGM(void) { BGM.StartFlg = ON; }
 
 // BGM再生開始フラグのON
-void PlaySE(void) {
-    SE.StartFlg = ON;
-}
+void PlaySE(void) { SE.StartFlg = ON; }
 
 /* -------------------------------------------------- */
 // 頭出し処理
@@ -73,7 +68,7 @@ void PlaySE(void) {
 /* -------------------------------------------------- */
 
 void returnBeginPlayPos(Player_t *i_Player) {
-    uint8_t l_NoteTempo  = SM_GetTempo(i_Player->SheetMusic);
+    uint8_t l_NoteTempo = SM_GetTempo(i_Player->SheetMusic);
     uint8_t l_NoteLength = *(SM_GetCurrentNote(i_Player->SheetMusic, 0));
 
     // 選択された音符の長さをcurrentNoteLengthにセットする
@@ -83,75 +78,119 @@ void returnBeginPlayPos(Player_t *i_Player) {
     SM_ChangePich(i_Player->SheetMusic, 0);
 }
 
-void BGM_updatePlayerState(void) {
+void updatePlayerState(Player_t *i_Player) {
     // 再生フラグが立ったか？
     // StartFlg
-    if (BGM.StartFlg == ON) {
+    if (i_Player->StartFlg == ON) {
         // StartFlgを下げる
-        BGM.StartFlg = OFF;
+        i_Player->StartFlg = OFF;
 
-        // IsPlayをtrueに変更する
-        BGM.IsPlay = true;
-
-        // 最初の処理
-        returnBeginPlayPos(&BGM);
-
-        // PWM開始
-        PlayBuzzer();
-    }
-
-    // 停止フラグが立ったか?
-    // StopFlg
-    if (BGM.StopFlg == ON) {
-        // BGMStopFlgを下げる
-        BGM.StopFlg = OFF;
-
-        // IsPlayをfalseに変更する
-        BGM.IsPlay = false;
-    }
-}
-
-// SEStateの切り替え
-void SE_updatePlayerState(void) {
-    // SE再生フラグが立ったか？
-    // SEStartFlg
-    if (SE.StartFlg == ON) {
-        // SEStartFlgを下げる
-        SE.StartFlg = OFF;
-
-        // 現在再生されているか
-        if (SE.IsPlay == ON) {
+        // もしSEが選択されていたら
+        // 現在こうか再生されているか
+        if ((i_Player == &SE) && i_Player->IsPlay == ON) {
             // SEのcurrentNotePosを最初の位置へクリア
-            returnBeginPlayPos(&SE);
+            returnBeginPlayPos(i_Player);
         } else {
-            // IsPlaySEをtrueに変更する
-            SE.IsPlay = true;
+            // IsPlayをtrueに変更する
+            i_Player->IsPlay = true;
 
             // 最初の処理
-            returnBeginPlayPos(&SE);
+            returnBeginPlayPos(i_Player);
 
             // PWM開始
             PlayBuzzer();
         }
     }
 
-    // SE停止フラグが立ったか?
-    // SEStopFlg
-    if (SE.StopFlg == ON) {
-        // SEStopFlgを下げる
-        SE.StopFlg = OFF;
+    // 停止フラグが立ったか?
+    // StopFlg
+    if (i_Player->StopFlg == ON) {
+        // BGMStopFlgを下げる
+        i_Player->StopFlg = OFF;
 
-        // IsPlaySEをfalseに変更する
-        SE.IsPlay = false;
+        // IsPlayをfalseに変更する
+        i_Player->IsPlay = false;
 
-        // ブザーの音程をBGMの現在の再生位置の音程へ設定する
-        BGM_ChangeCurrentPich();
+        if (i_Player == &SE) {
+            // ブザーの音程をBGMの現在の再生位置の音程へ設定する
+            BGM_ChangeCurrentPich();
+        }
     }
 }
 
+void BGM_updatePlayerState(void) { updatePlayerState(&BGM); }
+
+void SE_updatePlayerState(void) { updatePlayerState(&SE); }
+
+// void BGM_updatePlayerState(void) {
+//     // 再生フラグが立ったか？
+//     // StartFlg
+//     if (BGM.StartFlg == ON) {
+//         // StartFlgを下げる
+//         BGM.StartFlg = OFF;
+
+//         // IsPlayをtrueに変更する
+//         BGM.IsPlay = true;
+
+//         // 最初の処理
+//         returnBeginPlayPos(&BGM);
+
+//         // PWM開始
+//         PlayBuzzer();
+//     }
+
+//     // 停止フラグが立ったか?
+//     // StopFlg
+//     if (BGM.StopFlg == ON) {
+//         // BGMStopFlgを下げる
+//         BGM.StopFlg = OFF;
+
+//         // IsPlayをfalseに変更する
+//         BGM.IsPlay = false;
+//     }
+// }
+
+// // SEStateの切り替え
+// void SE_updatePlayerState(void) {
+//     // SE再生フラグが立ったか？
+//     // SEStartFlg
+//     if (SE.StartFlg == ON) {
+//         // SEStartFlgを下げる
+//         SE.StartFlg = OFF;
+
+//         // 現在再生されているか
+//         if (SE.IsPlay == ON) {
+//             // SEのcurrentNotePosを最初の位置へクリア
+//             returnBeginPlayPos(&SE);
+//         } else {
+//             // IsPlaySEをtrueに変更する
+//             SE.IsPlay = true;
+
+//             // 最初の処理
+//             returnBeginPlayPos(&SE);
+
+//             // PWM開始
+//             PlayBuzzer();
+//         }
+//     }
+
+//     // SE停止フラグが立ったか?
+//     // SEStopFlg
+//     if (SE.StopFlg == ON) {
+//         // SEStopFlgを下げる
+//         SE.StopFlg = OFF;
+
+//         // IsPlaySEをfalseに変更する
+//         SE.IsPlay = false;
+
+//         // ブザーの音程をBGMの現在の再生位置の音程へ設定する
+//         BGM_ChangeCurrentPich();
+//     }
+// }
+
 // BGM_Playerの更新
 void BGM_updatePlayerManager(void) {
-    uint8_t l_NoteTempo  = 0;
+    uint8_t l_NoteTempo = 0;
     uint8_t l_NoteLength = 0;
 
     // 現在BGMが再生されているか
@@ -194,7 +233,7 @@ void BGM_updatePlayerManager(void) {
 uint8_t l_str[8];
 
 void SE_updatePlayerManager(void) {
-    uint8_t l_NoteTempo  = 0;
+    uint8_t l_NoteTempo = 0;
     uint8_t l_NoteLength = 0;
 
     // 現在SEが再生されているか
@@ -216,7 +255,8 @@ void SE_updatePlayerManager(void) {
                     *(SM_GetCurrentNote(SE.SheetMusic, SE.PlayNotePos));
                 l_NoteTempo = SM_GetTempo(SE.SheetMusic);
                 // 選択された音符の長さをcurrentNoteLengthにセットする
-                SE.currentNoteLength = Change10msLength(l_NoteLength, l_NoteTempo);
+                SE.currentNoteLength =
+                    Change10msLength(l_NoteLength, l_NoteTempo);
 
                 // ブザーの周波数を、現在の再生位置の音程へ変更する
                 SM_ChangePich(SE.SheetMusic, SE.PlayNotePos);
@@ -245,9 +285,5 @@ void BGM_ChangeCurrentPich(void) {
 // ゲッター
 
 /* -------------------------------------------------- */
-bool GetIsPlayBGM() {
-    return BGM.IsPlay;
-}
-bool GetIsPlaySE() {
-    return SE.IsPlay;
-}
+bool GetIsPlayBGM() { return BGM.IsPlay; }
+bool GetIsPlaySE() { return SE.IsPlay; }
