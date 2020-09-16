@@ -73,6 +73,10 @@ void Attacked(MoleType*);
  */
 void BackToHole(MoleType*);
 
+void MoleTimerProcess(void);
+
+void MoleXTimerProcess(MoleType*);
+
 /* ���O���o������֐�
  * ���� ���O���o������l(0x00-0xFFFF)
  *      �o������l�͕ʓr�e�[�u������擾����
@@ -82,7 +86,8 @@ void BackToHole(MoleType*);
  */
 bool PopDecision(uint16_t);
 
-uint8_t GetpopTime(uint8_t,uint8_t);
+uint8_t GetPopTime(uint8_t,uint8_t);
+
 
 #ifdef	__cplusplus
 }

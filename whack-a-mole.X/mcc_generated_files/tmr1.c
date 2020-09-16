@@ -50,6 +50,8 @@
 
 #include "Timer.h"
 #include "Input.h"
+#include "../header/State.h"
+#include "../header/Mole.h"
 
 #include "tmr1.h"
 
@@ -178,7 +180,7 @@ void TMR1_DefaultInterruptHandler(void) {
     if(++TimeForRand>=0xFFFF){
         TimeForRand = 0;
     }
-    if(++count1sec>=10){
+    if(++count1sec>=100){
         CountDown();
         count1sec = 0;
         RB2 = ~RB2;
@@ -191,7 +193,10 @@ void TMR1_DefaultInterruptHandler(void) {
     
     //buzzer
     
-    //timerMoleProcess();)
+    if(SystemState.displayState = PLAYING_GAME){
+        MoleTimerProcess();
+    }
+
     
 #ifdef NO_BUZZER
     static uint16_t l_LengthNote16th_ms = 0;
