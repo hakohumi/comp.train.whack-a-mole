@@ -88,8 +88,8 @@ void main(void) {
     bool l_isSE  = OFF;
 
     while (1) {
-        l_isBGM = Buzzer_GetIsPlayBGM();
-        l_isSE  = Buzzer_SE_GetIsPlay();
+        l_isBGM = GetIsPlayBGM();
+        l_isSE  = SE_GetIsPlay();
 
         if (l_isBGM == ON) {
             WriteToBufferFirst(l_str_BGM, 6);

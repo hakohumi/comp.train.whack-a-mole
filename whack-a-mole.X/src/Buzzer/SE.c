@@ -17,9 +17,6 @@ SEを管理する
 #include "SheetMusic.h"
 #include "tmr2.h"
 
-// ChangeBGMPichを使用するため
-#include "BGM.h"
-
 // LEDでデバッグするため
 #include "LED.h"
 // LCDでデバッグするため

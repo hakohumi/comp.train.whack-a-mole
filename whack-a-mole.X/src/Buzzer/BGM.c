@@ -71,7 +71,10 @@ void PlayBGM(void) {
     BGMStartFlg = ON;
 }
 
+/* -------------------------------------------------- */
 // BGM頭出し処理
+
+/* -------------------------------------------------- */
 
 void BGM_returnBeginPlayPos(void) {
     uint8_t l_NoteTempo  = SM_GetTempo(BGM_SheetMusic);
@@ -82,13 +85,6 @@ void BGM_returnBeginPlayPos(void) {
 
     // 音符の高さに合わせて、タイマの周期を変える
     SM_ChangePich(BGM_SheetMusic, 0);
-}
-
-// 現在のブザーの音程をBGMの現在の再生位置の音程へ変更
-// 効果音側で呼び出す用
-void BGM_ChangeCurrentPich(void) {
-    // 音符の高さに合わせて、タイマの周期を変える
-    SM_ChangePich(BGM_SheetMusic, BGM_PlayNotePos);
 }
 
 // BGMStateの切り替え
@@ -164,6 +160,13 @@ void updateBGMManager(void) {
         // BGM_currentNoteLengthをLEDで表示
         // UpdateLED(BGM_currentNoteLength);
     }
+}
+
+// 現在のブザーの音程をBGMの現在の再生位置の音程へ変更
+// 効果音側で呼び出す用
+void BGM_ChangeCurrentPich(void) {
+    // 音符の高さに合わせて、タイマの周期を変える
+    SM_ChangePich(BGM_SheetMusic, BGM_PlayNotePos);
 }
 
 /* -------------------------------------------------- */

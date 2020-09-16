@@ -90,7 +90,7 @@ void UpdateBuzzer(void) {
 }
 
 // PWMを開始する
-
+// BGM, SEで呼ばれる
 void PlayBuzzer(void) {
     if (IsPlayingBuzzer == OFF) {
         TMR2_StartTimer();
