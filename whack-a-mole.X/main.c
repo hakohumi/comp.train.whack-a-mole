@@ -43,10 +43,7 @@
 
 #include <string.h>
 
-#include "./Buzzer/BGM.h"
-#include "./Buzzer/SheetMusic.h"
-#include "./Buzzer/Buzzer.h"
-#include "./Buzzer/SE.h"
+#include "Buzzer.h"
 #include "Common.h"
 #include "LCD.h"
 #include "LED.h"
@@ -83,16 +80,16 @@ void main(void) {
     // LCDのバッファ
 
     uint8_t *l_str_BGM = "BGM ON";
-    uint8_t *l_str_SE = "SE  ON";
+    uint8_t *l_str_SE  = "SE  ON";
 
     PlayBGM();
 
     bool l_isBGM = OFF;
-    bool l_isSE = OFF;
+    bool l_isSE  = OFF;
 
     while (1) {
-        l_isBGM = GetIsPlayBGM();
-        l_isSE = SE_GetIsPlay();
+        l_isBGM = Buzzer_GetIsPlayBGM();
+        l_isSE  = Buzzer_SE_GetIsPlay();
 
         if (l_isBGM == ON) {
             WriteToBufferFirst(l_str_BGM, 6);

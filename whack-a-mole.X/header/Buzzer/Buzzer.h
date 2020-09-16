@@ -10,7 +10,9 @@
 
 #include <stdint.h>
 
+#include "BGM.h"
 #include "Common.h"
+#include "SE.h"
 #include "SheetMusic.h"
 
 #define REST 0
@@ -33,7 +35,6 @@ void PlayBuzzer(void);
 void ChangePich(uint8_t i_Pich);
 void SM_ChangePich(SheetMusic_t *i_SheetMusic, uint16_t i_pos);
 uint16_t Change10msLength(uint8_t i_NoteLength, uint16_t i_Tempo);
-
 
 void SetUpdate10msBuzzerFlg(void);
 
