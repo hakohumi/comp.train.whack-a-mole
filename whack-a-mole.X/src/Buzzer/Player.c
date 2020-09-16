@@ -83,39 +83,6 @@ void returnBeginPlayPos(Player_t *i_Player) {
     SM_ChangePich(i_Player->SheetMusic, 0);
 }
 
-// PlayerStateの切り替え
-
-// void updatePlayerState(Player_t *i_Player) {
-//     // 再生フラグが立ったか？
-//     // StartFlg
-//     if (i_Player->StartFlg == ON) {
-//         // StartFlgを下げる
-//         i_Player->StartFlg = OFF;
-
-//         // IsPlayをtrueに変更する
-//         i_Player->IsPlay = true;
-
-//         // 最初の処理
-//         returnBeginPlayPos(i_Player);
-
-//         // PWM開始
-//         PlayBuzzer();
-//     }
-
-//     // 停止フラグが立ったか?
-//     // StopFlg
-//     if (i_Player->StopFlg == ON) {
-//         // BGMStopFlgを下げる
-//         i_Player->StopFlg = OFF;
-
-//         // IsPlayをfalseに変更する
-//         i_Player->IsPlay = false;
-
-//         // // PWMを停止させる
-//         // TMR2_StopTimer();
-//     }
-// }
-
 void BGM_updatePlayerState(void) {
     // 再生フラグが立ったか？
     // StartFlg
@@ -141,9 +108,6 @@ void BGM_updatePlayerState(void) {
 
         // IsPlayをfalseに変更する
         BGM.IsPlay = false;
-
-        // // PWMを停止させる
-        // TMR2_StopTimer();
     }
 }
 
@@ -182,52 +146,8 @@ void SE_updatePlayerState(void) {
 
         // ブザーの音程をBGMの現在の再生位置の音程へ設定する
         BGM_ChangeCurrentPich();
-
-        // // PWMを停止させる
-        // TMR2_StopTimer();
     }
 }
-
-// // Playerの更新
-// void updatePlayerManager(Player_t *i_Player) {
-//     uint8_t l_NoteTempo  = 0;
-//     uint8_t l_NoteLength = 0;
-
-//     // 現在BGMが再生されているか
-//     if (i_Player->IsPlay == ON) {
-//         // 現在選択されている音符の長さ分の時間は経過したか？
-//         if (i_Player->currentNoteLength == 0) {
-//             // currentNotePosを1増やす
-//             i_Player->PlayNotePos++;
-
-//             // Playerの再生位置は終端か？
-//             if (i_Player->PlayNotePos >= i_Player->EndPos) {
-//                 // Playerの再生位置を最初へ戻す
-//                 i_Player->PlayNotePos = 0;
-//             }
-
-//             // Playerが再生中に効果音が再生していたら、
-//             // if (GetIsPlaySE() == OFF) {
-//             l_NoteLength =
-//                 *(SM_GetCurrentNote(i_Player->SheetMusic, i_Player->PlayNotePos));
-//             l_NoteTempo = SM_GetTempo(i_Player->SheetMusic);
-//             // 選択された音符の長さをcurrentNoteLengthにセットする
-//             i_Player->currentNoteLength = Change10msLength(l_NoteLength, l_NoteTempo);
-
-//             // ブザーの周波数を、現在の再生位置の音程へ変更する
-//             SM_ChangePich(i_Player->SheetMusic, i_Player->PlayNotePos);
-//             // }
-
-//         } else {
-//             // currentNoteLengthを1下げる
-//             i_Player->currentNoteLength--;
-//         }
-
-//         // デバッグ用
-//         // BGM_currentNoteLengthをLEDで表示
-//         // UpdateLED(BGM_currentNoteLength);
-//     }
-// }
 
 // BGM_Playerの更新
 void BGM_updatePlayerManager(void) {
