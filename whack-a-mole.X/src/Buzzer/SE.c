@@ -173,6 +173,6 @@ void SE_updateManager(void) {
 
 /* -------------------------------------------------- */
 
-bool SE_GetIsPlay() {
+bool GetIsPlaySE() {
     return IsPlaySE;
 }

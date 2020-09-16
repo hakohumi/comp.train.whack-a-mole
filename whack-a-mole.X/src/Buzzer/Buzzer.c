@@ -13,8 +13,7 @@ BGMとSEを管理する
 
 #include "Buzzer.h"
 
-#include "BGM.h"
-#include "SE.h"
+#include "Player.h"
 #include "tmr2.h"
 // PWMのデューティ比を変更するため
 #include "SheetMusic.h"
@@ -60,20 +59,19 @@ static bool IsPlayingBuzzer = OFF;
 // ブザーの初期化
 
 void Buzzer_Initialize(void) {
-    BGM_Initialize();
-    SE_Initialize();
+    Player_Initialize();
 }
 
 // ブザーの更新
 
 void UpdateBuzzer(void) {
     // BGMStateの切り替え
-    updateBGMState();
+    BGM_updatePlayerState();
     // SEStateの切り替え
-    SE_updateState();
+    SE_updatePlayerState();
 
     // どっちも再生中でなければ、PWMをストップさせる
-    if ((GetIsPlayBGM() || SE_GetIsPlay()) == OFF) {
+    if ((GetIsPlayBGM() || GetIsPlaySE()) == OFF) {
         IsPlayingBuzzer = OFF;
         TMR2_StopTimer();
     }
@@ -81,9 +79,9 @@ void UpdateBuzzer(void) {
     // 10msフラグ
     if (Update10msBuzzerFlg == ON) {
         // BGMManagerを更新
-        updateBGMManager();
+        BGM_updatePlayerManager();
         // SEManagerを更新
-        SE_updateManager();
+        SE_updatePlayerManager();
         // 10msフラグを下げる
         Update10msBuzzerFlg = OFF;
     }

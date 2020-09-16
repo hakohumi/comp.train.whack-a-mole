@@ -15,7 +15,7 @@
 void SE_Initialize(void);
 void PlaySE(void);
 
-bool SE_GetIsPlay(void);
+bool GetIsPlaySE(void);
 
 void SE_updateState(void);
 void SE_updateManager(void);

@@ -89,7 +89,7 @@ void main(void) {
 
     while (1) {
         l_isBGM = GetIsPlayBGM();
-        l_isSE  = SE_GetIsPlay();
+        l_isSE  = GetIsPlaySE();
 
         if (l_isBGM == ON) {
             WriteToBufferFirst(l_str_BGM, 6);

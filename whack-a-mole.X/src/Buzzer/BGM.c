@@ -140,7 +140,7 @@ void updateBGMManager(void) {
             }
 
             // BGMが再生中に効果音が再生していたら、
-            // if (SE_GetIsPlay() == OFF) {
+            // if (GetIsPlaySE() == OFF) {
             l_NoteLength =
                 *(SM_GetCurrentNote(BGM_SheetMusic, BGM_PlayNotePos));
             l_NoteTempo = SM_GetTempo(BGM_SheetMusic);
