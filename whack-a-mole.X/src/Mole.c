@@ -40,7 +40,7 @@ void writeMole(uint8_t i_compareSW,uint8_t i_chr){
             break;
     }
     str_Mole[str_MolePos] = i_chr;
-    WriteToBuffer(&str_Mole,16);
+    //WriteToBuffer(&str_Mole,16);
 }
 
 void MoleManager(void){

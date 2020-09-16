@@ -180,22 +180,16 @@ void TMR1_DefaultInterruptHandler(void) {
     if(++TimeForRand>=0xFFFF){
         TimeForRand = 0;
     }
+    DetectPushSW();
     if(++count1sec>=100){
         CountDown();
         count1sec = 0;
         RB2 = ~RB2;
     }
-//    if(++count5msec>=5){
-        DetectPushSW();        
-//        count5msec = 0;
-//        count1sec++;
- //   }
-    
-    //buzzer
-    
     if(SystemState.displayState = PLAYING_GAME){
         MoleTimerProcess();
     }
+    //buzzer
 
     
 #ifdef NO_BUZZER

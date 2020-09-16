@@ -70,9 +70,9 @@ void main(void) {
     INTERRUPT_PeripheralInterruptEnable();
 
     //SystemDataInitialize();
-    ChangeState((uint8_t)TITLE);
-    SystemState.action = (uint8_t)ENTRY;
-    SWState            = 0;
+    ChangeState(TITLE);
+    SystemState.action = ENTRY;
+    SWState = 0;
 
     // LCD初期化
     LCDInitialize();
