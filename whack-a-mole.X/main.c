@@ -47,6 +47,7 @@
 #include "LCD.h"
 #include "LED.h"
 #include "Rand.h"
+#include "_Mole.h"
 #include "mcc.h"
 
 // マイコンに書き込み時にEEPROMに値を書き込む
@@ -92,6 +93,10 @@ void main(void) {
 
         WriteToBufferTime((uint8_t)rand++);
         WriteToBufferScore(rand + rand);
+        WriteToBufferMole(1, HOLE);
+        WriteToBufferMole(2, MOLE);
+        WriteToBufferMole(3, MOLE);
+        WriteToBufferMole(4, HIT);
 
         BufferToLCD();
         __delay_ms(500);

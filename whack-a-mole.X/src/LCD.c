@@ -6,6 +6,8 @@
 
 #include "Common.h"
 #include "examples/i2c1_master_example.h"
+// モグラの状態用
+#include "_Mole.h"
 
 /* -------------------------------------------------- */
 // プライベートなdefine
@@ -236,8 +238,66 @@ void WriteToBufferScore(uint16_t i_score) {
     LCDBuffer[1] = itochar((uint8_t)(i_score % 10));
 }
 
-// BufferToLCD
+/* -------------------------------------------------- */
+// モグラの表示に関連する
+/* -------------------------------------------------- */
+#define MOLE_LCD_POS_1 9
+#define MOLE_LCD_POS_2 11
+#define MOLE_LCD_POS_3 13
+#define MOLE_LCD_POS_4 15
 
+uint8_t graphMoleHOLE = '_';
+uint8_t graphMoleMOLE = 'M';
+uint8_t graphMoleHIT  = 'A';
+
+// モグラの絵を切り替える
+// 入力 切り替えるモグラの位置、切り替えるモグラの状態
+// とりあえず今は文字の表示
+void WriteToBufferMole(uint8_t i_molePos, uint8_t i_moleState) {
+    uint8_t l_molePos = 99;
+    uint8_t l_str[1];
+    // LCD更新フラグをONにする
+    setUpdateLCDFlg();
+
+    switch (i_molePos) {
+        case 1:
+            l_molePos = MOLE_LCD_POS_1;
+            break;
+        case 2:
+            l_molePos = MOLE_LCD_POS_2;
+            break;
+        case 3:
+            l_molePos = MOLE_LCD_POS_3;
+            break;
+        case 4:
+            l_molePos = MOLE_LCD_POS_4;
+            break;
+        default:
+            // 到達不可
+            break;
+    }
+    switch (i_moleState) {
+        case HOLE:
+            *l_str = graphMoleHOLE;
+            break;
+        case MOLE:
+            *l_str = graphMoleMOLE;
+            break;
+        case HIT:
+            *l_str = graphMoleHIT;
+            break;
+        default:
+            // 到達不可
+            *l_str = 'E';
+            break;
+    }
+
+    LCDBuffer[l_molePos] = *l_str;
+}
+
+/* -------------------------------------------------- */
+
+// BufferToLCD
 void BufferToLCD(void) {
     // バッファに変更があった時のみ更新する
     if (updateLCDFlg == ON) {
