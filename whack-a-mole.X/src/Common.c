@@ -6,8 +6,9 @@
 
 uint8_t itochar(uint8_t value);
 
+#ifdef NOUSE
 char *utoa(unsigned int value, char *s, int radix);
-
+#endif
 /* -------------------------------------------------- */
 
 // ---------------------------------------------
