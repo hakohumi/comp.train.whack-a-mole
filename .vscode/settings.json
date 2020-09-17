@@ -15,6 +15,9 @@
         "type_traits": "c",
         "xtr1common": "c",
         "timer.h": "c",
-        "string.h": "c"
+        "mole.h": "c",
+        "score.h": "c",
+        "level.h": "c",
+        "memory.h": "c"
     }
 }

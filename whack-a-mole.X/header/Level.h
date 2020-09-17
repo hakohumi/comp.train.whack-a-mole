@@ -8,18 +8,18 @@
 #include <stdint.h>
 
 #ifndef LEVEL_H
-#define	LEVEL_H
+#define LEVEL_H
 
-#ifdef	__cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
 //ゲーム難易度の定義
-typedef enum LevelType_Type{
+typedef enum LevelType_Type {
     EASY,
     NORMAL,
     HARD
-}LevelType;
+} LevelType;
 
 //ゲーム難易度グローバル変数
 uint8_t Level;
@@ -30,9 +30,16 @@ uint8_t Level;
  */
 void SetLevel(uint8_t);
 
-#ifdef	__cplusplus
+extern uint8_t *STR_LEVEL_EASY;
+extern uint8_t *STR_LEVEL_NORMAL;
+extern uint8_t *STR_LEVEL_HARD;
+
+#define STR_LEVEL_EASY_LEN 4
+#define STR_LEVEL_NORMAL_LEN 6
+#define STR_LEVEL_HARD_LEN 4
+
+#ifdef __cplusplus
 }
 #endif
 
-#endif	/* LEVEL_H */
-
+#endif /* LEVEL_H */

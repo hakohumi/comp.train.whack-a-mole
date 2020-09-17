@@ -1,7 +1,7 @@
 #include "Score.h"
 
-//ハイスコア配列[難易度-1]
-uint16_t HighScore[3];
+#include "Level.h"
+#include "memory.h"
 
 //スコア
 uint16_t Score;
@@ -13,9 +13,62 @@ void IncScore(void) {
 }
 
 void SaveHighScore(uint8_t i_level) {
-    HighScore[i_level] = Score;
+    switch (i_level) {
+        case EASY:
+            DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_EASY_L, Score & 0x00FF);
+            DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_EASY_H, (Score & 0xFF00) >> 8);
+            break;
+        case NORMAL:
+            DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_NORMAL_L, Score & 0x00FF);
+            DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_NORMAL_H, (Score & 0xFF00) >> 8);
+            break;
+        case HARD:
+            DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_HARD_L, Score & 0x00FF);
+            DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_HARD_H, (Score & 0xFF00) >> 8);
+            break;
+        default:
+            break;
+    }
 }
 
 void ClearHighScore(uint8_t i_level) {
-    HighScore[i_level] = 0;
+    switch (i_level) {
+        case EASY:
+            DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_EASY_L, 0);
+            DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_EASY_H, 0);
+            break;
+        case NORMAL:
+            DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_NORMAL_L, 0);
+            DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_NORMAL_H, 0);
+            break;
+        case HARD:
+            DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_HARD_L, 0);
+            DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_HARD_H, 0);
+            break;
+        default:
+            break;
+    }
+}
+
+uint16_t GetHighScore(uint8_t i_level) {
+    uint16_t l_highscore = 0xFFFF;
+
+    switch (i_level) {
+        case EASY:
+            l_highscore = 0x00FF & (uint16_t)(DATAEE_ReadByte(EEPROM_ADDR_HIGHSCORE_EASY_L));
+            l_highscore |= (uint16_t)(DATAEE_ReadByte(EEPROM_ADDR_HIGHSCORE_EASY_H)) << 8;
+            break;
+        case NORMAL:
+            l_highscore = 0x00FF & (uint16_t)(DATAEE_ReadByte(EEPROM_ADDR_HIGHSCORE_NORMAL_L));
+            l_highscore |= (uint16_t)(DATAEE_ReadByte(EEPROM_ADDR_HIGHSCORE_NORMAL_H)) << 8;
+            break;
+        case HARD:
+            l_highscore = 0x00FF & (uint16_t)(DATAEE_ReadByte(EEPROM_ADDR_HIGHSCORE_HARD_L));
+            l_highscore |= (uint16_t)(DATAEE_ReadByte(EEPROM_ADDR_HIGHSCORE_HARD_H)) << 8;
+            break;
+        default:
+            break;
+    }
+
+    return l_highscore;
 }

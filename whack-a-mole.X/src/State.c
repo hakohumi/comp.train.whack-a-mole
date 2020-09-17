@@ -56,27 +56,49 @@ void SelectLevelProcess(void) {
                 case SW1:
                     //難易度設�?(EASY)
                     SetLevel((uint8_t)EASY);
-                    //BufferToLCD(EASY);
+                    // 1行目に"EASY"を書く
+                    WriteToBufferFirst(STR_LEVEL_EASY, STR_LEVEL_EASY_LEN);
+                    // ハイスコアをEEPROMから取り出す
+                    l_HighScore = GetHighScore(EASY);
+                    // 取り出したハイスコアを文字列へ変換
+                    ItoStr(l_HighScore, l_str_line, 3);
+                    // 2行目にハイスコアを書く
+                    WriteToBufferSecond(l_str_line, 3);
+
                     break;
-                //SW2
+                    //SW2
                 case SW2:
                     //難易度設�?(NORMAL)
                     SetLevel((uint8_t)NORMAL);
-                    //BufferToLCD(NORMAL);
+                    // 1行目に"NORMAL"を書く
+                    WriteToBufferFirst(STR_LEVEL_NORMAL, STR_LEVEL_NORMAL_LEN);
+                    // ハイスコアをEEPROMから取り出す
+                    l_HighScore = GetHighScore(NORMAL);
+                    // 取り出したハイスコアを文字列へ変換
+                    ItoStr(l_HighScore, l_str_line, 3);
+                    // 2行目にハイスコアを書く
+                    WriteToBufferSecond(l_str_line, 3);
                     break;
-                //SW3
+                    //SW3
                 case SW3:
                     //難易度設�?(HARD)
                     SetLevel((uint8_t)HARD);
-                    //BufferToLCD(HARD);
+                    // 1行目に"HARD"を書く
+                    WriteToBufferFirst(STR_LEVEL_HARD, STR_LEVEL_HARD_LEN);
+                    // ハイスコアをEEPROMから取り出す
+                    l_HighScore = GetHighScore(HARD);
+                    // 取り出したハイスコアを文字列へ変換
+                    ItoStr(l_HighScore, l_str_line, 3);
+                    // 2行目にハイスコアを書く
+                    WriteToBufferSecond(l_str_line, 3);
                     break;
-                //SW4
+                    //SW4
                 case SW4:
                     //ハイスコアクリア確認画面に遷移
                     ChangeState((uint8_t)HS_CLEAR);
                     SystemState.action = (uint8_t)ENTRY;
                     break;
-                //SW5
+                    //SW5
                 case SW5:
                     //ゲー�?開始カウントダウン画面に遷移
                     ChangeState((uint8_t)START_COUNT_DOWN);
