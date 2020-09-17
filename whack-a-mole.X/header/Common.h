@@ -28,6 +28,7 @@
 
 void ItoStr(uint16_t i_value, uint8_t *o_strAdd, uint8_t i_strLen);
 char *utoa(unsigned int value, char *s, int radix);
+uint8_t itochar(uint8_t value);
 
 /* -------------------------------------------------- */
 
@@ -44,6 +45,7 @@ extern uint8_t *STR_ERROR;
 
 /* -------------------------------------------------- */
 // エラー番号
+
 /* -------------------------------------------------- */
 
 typedef enum {

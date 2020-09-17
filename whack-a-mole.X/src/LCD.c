@@ -183,6 +183,7 @@ void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen) {
 void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen) {
     uint8_t i;
 
+    // LCD更新フラグをONにする
     setUpdateLCDFlg();
 
     // もし、指定された文字数が8を超えていたら、
@@ -198,6 +199,41 @@ void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen) {
             LCDBuffer[i + LCD_LINE_LEN] = i_str[i];
         }
     }
+}
+
+// ゲーム中に、残り時間を変更した時に呼ばれる
+// 残り時間の位置のバッファを書き換える
+// 引数 uint8_t i_time 残り制限時間 0 ~ 60
+
+void WriteToBufferTime(uint8_t i_time) {
+    // LCD更新フラグをONにする
+    setUpdateLCDFlg();
+
+    // 1の位を格納
+    LCDBuffer[7] = itochar((uint8_t)(i_time % 10));
+    // 桁をずらす
+    i_time /= 10;
+    // 10の位を格納
+    LCDBuffer[6] = itochar((uint8_t)(i_time % 10));
+}
+// ゲーム中に、スコアを変更した時に呼ばれる
+// スコアの位置のバッファを書き換える
+// 引数 uint8_t i_score 0 ~ 999
+
+void WriteToBufferScore(uint16_t i_score) {
+    // LCD更新フラグをONにする
+    setUpdateLCDFlg();
+
+    // 1の位を格納
+    LCDBuffer[3] = itochar((uint8_t)(i_score % 10));
+    // 桁をずらす
+    i_score /= 10;
+    // 10の位を格納
+    LCDBuffer[2] = itochar((uint8_t)(i_score % 10));
+    // 桁をずらす
+    i_score /= 10;
+    // 100の位を格納
+    LCDBuffer[1] = itochar((uint8_t)(i_score % 10));
 }
 
 // BufferToLCD
