@@ -80,7 +80,6 @@ void main(void) {
     DisplayON();
 
     while (1) {
-<<<<<<< HEAD
         //状態処理
         switch (SystemState.displayState) {
             //タイトル画面
@@ -110,27 +109,6 @@ void main(void) {
             default:
                 break;
         }
-=======
-        // 乱数発生
-        // rand = GetRand();
-
-        //         ItoStr(rand, &l_str, 8);
-
-        // デバッグ用のLED表示
-        // UpdateLED(rand);
-
-        // l_strに入っている文字列をバッファへ書き込む
-        // strlenで文字列の文字数を取得している、
-        WriteToBufferFirst(l_str, strlen(l_str));
-
-        WriteToBufferTime((uint8_t)rand++);
-        WriteToBufferScore(rand + rand);
-        WriteToBufferMole(1, HOLE);
-        WriteToBufferMole(2, MOLE);
-        WriteToBufferMole(3, MOLE);
-        WriteToBufferMole(4, HIT);
-
->>>>>>> master
         BufferToLCD();
     }
 }

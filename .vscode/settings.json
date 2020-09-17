@@ -14,7 +14,7 @@
         "system_error": "c",
         "type_traits": "c",
         "xtr1common": "c",
-        "timer.h": "c"
+        "timer.h": "c",
         "string.h": "c"
     }
 }
