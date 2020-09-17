@@ -9,6 +9,7 @@
         <itemPath>header/Common.h</itemPath>
         <itemPath>header/LCD.h</itemPath>
         <itemPath>header/LED.h</itemPath>
+        <itemPath>header/_Mole.h</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
