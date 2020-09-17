@@ -35,6 +35,9 @@ void WriteToBuffer(uint8_t *i_str, uint8_t i_strLen);
 void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen);
 void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen);
 
+// 残り時間をバッファに上書きする
+void WriteToBufferTime(uint8_t i_time);
+
 // LCDバッファをLCDに書き込む
 void BufferToLCD(void);
 
