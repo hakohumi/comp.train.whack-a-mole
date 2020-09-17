@@ -41,6 +41,9 @@ void WriteToBufferScore(uint16_t i_score);
 
 // モグラの表示を切り替える
 void WriteToBufferMole(uint8_t i_molePos, uint8_t i_moleState);
+// ゲーム前カウントダウン用
+// 真ん中に1桁の数字を表示
+void WriteToBufferCountDown(uint8_t i_time);
 
 // LCDバッファをLCDに書き込む
 void BufferToLCD(void);

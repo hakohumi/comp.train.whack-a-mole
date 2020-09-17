@@ -239,6 +239,17 @@ void WriteToBufferTime(uint8_t i_time) {
     // 10の位を格納
     LCDBuffer[6] = itochar((uint8_t)(i_time % 10));
 }
+
+// ゲーム前カウントダウン用
+void WriteToBufferCountDown(uint8_t i_time) {
+    if (i_time < 10) {
+        // LCD更新フラグをONにする
+        setUpdateLCDFlg();
+
+        // 格納
+        LCDBuffer[11] = itochar(i_time);
+    }
+}
 // ゲーム中に、スコアを変更した時に呼ばれる
 // スコアの位置のバッファを書き換える
 // 引数 uint8_t i_score 0 ~ 999
