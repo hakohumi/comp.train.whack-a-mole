@@ -88,8 +88,10 @@ void main(void) {
 
         // l_strに入っている文字列をバッファへ書き込む
         // strlenで文字列の文字数を取得している、
-        WriteToBufferFirst(l_str, 3);
-        WriteToBufferFirst(l_str2, 4);
+        WriteToBufferFirst(l_str, strlen(l_str));
+
+        WriteToBufferTime((uint8_t)rand++);
+        WriteToBufferScore(rand + rand);
 
         BufferToLCD();
         __delay_ms(500);
