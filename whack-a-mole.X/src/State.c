@@ -12,7 +12,7 @@ static uint8_t *str_TitleState = {"TITLE"};
 static uint8_t *str_SelectLevelState = {"LEVEL"};
 static uint8_t *str_HSClearState = {"HSCLEAR"};
 static uint8_t *str_StartCOuntDownState = {"CNT_DOWN"};
-static uint8_t *str_PlayingGameState = {"PLAYGAME"};
+uint8_t str_PlayingGameState[16] = {"S000 T00 _ _ _ _"};
 static uint8_t *str_ResultState = {"RESULT"};
 
 void ChangeState(uint8_t i_displayState)
@@ -27,9 +27,7 @@ void TitleProcess(void){
     switch(SystemState.action){
         case ENTRY:
             //タイトル文字列書き込み
-            WriteToBuffer(str_TitleState,5);
-            UpdateLCDFlg = ON;
-            
+            WriteToBuffer(str_TitleState,5);           
             SystemState.action = (uint8_t)DO;
             break;
         case DO:
@@ -50,8 +48,6 @@ void SelectLevelProcess(void){
     switch(SystemState.action){
         case ENTRY:
             WriteToBuffer(str_SelectLevelState,5);
-            UpdateLCDFlg = ON;
-            
             SystemState.action = (uint8_t)DO;
             break;
         case DO:
@@ -98,7 +94,6 @@ void HSClearProcess(void){
     switch(SystemState.action){
         case ENTRY:
             WriteToBuffer(str_HSClearState,7);
-            UpdateLCDFlg = ON;
             SystemState.action = (uint8_t)DO;
             break;
         case DO:
@@ -127,8 +122,7 @@ void StartCountDownProcess(void){
     switch(SystemState.action){
         case ENTRY:
             //残り時間設�?
-            WriteToBuffer(str_StartCOuntDownState,8);
-            UpdateLCDFlg = ON;
+            WriteToBuffer(str_StartCOuntDownState,8);  
             Time = 3;
             //PlaySE(countdown3sec);
             SystemState.action = (uint8_t)DO;
@@ -157,8 +151,8 @@ void PlayingGameProcess(void){
         case ENTRY:
             //残り時間�?60に設�?
             Time = 60;
-            WriteToBuffer(str_PlayingGameState,8);
-            UpdateLCDFlg = ON;
+            WriteToBuffer(str_PlayingGameState,16);
+            
             //BGMを鳴らす
             //PlayBGM();
             SystemState.action = (uint8_t)DO;
@@ -167,7 +161,12 @@ void PlayingGameProcess(void){
             //ゲー�?中
             if(Time){
                 //モグラの処�?
-                MoleManager();
+                //MoleManager();
+                MoleXProcess(&mole1);
+                MoleXProcess(&mole2);
+                MoleXProcess(&mole3);
+                MoleXProcess(&mole4);
+                SWState = 0;
             }
             //残り時間0
             else{
@@ -188,7 +187,7 @@ void ResultProcess(void){
     switch(SystemState.action){
         case ENTRY:
             WriteToBuffer(str_ResultState,6);
-            UpdateLCDFlg = ON;
+            
             SystemState.action = (uint8_t)DO;
             break;
         case DO:

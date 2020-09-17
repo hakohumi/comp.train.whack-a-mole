@@ -39,6 +39,8 @@ typedef struct {
 //システム構造体変数
 SystemStateType SystemState;
 
+extern uint8_t str_PlayingGameState[16];
+
 /* 画面状態更新変数
  * 画面状態を変更する
  * 入力 (uint8_t)DisPlayStateType 画面状態定数

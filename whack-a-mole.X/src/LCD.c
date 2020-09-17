@@ -6,6 +6,8 @@
 
 #include "Common.h"
 #include "examples/i2c1_master_example.h"
+// モグラの状態用
+#include "_Mole.h"
 
 /* -------------------------------------------------- */
 // プライベートなdefine
@@ -151,7 +153,7 @@ void WriteToBuffer(uint8_t *i_str, uint8_t i_strLen) {
         ErrorToBuffer(ERR_W_T_B_OVERSTRLEN);
     } else {
         // LCDBufferに空白を入れる
-        strncat(LCDBuffer, *STR_2LINE_BLANK, LCD_BUFF_SIZE_MAX);
+        strncpy(LCDBuffer, *STR_2LINE_BLANK, LCD_BUFF_SIZE_MAX);
 
         // LCDBufferの先頭から、引数に指定された文字列をコピーする
         for (i = 0; i < i_strLen; i++) {
@@ -183,6 +185,7 @@ void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen) {
 void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen) {
     uint8_t i;
 
+    // LCD更新フラグをONにする
     setUpdateLCDFlg();
 
     // もし、指定された文字数が8を超えていたら、
@@ -200,8 +203,101 @@ void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen) {
     }
 }
 
-// BufferToLCD
+// ゲーム中に、残り時間を変更した時に呼ばれる
+// 残り時間の位置のバッファを書き換える
+// 引数 uint8_t i_time 残り制限時間 0 ~ 60
 
+void WriteToBufferTime(uint8_t i_time) {
+    // LCD更新フラグをONにする
+    setUpdateLCDFlg();
+
+    // 1の位を格納
+    LCDBuffer[7] = itochar((uint8_t)(i_time % 10));
+    // 桁をずらす
+    i_time /= 10;
+    // 10の位を格納
+    LCDBuffer[6] = itochar((uint8_t)(i_time % 10));
+}
+// ゲーム中に、スコアを変更した時に呼ばれる
+// スコアの位置のバッファを書き換える
+// 引数 uint8_t i_score 0 ~ 999
+
+void WriteToBufferScore(uint16_t i_score) {
+    // LCD更新フラグをONにする
+    setUpdateLCDFlg();
+
+    // 1の位を格納
+    LCDBuffer[3] = itochar((uint8_t)(i_score % 10));
+    // 桁をずらす
+    i_score /= 10;
+    // 10の位を格納
+    LCDBuffer[2] = itochar((uint8_t)(i_score % 10));
+    // 桁をずらす
+    i_score /= 10;
+    // 100の位を格納
+    LCDBuffer[1] = itochar((uint8_t)(i_score % 10));
+}
+
+/* -------------------------------------------------- */
+// モグラの表示に関連する
+/* -------------------------------------------------- */
+#define MOLE_LCD_POS_1 9
+#define MOLE_LCD_POS_2 11
+#define MOLE_LCD_POS_3 13
+#define MOLE_LCD_POS_4 15
+
+uint8_t graphMoleHOLE = '_';
+uint8_t graphMoleMOLE = 'M';
+uint8_t graphMoleHIT  = 'A';
+
+// モグラの絵を切り替える
+// 入力 切り替えるモグラの位置、切り替えるモグラの状態
+// とりあえず今は文字の表示
+void WriteToBufferMole(uint8_t i_molePos, uint8_t i_moleState) {
+    uint8_t l_molePos = 99;
+    uint8_t l_str[1];
+    // LCD更新フラグをONにする
+    setUpdateLCDFlg();
+
+    switch (i_molePos) {
+        case 1:
+            l_molePos = MOLE_LCD_POS_1;
+            break;
+        case 2:
+            l_molePos = MOLE_LCD_POS_2;
+            break;
+        case 3:
+            l_molePos = MOLE_LCD_POS_3;
+            break;
+        case 4:
+            l_molePos = MOLE_LCD_POS_4;
+            break;
+        default:
+            // 到達不可
+            break;
+    }
+    switch (i_moleState) {
+        case HOLE:
+            *l_str = graphMoleHOLE;
+            break;
+        case MOLE:
+            *l_str = graphMoleMOLE;
+            break;
+        case HIT:
+            *l_str = graphMoleHIT;
+            break;
+        default:
+            // 到達不可
+            *l_str = 'E';
+            break;
+    }
+
+    LCDBuffer[l_molePos] = *l_str;
+}
+
+/* -------------------------------------------------- */
+
+// BufferToLCD
 void BufferToLCD(void) {
     // バッファに変更があった時のみ更新する
     if (updateLCDFlg == ON) {

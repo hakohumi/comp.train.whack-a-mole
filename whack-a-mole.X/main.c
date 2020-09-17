@@ -109,7 +109,6 @@ void main(void) {
             default:
                 break;
         }
-        //LCD更新
         BufferToLCD();
     }
 }

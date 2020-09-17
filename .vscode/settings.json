@@ -15,5 +15,6 @@
         "type_traits": "c",
         "xtr1common": "c",
         "timer.h": "c"
+        "string.h": "c"
     }
 }

@@ -186,8 +186,13 @@ void TMR1_DefaultInterruptHandler(void) {
         count1sec = 0;
         RB2 = ~RB2;
     }
-    if(SystemState.displayState = PLAYING_GAME){
-        MoleTimerProcess();
+
+    //MoleTimerProcess();
+    if(SystemState.displayState == PLAYING_GAME){
+        MoleXTimerProcess(&mole1);
+        MoleXTimerProcess(&mole2);
+        MoleXTimerProcess(&mole3);
+        MoleXTimerProcess(&mole4);
     }
     //buzzer
 

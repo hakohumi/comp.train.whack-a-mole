@@ -35,6 +35,13 @@ void WriteToBuffer(uint8_t *i_str, uint8_t i_strLen);
 void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen);
 void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen);
 
+// 残り時間をバッファに上書きする
+void WriteToBufferTime(uint8_t i_time);
+void WriteToBufferScore(uint16_t i_score);
+
+// モグラの表示を切り替える
+void WriteToBufferMole(uint8_t i_molePos, uint8_t i_moleState);
+
 // LCDバッファをLCDに書き込む
 void BufferToLCD(void);
 
