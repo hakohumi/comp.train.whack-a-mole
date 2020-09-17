@@ -56,11 +56,11 @@
 
 #ifdef __cplusplus  // Provide C++ Compatibility
 
-    extern "C" {
+extern "C" {
 
 #endif
 
-#define TMR1_INTERRUPT_TICKER_FACTOR    1
+#define TMR1_INTERRUPT_TICKER_FACTOR 10
 
 /**
   Section: TMR1 APIs
@@ -269,7 +269,7 @@ void TMR1_WriteTimer(uint16_t timerVal);
     }
     </code>
 */
-void TMR1_Reload(void);
+inline void TMR1_Reload(void);
 
 /**
   @Summary
@@ -382,7 +382,7 @@ void TMR1_ISR(void);
   @Returns
     None
 */
-void TMR1_CallBack(void);
+inline void TMR1_CallBack(void);
 
 /**
   @Summary
@@ -400,7 +400,7 @@ void TMR1_CallBack(void);
   @Returns
     None
 */
- void TMR1_SetInterruptHandler(void (* InterruptHandler)(void));
+void TMR1_SetInterruptHandler(void (*InterruptHandler)(void));
 
 /**
   @Summary
@@ -439,12 +439,11 @@ extern void (*TMR1_InterruptHandler)(void);
 void TMR1_DefaultInterruptHandler(void);
 
 #ifdef __cplusplus  // Provide C++ Compatibility
-
-    }
+}
 
 #endif
 
-#endif // TMR1_H
+#endif  // TMR1_H
 /**
  End of File
 */

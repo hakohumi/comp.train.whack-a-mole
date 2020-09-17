@@ -18,6 +18,7 @@
         "mole.h": "c",
         "score.h": "c",
         "level.h": "c",
-        "memory.h": "c"
+        "memory.h": "c",
+        "tmr1.h": "c"
     }
 }

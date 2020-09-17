@@ -1,13 +1,13 @@
 #include "State.h"
 
+#include <string.h>
+
 #include "Input.h"
 #include "LCD.h"
 #include "Level.h"
 #include "Mole.h"
 #include "Score.h"
 #include "Timer.h"
-
-#include <string.h>
 uint8_t lastTimeForPlaySE = 0;
 
 static uint8_t *str_TitleState          = {"TITLE"};
@@ -49,6 +49,7 @@ void SelectLevelProcess(void) {
     uint16_t l_HighScore = 0;
     uint8_t l_str_line[8];
     memset(l_str_line, '\0', 8);
+
     switch (SystemState.action) {
         case ENTRY:
             WriteToBuffer(str_SelectLevelState, 5);
