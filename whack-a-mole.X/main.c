@@ -44,10 +44,13 @@
 #include <string.h>
 
 #include "Common.h"
+#include "Input.h"
 #include "LCD.h"
 #include "LED.h"
 #include "Rand.h"
-#include "_Mole.h"
+#include "Score.h"
+#include "State.h"
+#include "Timer.h"
 #include "mcc.h"
 
 // マイコンに書き込み時にEEPROMに値を書き込む
@@ -66,40 +69,47 @@ void main(void) {
     // Enable the Peripheral Interrupts
     INTERRUPT_PeripheralInterruptEnable();
 
+    //SystemDataInitialize();
+    ChangeState(TITLE);
+    SystemState.action = ENTRY;
+    SWState = 0;
+
     // LCD初期化
     LCDInitialize();
     // LCDをON
     DisplayON();
 
-    // LCDのバッファ
-    uint8_t *l_str  = "LCD";
-    uint8_t *l_str2 = "test";
-
-    // 乱数保存用
-    uint16_t rand = 0;
-
     while (1) {
-        // 乱数発生
-        // rand = GetRand();
-
-        //         ItoStr(rand, &l_str, 8);
-
-        // デバッグ用のLED表示
-        // UpdateLED(rand);
-
-        // l_strに入っている文字列をバッファへ書き込む
-        // strlenで文字列の文字数を取得している、
-        WriteToBufferFirst(l_str, strlen(l_str));
-
-        WriteToBufferTime((uint8_t)rand++);
-        WriteToBufferScore(rand + rand);
-        WriteToBufferMole(1, HOLE);
-        WriteToBufferMole(2, MOLE);
-        WriteToBufferMole(3, MOLE);
-        WriteToBufferMole(4, HIT);
-
+        //状態処理
+        switch (SystemState.displayState) {
+            //タイトル画面
+            case TITLE:
+                TitleProcess();
+                break;
+            //難易度選択画面
+            case SELECT_LEVEL:
+                SelectLevelProcess();
+                break;
+            //ハイスコアクリア確認画面
+            case HS_CLEAR:
+                HSClearProcess();
+                break;
+            //ゲーム開始カウントダウン画面
+            case START_COUNT_DOWN:
+                StartCountDownProcess();
+                break;
+            //ゲーム中画面
+            case PLAYING_GAME:
+                PlayingGameProcess();
+                break;
+            //リザルト画面
+            case RESULT:
+                ResultProcess();
+                break;
+            default:
+                break;
+        }
         BufferToLCD();
-        __delay_ms(500);
     }
 }
 

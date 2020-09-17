@@ -153,7 +153,7 @@ void WriteToBuffer(uint8_t *i_str, uint8_t i_strLen) {
         ErrorToBuffer(ERR_W_T_B_OVERSTRLEN);
     } else {
         // LCDBufferに空白を入れる
-        strncat(LCDBuffer, *STR_2LINE_BLANK, LCD_BUFF_SIZE_MAX);
+        strncpy(LCDBuffer, *STR_2LINE_BLANK, LCD_BUFF_SIZE_MAX);
 
         // LCDBufferの先頭から、引数に指定された文字列をコピーする
         for (i = 0; i < i_strLen; i++) {

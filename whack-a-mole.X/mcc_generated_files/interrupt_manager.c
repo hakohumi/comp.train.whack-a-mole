@@ -49,6 +49,10 @@
 #include "interrupt_manager.h"
 #include "mcc.h"
 
+#include "tmr1.h"
+
+volatile uint16_t timer1ReloadVal;
+
 void __interrupt() INTERRUPT_InterruptManager (void)
 {
     // interrupt handler
@@ -60,7 +64,15 @@ void __interrupt() INTERRUPT_InterruptManager (void)
     {
         if(PIE1bits.TMR1IE == 1 && PIR1bits.TMR1IF == 1)
         {
-            TMR1_ISR();
+            //TMR1_ISR();
+            // Clear the TMR1 interrupt flag
+            PIR1bits.TMR1IF = 0;
+             timer1ReloadVal = (uint16_t)((TMR1H << 8) | TMR1L);
+            TMR1_WriteTimer(timer1ReloadVal);
+
+            // ticker function call;
+            // ticker is 1 -> Callback function gets called everytime this ISR executes
+            TMR1_CallBack();
         } 
         else
         {
