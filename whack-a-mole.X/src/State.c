@@ -13,7 +13,7 @@ static uint8_t *str_TitleState          = {"TITLE"};
 static uint8_t *str_SelectLevelState    = {"LEVEL"};
 static uint8_t *str_HSClearState        = {"HSCLEAR"};
 static uint8_t *str_StartCOuntDownState = {"CNT_DOWN"};
-uint8_t str_PlayingGameState[16]        = {"S000 T00 _ _ _ _"};
+uint8_t str_PlayingGameState[16]        = {"S000 T00        "};
 static uint8_t *str_ResultState         = {"RESULT"};
 
 void ChangeState(uint8_t i_displayState) {
@@ -123,6 +123,7 @@ void StartCountDownProcess(void) {
         case ENTRY:
             //残り時間設�?
             WriteToBuffer(str_StartCOuntDownState, 8);
+
             Time = 3;
             //PlaySE(countdown3sec);
             SystemState.action = (uint8_t)DO;
@@ -132,7 +133,7 @@ void StartCountDownProcess(void) {
                 //残り時間が変わった時SEを鳴らす
                 if (Time < lastTimeForPlaySE) {
                     //PlaySE(1&2secSE)
-                    //WriteBuffer(start countdown);
+                    WriteToBufferCountDown(Time);
                 }
             }
             //残り時間0でゲー�?中画面に遷移
@@ -147,11 +148,20 @@ void StartCountDownProcess(void) {
 }
 
 void PlayingGameProcess(void) {
+    uint8_t l_Time = 0;
+
     switch (SystemState.action) {
         case ENTRY:
             //残り時間�?60に設�?
-            Time = 60;
+            Time   = 60;
+            l_Time = Time;
             WriteToBuffer(str_PlayingGameState, 16);
+            WriteToBufferMole(1, HOLE);
+            WriteToBufferMole(2, HOLE);
+            WriteToBufferMole(3, HOLE);
+            WriteToBufferMole(4, HOLE);
+            WriteToBufferScore(Score);
+            WriteToBufferTime(Time);
 
             //BGMを鳴らす
             //PlayBGM();
@@ -160,6 +170,11 @@ void PlayingGameProcess(void) {
         case DO:
             //ゲー�?中
             if (Time) {
+                // タイマに変更があったら
+                if (l_Time != Time) {
+                    WriteToBufferTime(Time);
+                    l_Time = Time;
+                }
                 //モグラの処�?
                 //MoleManager();
                 MoleXProcess(&mole1);

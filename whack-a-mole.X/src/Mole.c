@@ -66,8 +66,9 @@ void MoleXProcess(MoleType *i_moleX) {
                 i_moleX->popFlag = 0;  //(OFF)
             } else {
                 //お手付き処理
-                if (SWState && i_moleX->valueForCompareSW) {
+                if (SWState & i_moleX->valueForCompareSW) {
                     Penalty();
+                    WriteToBufferTime(Time);
                 }
             }
             break;
@@ -75,12 +76,12 @@ void MoleXProcess(MoleType *i_moleX) {
         case MOLE:
             if (i_moleX->popTime) {
                 //モグラ撃退
-                if (SWState && i_moleX->valueForCompareSW) {
+                if (SWState & i_moleX->valueForCompareSW) {
                     //Attacked(&i_moleX);
                     i_moleX->state   = (uint8_t)HIT;
                     i_moleX->popTime = 30;
                     IncScore();
-
+                    WriteToBufferScore(Score);
                     WriteToBufferMole(i_moleX->moleNum, HIT);
                 }
             }
@@ -88,6 +89,7 @@ void MoleXProcess(MoleType *i_moleX) {
             else {
                 //BackToHole(&i_moleX);
                 i_moleX->state = (uint8_t)HOLE;
+                WriteToBufferMole(i_moleX->moleNum, HOLE);
             }
             break;
         //モグラ撃退処理
