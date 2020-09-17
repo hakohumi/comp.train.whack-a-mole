@@ -129,13 +129,14 @@ void LCDInitialize(void) {
     ClrDisplay();
 
     // LCDBuffer変数の初期化
-    memset(LCDBuffer, '\0', sizeof(LCDBuffer) / sizeof(char));
+    memset(LCDBuffer, '\0', sizeof (LCDBuffer) / sizeof (char));
 
     // モグラの絵をLCDのCGRAMに書き込む
     createMoleGpaph();
 }
 
 // LCD上の書き込む場所を指定
+#ifdef NOUSE
 
 inline void SetPosLCD(uint8_t i_pos) {
     // Set DDRAM address DB7 = 1
@@ -144,6 +145,7 @@ inline void SetPosLCD(uint8_t i_pos) {
     I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, (LCD_SET_POS_DB7 | i_pos));
 }
 
+#endif
 // LCD上の書き込む場所を、
 // 上の行か下の行の先頭を指定する
 // true だと 2行目
@@ -241,6 +243,7 @@ void WriteToBufferTime(uint8_t i_time) {
 }
 
 // ゲーム前カウントダウン用
+
 void WriteToBufferCountDown(uint8_t i_time) {
     if (i_time < 10) {
         // LCD更新フラグをONにする
@@ -411,13 +414,15 @@ void ErrorToBuffer(uint8_t num) {
     // エラー番号を2行の最初に表記
     ItoStr(num, &LCDBuffer[8], 2);
 }
-
+#ifdef NOUSE
 // ClearDisplay
 
 void ClrLineDisplay(uint8_t i_line) {
     SetPosLCD(i_line);
     write1LineToLCD(STR_LINE_BLANK, 8);
 }
+
+#endif
 
 void ClrDisplay(void) {
     I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_CLR_DISPLAY);

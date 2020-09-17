@@ -1,6 +1,7 @@
 #include "LED.h"
-
+#ifdef NOUSE
 // LEDbitsの値から、bitに対応したLEDを表示させる
+
 void UpdateLED(uint8_t i_LEDbits) {
     LED1 = ~(i_LEDbits & 1 << 0);
     LED2 = ~((i_LEDbits & 1 << 1) && 1 << 1);
@@ -22,3 +23,5 @@ void LED_AllOff() {
     LED7 = LED_OFF;
     // LED8 = LED_OFF;
 }
+
+#endif

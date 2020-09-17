@@ -55,7 +55,7 @@ void MoleXProcess(MoleType *i_moleX) {
     uint8_t maxPopTime = 200;
 
     switch (i_moleX->state) {
-        //モグラ穴の処理
+            //モグラ穴の処理
         case HOLE:
             //モグラ出現フラグONか
             if (i_moleX->popFlag) {
@@ -72,7 +72,7 @@ void MoleXProcess(MoleType *i_moleX) {
                 }
             }
             break;
-        //モグラ出現処理
+            //モグラ出現処理
         case MOLE:
             if (i_moleX->popTime) {
                 //モグラ撃退
@@ -84,15 +84,14 @@ void MoleXProcess(MoleType *i_moleX) {
                     WriteToBufferScore(Score);
                     WriteToBufferMole(i_moleX->moleNum, HIT);
                 }
-            }
-            //モグラ穴に戻る処理
+            }  //モグラ穴に戻る処理
             else {
                 //BackToHole(&i_moleX);
                 i_moleX->state = (uint8_t)HOLE;
                 WriteToBufferMole(i_moleX->moleNum, HOLE);
             }
             break;
-        //モグラ撃退処理
+            //モグラ撃退処理
         case HIT:
             //モグラの穴に戻る処理
             if (!i_moleX->popTime) {
@@ -103,33 +102,6 @@ void MoleXProcess(MoleType *i_moleX) {
             break;
         default:
             break;
-    }
-}
-
-//モグラ出現処理
-void OutOfHole(MoleType *i_moleX) {
-    i_moleX->state   = (uint8_t)MOLE;
-    i_moleX->popTime = GetPopTime(Level, Time);  //モグラ出現時間決定
-}
-
-//モグラ撃退処理
-void Attacked(MoleType *i_moleX) {
-    i_moleX->state   = (uint8_t)HIT;
-    i_moleX->popTime = 30;
-    IncScore();
-}
-
-//モグラの穴に戻る処理
-void BackToHole(MoleType *i_moleX) {
-    i_moleX->state = (uint8_t)HOLE;
-}
-
-void MoleTimerProcess(void) {
-    if (SystemState.displayState == PLAYING_GAME) {
-        MoleXTimerProcess(&mole1);
-        MoleXTimerProcess(&mole2);
-        MoleXTimerProcess(&mole3);
-        MoleXTimerProcess(&mole4);
     }
 }
 
@@ -148,6 +120,38 @@ void MoleXTimerProcess(MoleType *i_mole) {
         if (i_mole->popTime) {
             i_mole->popTime--;
         }
+    }
+}
+
+#ifdef NOUSE
+
+//モグラ出現処理
+
+void OutOfHole(MoleType *i_moleX) {
+    i_moleX->state   = (uint8_t)MOLE;
+    i_moleX->popTime = GetPopTime(Level, Time);  //モグラ出現時間決定
+}
+
+//モグラ撃退処理
+
+void Attacked(MoleType *i_moleX) {
+    i_moleX->state   = (uint8_t)HIT;
+    i_moleX->popTime = 30;
+    IncScore();
+}
+
+//モグラの穴に戻る処理
+
+void BackToHole(MoleType *i_moleX) {
+    i_moleX->state = (uint8_t)HOLE;
+}
+
+void MoleTimerProcess(void) {
+    if (SystemState.displayState == PLAYING_GAME) {
+        MoleXTimerProcess(&mole1);
+        MoleXTimerProcess(&mole2);
+        MoleXTimerProcess(&mole3);
+        MoleXTimerProcess(&mole4);
     }
 }
 
@@ -197,19 +201,16 @@ uint8_t GetPopTime(uint8_t i_level, uint8_t i_time) {
     if (randVal < PERCENT10_16BIT) {
         //1ビット右シフト
         popTime >>= 1;
-    }
-    //randPer100が10%-40%以内(30%)
+    }  //randPer100が10%-40%以内(30%)
     else if (randVal < PERCENT40_16BIT) {
         //0x7F以下のとき、左シフト
         if (popTime < 0x80) {
             popTime <<= 1;
-        }
-        //0x80以上のとき、maxPopTime
+        }  //0x80以上のとき、maxPopTime
         else {
             popTime = maxPopTime;
         }
-    }
-    //それ以外(60%)
+    }  //それ以外(60%)
     else {
         //popTimeを変更しない
     }
@@ -223,3 +224,5 @@ uint8_t GetPopTime(uint8_t i_level, uint8_t i_time) {
     }
     return popTime;
 }
+
+#endif

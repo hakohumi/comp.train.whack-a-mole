@@ -14,7 +14,7 @@ char *utoa(unsigned int value, char *s, int radix);
 // 文字リテラル
 // =--------------------------------------------
 
-uint8_t STR_CHAR_BLANK  = ' ';
+uint8_t STR_CHAR_BLANK   = ' ';
 uint8_t *STR_LINE_BLANK  = "        ";
 uint8_t *STR_2LINE_BLANK = "                ";
 uint8_t *STR_ERROR       = "error";
@@ -39,6 +39,8 @@ void ItoStr(uint16_t i_value, uint8_t *o_strAdd, uint8_t i_strLen) {
     }
 }
 
+#ifdef NOUSE
+
 // 拾ってきた関数
 // なぜか動かない
 char *utoa(unsigned int value, char *s, int radix) {
@@ -59,3 +61,5 @@ char *utoa(unsigned int value, char *s, int radix) {
     }
     return s;
 }
+
+#endif
