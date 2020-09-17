@@ -7,7 +7,7 @@
 #include "Common.h"
 #include "examples/i2c1_master_example.h"
 // モグラの状態用
-#include "_Mole.h"
+#include "Mole.h"
 
 /* -------------------------------------------------- */
 // プライベートなdefine
