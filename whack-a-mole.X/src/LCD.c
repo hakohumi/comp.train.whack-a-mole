@@ -2,7 +2,6 @@
 #include "LCD.h"
 
 #include <mcc.h>
-#include <string.h>
 
 #include "Common.h"
 #include "examples/i2c1_master_example.h"
@@ -42,7 +41,9 @@
 /* -------------------------------------------------- */
 
 // LCDに書き込む文字列保存用バッファ 16文字
-#define LCD_BUFF_SIZE_MAX 17
+#define LCD_BUFF_SIZE_MAX 16
+#define LCD_2LINE_LEN 16
+
 // 1行の8文字表示用バッファ
 #define BUFF_LINE_SIZE_MAX 9
 // 1行の表示可能桁数
@@ -129,45 +130,63 @@ void LCDInitialize(void) {
     ClrDisplay();
 
     // LCDBuffer変数の初期化
-    memset(LCDBuffer, '\0', sizeof (LCDBuffer) / sizeof (char));
+    ClrLCDBuffer();
 
     // モグラの絵をLCDのCGRAMに書き込む
     createMoleGpaph();
 }
 
-// LCD上の書き込む場所を指定
-#ifdef NOUSE
-
-inline void SetPosLCD(uint8_t i_pos) {
-    // Set DDRAM address DB7 = 1
-    // 設定可能ビット DB0 ~ DB6
-
-    I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, (LCD_SET_POS_DB7 | i_pos));
-}
-
-#endif
-// LCD上の書き込む場所を、
-// 上の行か下の行の先頭を指定する
-// true だと 2行目
-// false だと 1行目
-
-inline void SetPosLineLCD(bool i_row) {
-    if (i_row) {
-        // true 2行目
-        I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, (LCD_SET_POS_DB7 | LINE_SECOND_ADDR));
-    } else {
-        // false 1行目
-        I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, (LCD_SET_POS_DB7 | LINE_FIRST_ADDR));
+void ClrLCDBuffer(void) {
+    uint8_t i;
+    for (i = 0; i < LCD_BUFF_SIZE_MAX; i++) {
+        LCDBuffer[i] = STR_2LINE_BLANK[i];
     }
 }
 
+// 1行単位でバッファに空白を書き込む
+// 1行目 false、 2行目 true
+void ClrLCDBufferLine(bool i_line) {
+    uint8_t i;
+    if (i_line == false) {
+        for (i = 0; i < LCD_LINE_LEN; i++) {
+            LCDBuffer[i] = STR_LINE_BLANK[i];
+        }
+    } else {
+        for (i = 0; i < LCD_LINE_LEN; i++) {
+            LCDBuffer[i + LCD_LINE_LEN] = STR_LINE_BLANK[i];
+        }
+    }
+}
+
+// 　好きな位置を選択して、書き換える
+
+void WriteToBuffer(uint8_t i_WriteStartPos, uint8_t *i_str, uint8_t i_strLen) {
+    uint8_t i, c;
+
+    // LCD更新フラグをON
+    setUpdateLCDFlg();
+
+    // もし、指定された文字数がLCDの残り桁数超えていたら、
+    if ((16 - i_WriteStartPos) < i_strLen) {
+        // エラー
+        ErrorToBuffer(ERR_W_T_B_OVERSTRLEN);
+    } else {
+        // LCDBufferの先頭から、引数に指定された文字列をi_strLen文字コピーする
+        for (i = i_WriteStartPos, c = 0; c < i_strLen; i++, c++) {
+            LCDBuffer[i] = i_str[c];
+        }
+    }
+}
+
+#ifdef NOUSE
 // WriteToBuffer
 // 引数
 // 　i_strLen 文字列の文字数。終端文字はカウントしない
 
-void WriteToBuffer(uint8_t *i_str, uint8_t i_strLen) {
+void WriteToBuffer2(uint8_t *i_str, uint8_t i_strLen) {
     uint8_t i;
 
+    // LCD更新フラグをON
     setUpdateLCDFlg();
 
     // もし、指定された文字数が16を超えていたら、
@@ -176,7 +195,7 @@ void WriteToBuffer(uint8_t *i_str, uint8_t i_strLen) {
         ErrorToBuffer(ERR_W_T_B_OVERSTRLEN);
     } else {
         // LCDBufferに空白を入れる
-        strncpy(LCDBuffer, STR_2LINE_BLANK, LCD_BUFF_SIZE_MAX);
+        ClrLCDBuffer();
 
         // LCDBufferの先頭から、引数に指定された文字列をコピーする
         for (i = 0; i < i_strLen; i++) {
@@ -184,6 +203,8 @@ void WriteToBuffer(uint8_t *i_str, uint8_t i_strLen) {
         }
     }
 }
+
+#endif
 
 void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen) {
     uint8_t i;
@@ -196,7 +217,7 @@ void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen) {
         ErrorToBuffer(ERR_W_T_B_F_OVERSTRLEN);
     } else {
         // LCDBufferの上の行に空白を入れる
-        strncpy(LCDBuffer, STR_LINE_BLANK, LCD_LINE_LEN);
+        ClrLCDBufferLine(false);
 
         // LCDBufferの先頭から、引数に指定された文字列をコピーする
         for (i = 0; i < i_strLen; i++) {
@@ -217,7 +238,7 @@ void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen) {
         ErrorToBuffer(ERR_W_T_B_S_OVERSTRLEN);
     } else {
         // LCDBufferの下の行に空白を入れる
-        strncpy(&LCDBuffer[8], STR_LINE_BLANK, LCD_LINE_LEN);
+        ClrLCDBufferLine(true);
 
         // LCDBufferの先頭から、引数に指定された文字列をコピーする
         for (i = 0; i < i_strLen; i++) {
@@ -225,6 +246,25 @@ void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen) {
         }
     }
 }
+
+// 引数 書き込み開始位置(0 ~ 15), 数値, 桁数
+
+void WriteToBufferInt(uint8_t i_WriteStartPos, uint16_t i_score, uint8_t i_Len) {
+    int8_t i, c;
+
+    if ((LCD_2LINE_LEN - (i_WriteStartPos - 1)) > i_Len) {
+        // LCD更新フラグをONにする
+        setUpdateLCDFlg();
+
+        for (i = i_WriteStartPos, c = (i_Len - 1); c >= 0; c--) {
+            LCDBuffer[i + c] = itochar((uint8_t)(i_score % 10));
+            // 桁をずらす
+            i_score /= 10;
+        }
+    }
+}
+
+#ifdef NOUSE
 
 // ゲーム中に、残り時間を変更した時に呼ばれる
 // 残り時間の位置のバッファを書き換える
@@ -272,6 +312,8 @@ void WriteToBufferScore(uint16_t i_score) {
     // 100の位を格納
     LCDBuffer[1] = itochar((uint8_t)(i_score % 10));
 }
+
+#endif
 
 /* -------------------------------------------------- */
 // モグラの表示に関連する
@@ -414,7 +456,33 @@ void ErrorToBuffer(uint8_t num) {
     // エラー番号を2行の最初に表記
     ItoStr(num, &LCDBuffer[8], 2);
 }
+
+// LCD上の書き込む場所を、
+// 上の行か下の行の先頭を指定する
+// true だと 2行目
+// false だと 1行目
+
+inline void SetPosLineLCD(bool i_row) {
+    if (i_row) {
+        // true 2行目
+        I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, (LCD_SET_POS_DB7 | LINE_SECOND_ADDR));
+    } else {
+        // false 1行目
+        I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, (LCD_SET_POS_DB7 | LINE_FIRST_ADDR));
+    }
+}
+
 #ifdef NOUSE
+
+// LCD上の書き込む場所を指定
+
+inline void SetPosLCD(uint8_t i_pos) {
+    // Set DDRAM address DB7 = 1
+    // 設定可能ビット DB0 ~ DB6
+
+    I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, (LCD_SET_POS_DB7 | i_pos));
+}
+
 // ClearDisplay
 
 void ClrLineDisplay(uint8_t i_line) {
@@ -451,10 +519,12 @@ static void write1LineToLCD(uint8_t *i_str, uint8_t i_len) {
     // 合計9バイトを確保する
     // BUFF_LINE_SIZE_MAX = 9
     uint8_t l_buf[BUFF_LINE_SIZE_MAX];
-    uint8_t c;
+    uint8_t i, c;
 
     // l_bufの初期化
-    memset(l_buf, '\0', BUFF_LINE_SIZE_MAX);
+    for (i = 0; i < LCD_LINE_LEN; i++) {
+        l_buf[i] = STR_LINE_BLANK[i];
+    }
 
     l_buf[0] = WR_CONTROLE_BYTE;
 

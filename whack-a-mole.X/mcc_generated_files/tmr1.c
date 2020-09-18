@@ -185,7 +185,9 @@ void TMR1_DefaultInterruptHandler(void) {
     if (++TimeForRand >= 0xFFFF) {
         TimeForRand = 0;
     }
+
     DetectPushSW();
+
     if (++count1sec >= 100) {
         CountDown();
         count1sec = 0;
@@ -222,6 +224,9 @@ void TMR1_DefaultInterruptHandler(void) {
 #endif
 }
 
+void ClrCount1sec(void) {
+    count1sec = 0;
+}
 /**
   End of File
  */
