@@ -8,7 +8,7 @@ uint16_t Score;
 
 void IncScore(void) {
     if (Score < 999)
-        //�X�R�A��1���Z
+        //スコアをインクリメント
         Score++;
 }
 

@@ -78,12 +78,15 @@ void MoleXTimerProcess(MoleType *i_mole) {
     uint16_t randVal;
 
     if (i_mole->state == HOLE) {
+        //モグラ出現判定値を取得
         decisionNumber = (molePopProbability + (molePopProbability / 60) * (60 - Time)) * (Level+1);
         randVal        = GetRand();
+        //乱数がモグラ出現判定値より小さいとき、popFlagを立てる
         //        if(PopDecision(decisionNumber)){
         if (randVal < decisionNumber) {
             i_mole->popFlag = 1;
         }
+    //モグラの状態が未出現以外のとき、出現時間を減少
     } else {
         if (i_mole->popTime) {
             i_mole->popTime--;

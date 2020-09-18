@@ -16,33 +16,26 @@ extern "C" {
 
 extern uint16_t Score;
 
-/* ƒXƒRƒA‰ÁZŠÖ”
- * Score‚ğ1‘‰Á‚·‚é
- * “ü—Í
- * o—Í Score(Å‘å999)
+/* ã‚¹ã‚³ã‚¢å¢—åŠ é–¢æ•°
+ * Scoreã‚’1å¢—åŠ ã™ã‚‹
+ * å…¥åŠ›
+ * å‡ºåŠ› uint16_t Score(æœ€å¤§å€¤999)
  */
 void IncScore(void);
 
-/* ƒnƒCƒXƒRƒA‹L˜^ŠÖ”
- * w’è‚³‚ê‚½“ïˆÕ“x‚ÌHighScore‚ğScore‚Ì’l‚Å‹L˜^‚·‚é
- * “ü—Í Score
- * o—Í void
+/* ãƒã‚¤ã‚¹ã‚³ã‚¢ä¿å­˜é–¢æ•°
+ * æŒ‡å®šã•ã‚ŒãŸé›£æ˜“åº¦ã®ãƒã‚¤ã‚¹ã‚³ã‚¢ã‚’EEPROMã«ä¿å­˜ã™ã‚‹
+ * å…¥åŠ› uint8_t i_level ã‚²ãƒ¼ãƒ ã®é›£æ˜“åº¦
+ *     uint16_t i_score ã‚¹ã‚³ã‚¢
+ * å‡ºåŠ› 
  */
 void SaveHighScore(uint8_t i_level, uint16_t i_score);
 
-/* ƒnƒCƒXƒRƒAƒNƒŠƒAŠÖ”
- * w’è‚³‚ê‚½“ïˆÕ“x‚ÌHighScore‚ğ0ƒNƒŠƒA‚·‚é
- * “ü—Í “ïˆÕ“x
- * o—Í void
+/* ãƒã‚¤ã‚¹ã‚³ã‚¢å–å¾—é–¢æ•°
+ * EEEPROMã‹ã‚‰æŒ‡å®šã•ã‚ŒãŸé›£æ˜“åº¦ã®ãƒã‚¤ã‚¹ã‚³ã‚¢ã‚’å–å¾—ã™ã‚‹
+ * å…¥åŠ› uint8_t i_level ã‚²ãƒ¼ãƒ ã®é›£æ˜“åº¦
+ * å‡ºåŠ› uint16_t HighScore ãƒã‚¤ã‚¹ã‚³ã‚¢
  */
-// void ClearHighScore(uint8_t i_level);
-
-/* ƒnƒCƒXƒRƒAæ“¾ŠÖ”
- * w’è‚³‚ê‚½“ïˆÕ“x‚ÌHighScore‚ğEEEPROM‚©‚çæ“¾‚·‚é
- * “ü—Í “ïˆÕ“x
- * o—Í HighScore uint16_t
- */
-
 uint16_t GetHighScore(uint8_t i_level);
 
 #ifdef __cplusplus

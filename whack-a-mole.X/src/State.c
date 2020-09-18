@@ -8,8 +8,10 @@
 #include "Score.h"
 #include "Timer.h"
 
-uint8_t l_swProcessEndFlag     = 0;
-uint8_t l_swDefaultPatternFlag = 0;
+//SW処理終了フラグ
+bool l_swProcessEndFlag     = 0;
+//例外入力パターン(同時押し)検出フラグ
+bool l_swDefaultPatternFlag = 0;
 
 // count1secを初期化するため
 #include "tmr1.h"
@@ -57,10 +59,12 @@ void TitleProcess(void) {
                 SystemState.action = (uint8_t)ENTRY;
                 l_swProcessEndFlag = 1;
             } else {
+                //例外入力を検出
                 if (SWState) {
                     l_swDefaultPatternFlag = 1;
                 }
             }
+            //SWStateのクリア
             if (l_swDefaultPatternFlag || l_swProcessEndFlag) {
                 SWState                = 0;
                 l_swProcessEndFlag     = 0;
@@ -78,7 +82,7 @@ void SelectLevelProcess(void) {
         case ENTRY:
             ClrLCDBuffer();
 
-            //難易度設�?(EASY)
+            //難易度設定(EASY)
             SetLevel((uint8_t)EASY);
             // 1行目に"EASY"を書く
             WriteToBufferFirst(STR_LEVEL_EASY, STR_LEVEL_EASY_LEN);
@@ -94,7 +98,7 @@ void SelectLevelProcess(void) {
             switch (SWState) {
                     //SW1
                 case SW1:
-                    //難易度設�?(EASY)
+                    //難易度設定(EASY)
                     SetLevel((uint8_t)EASY);
                     // 1行目に"EASY"を書く
                     WriteToBufferFirst(STR_LEVEL_EASY, STR_LEVEL_EASY_LEN);
@@ -108,7 +112,7 @@ void SelectLevelProcess(void) {
                     break;
                     //SW2
                 case SW2:
-                    //難易度設�?(NORMAL)
+                    //難易度設定(NORMAL)
                     SetLevel((uint8_t)NORMAL);
                     // 1行目に"NORMAL"を書く
                     WriteToBufferFirst(STR_LEVEL_NORMAL, STR_LEVEL_NORMAL_LEN);
@@ -121,7 +125,7 @@ void SelectLevelProcess(void) {
                     break;
                     //SW3
                 case SW3:
-                    //難易度設�?(HARD)
+                    //難易度設定(HARD)
                     SetLevel((uint8_t)HARD);
                     // 1行目に"HARD"を書く
                     WriteToBufferFirst(STR_LEVEL_HARD, STR_LEVEL_HARD_LEN);
@@ -142,7 +146,7 @@ void SelectLevelProcess(void) {
                     break;
                     //SW5
                 case SW5:
-                    //ゲー�?開始カウントダウン画面に遷移
+                    //ゲーム開始カウントダウン画面に遷移
                     ChangeState((uint8_t)START_COUNT_DOWN);
                     SystemState.action = (uint8_t)ENTRY;
                     l_swProcessEndFlag = 1;
@@ -207,11 +211,12 @@ void StartCountDownProcess(void) {
 
     switch (SystemState.action) {
         case ENTRY:
+            //残り時間設定
             Time   = 3;
             l_Time = Time;
 
             ClrLCDBuffer();
-            //残り時間設�?
+            
             WriteToBufferFirst(str_StartCountDownState, 8);
 
             //PlaySE(countdown3sec);
@@ -231,7 +236,7 @@ void StartCountDownProcess(void) {
                 }
 
                 WriteToBufferInt(10, Time, 1);
-            }  //残り時間0でゲー�?中画面に遷移
+            }  //残り時間0でゲーム中画面に遷移
             else {
                 SWState = 0;
                 ChangeState((uint8_t)PLAYING_GAME);
@@ -253,7 +258,7 @@ void PlayingGameProcess(void) {
             MaxMolePopTime = 50 << (3 - Level);  //200-100
             ClrLCDBuffer();
 
-            //残り時間�?60に設�?
+            //残り時間を60に設定
             Time   = 60;
             l_Time = Time;
 
@@ -281,7 +286,7 @@ void PlayingGameProcess(void) {
                     WriteToBufferInt(6, Time, 2);
                     l_Time = Time;
                 }
-                //モグラの処�?
+                //モグラの処理
                 //MoleManager();
                 MoleXProcess(&mole1);
                 MoleXProcess(&mole2);
@@ -330,7 +335,7 @@ void ResultProcess(void) {
         case DO:
             //SW5が押されたか
             if (SWState == SW5) {
-                //ハイスコア更新処�?
+                //ハイスコア更新処理
                 if (Score > GetHighScore(Level)) {
                     SaveHighScore(Level, Score);
                     l_swProcessEndFlag = 1;
