@@ -12,8 +12,13 @@
         </logicalFolder>
         <itemPath>header/Common.h</itemPath>
         <itemPath>header/LCD.h</itemPath>
+        <itemPath>header/Input.h</itemPath>
         <itemPath>header/LED.h</itemPath>
-        <itemPath>header/Rand.h</itemPath>
+        <itemPath>header/Level.h</itemPath>
+        <itemPath>header/Mole.h</itemPath>
+        <itemPath>header/Score.h</itemPath>
+        <itemPath>header/State.h</itemPath>
+        <itemPath>header/Timer.h</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -25,7 +30,6 @@
         <itemPath>mcc_generated_files/pin_manager.h</itemPath>
         <itemPath>mcc_generated_files/mcc.h</itemPath>
         <itemPath>mcc_generated_files/interrupt_manager.h</itemPath>
-        <itemPath>mcc_generated_files/tmr0.h</itemPath>
         <itemPath>mcc_generated_files/memory.h</itemPath>
         <itemPath>mcc_generated_files/tmr1.h</itemPath>
         <itemPath>mcc_generated_files/tmr2.h</itemPath>
@@ -49,7 +53,6 @@
         <itemPath>mcc_generated_files/device_config.c</itemPath>
         <itemPath>mcc_generated_files/mcc.c</itemPath>
         <itemPath>mcc_generated_files/pin_manager.c</itemPath>
-        <itemPath>mcc_generated_files/tmr0.c</itemPath>
         <itemPath>mcc_generated_files/interrupt_manager.c</itemPath>
         <itemPath>mcc_generated_files/memory.c</itemPath>
         <itemPath>mcc_generated_files/pwm3.c</itemPath>
@@ -69,6 +72,16 @@
         <itemPath>src/Rand.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
+      <itemPath>src/Rand.c</itemPath>
+      <itemPath>src/LCD.c</itemPath>
+      <itemPath>src/LED.c</itemPath>
+      <itemPath>src/Common.c</itemPath>
+      <itemPath>src/State.c</itemPath>
+      <itemPath>src/Input.c</itemPath>
+      <itemPath>src/Level.c</itemPath>
+      <itemPath>src/Mole.c</itemPath>
+      <itemPath>src/Score.c</itemPath>
+      <itemPath>src/Timer.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -372,7 +385,7 @@
         <property key="input-libraries" value="libm"/>
         <property key="keep-generated-startup.as" value="false"/>
         <property key="link-in-c-library" value="true"/>
-        <property key="link-in-c-library-gcc" value="-mc90lib"/>
+        <property key="link-in-c-library-gcc" value=""/>
         <property key="link-in-peripheral-library" value="false"/>
         <property key="managed-stack" value="false"/>
         <property key="opt-xc8-linker-file" value="false"/>
@@ -433,6 +446,8 @@
         <property key="oscillator.frequencyunit" value="Mega"/>
         <property key="oscillator.rcfrequency" value="250"/>
         <property key="oscillator.rcfrequencyunit" value="Kilo"/>
+        <property key="oscillator.rcfrequency" value="16"/>
+        <property key="oscillator.rcfrequencyunit" value="Mega"/>
         <property key="periphADC1.altscl" value="false"/>
         <property key="periphADC1.minTacq" value=""/>
         <property key="periphADC1.tacqunits" value="microseconds"/>

@@ -6,18 +6,22 @@
 
 uint8_t itochar(uint8_t value);
 
+#ifdef NOUSE
 char *utoa(unsigned int value, char *s, int radix);
-
+#endif
 /* -------------------------------------------------- */
 
 // ---------------------------------------------
 // 文字リテラル
 // =--------------------------------------------
 
-uint8_t *STR_CHAR_BLANK  = ' ';
+uint8_t STR_CHAR_BLANK   = ' ';
 uint8_t *STR_LINE_BLANK  = "        ";
 uint8_t *STR_2LINE_BLANK = "                ";
-uint8_t *STR_ERROR       = "error";
+
+#ifdef NOUSE
+uint8_t *STR_ERROR = "error";
+#endif
 
 /* -------------------------------------------------- */
 
@@ -29,6 +33,8 @@ uint8_t itochar(uint8_t value) {
     }
     return "0123456789"[value];
 }
+
+#ifdef NOUSE
 
 // 受取った数値を文字列へ変換
 void ItoStr(uint16_t i_value, uint8_t *o_strAdd, uint8_t i_strLen) {
@@ -59,3 +65,5 @@ char *utoa(unsigned int value, char *s, int radix) {
     }
     return s;
 }
+
+#endif

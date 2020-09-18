@@ -45,14 +45,19 @@
 
 #include "Buzzer.h"
 #include "Common.h"
+#include "Input.h"
 #include "LCD.h"
 #include "LED.h"
 #include "Rand.h"
+#include "Score.h"
+#include "State.h"
+#include "Timer.h"
 #include "mcc.h"
 
 // マイコンに書き込み時にEEPROMに値を書き込む
 // 8バイトずつ
-// __EEPROM_DATA(0, 2, 4, 6, 7, 5, 3, 1);
+__EEPROM_DATA(0, 1, 2, 3, 4, 5, 6, 7);
+__EEPROM_DATA(8, 9, 10, 11, 12, 13, 14, 15);
 
 // global variable
 
@@ -72,6 +77,13 @@ void main(void) {
     // Enable the Peripheral Interrupts
     INTERRUPT_PeripheralInterruptEnable();
 
+    // SystemDataInitialize();
+    ChangeState(TITLE);
+    SystemState.action = ENTRY;
+    SWState            = 0;
+
+    // RandInitialize()
+
     // LCD初期化
     LCDInitialize();
     // LCDをON
@@ -88,23 +100,38 @@ void main(void) {
     bool l_isSE  = OFF;
 
     while (1) {
-        l_isBGM = GetIsPlayBGM();
-        l_isSE  = GetIsPlaySE();
-
-        if (l_isBGM == ON) {
-            WriteToBufferFirst(l_str_BGM, 6);
-        } else {
-            WriteToBufferFirst(STR_LINE_BLANK, 8);
+        //状態処理
+        switch (SystemState.displayState) {
+            //タイトル画面
+            case TITLE:
+                TitleProcess();
+                break;
+            //難易度選択画面
+            case SELECT_LEVEL:
+                SelectLevelProcess();
+                break;
+            //ハイスコアクリア確認画面
+            case HS_CLEAR:
+                HSClearProcess();
+                break;
+            //ゲーム開始カウントダウン画面
+            case START_COUNT_DOWN:
+                StartCountDownProcess();
+                break;
+            //ゲーム中画面
+            case PLAYING_GAME:
+                PlayingGameProcess();
+                break;
+            //リザルト画面
+            case RESULT:
+                ResultProcess();
+                break;
+            default:
+                break;
         }
 
-        if (l_isSE == ON) {
-            WriteToBufferSecond(l_str_SE, 6);
-        } else {
-            WriteToBufferSecond(STR_LINE_BLANK, 8);
-        }
-
-        UpdateBuzzer();
         BufferToLCD();
+        UpdateBuzzer();
     }
 }
 

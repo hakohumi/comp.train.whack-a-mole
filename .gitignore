@@ -59,6 +59,7 @@ dkms.conf
 
 whack-a-mole.X/*
 !whack-a-mole.X/Makefile
+!whack-a-mole.X/MyConfig.mc3
 !whack-a-mole.X/nbproject
 whack-a-mole.X/nbproject/*
 !whack-a-mole.X/nbproject/configurations.xml

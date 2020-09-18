@@ -52,8 +52,14 @@
 
 #include <xc.h>
 
+#include "../header/Mole.h"
+#include "../header/State.h"
 #include "Buzzer.h"
+#include "Input.h"
+#include "Timer.h"
 
+//static uint8_t count5msec = 0;
+static uint8_t count1sec = 0;
 
 /**
   Section: Global Variables Definitions
@@ -71,11 +77,11 @@ void TMR1_Initialize(void) {
     //T1GSS T1G_pin; TMR1GE disabled; T1GTM disabled; T1GPOL low; T1GGO done; T1GSPM disabled;
     T1GCON = 0x00;
 
-    //TMR1H 240;
-    TMR1H = 0xF0;
+    //TMR1H 99;
+    TMR1H = 0x63;
 
-    //TMR1L 96;
-    TMR1L = 0x60;
+    //TMR1L 192;
+    TMR1L = 0xC0;
 
     // Clearing IF flag before enabling the interrupt.
     PIR1bits.TMR1IF = 0;
@@ -134,7 +140,7 @@ void TMR1_WriteTimer(uint16_t timerVal) {
     }
 }
 
-void TMR1_Reload(void) {
+inline void TMR1_Reload(void) {
     TMR1_WriteTimer(timer1ReloadVal);
 }
 
@@ -147,6 +153,8 @@ uint8_t TMR1_CheckGateValueStatus(void) {
 }
 
 void TMR1_ISR(void) {
+    static volatile unsigned int CountCallBack = 0;
+
     // Clear the TMR1 interrupt flag
     PIR1bits.TMR1IF = 0;
     TMR1_WriteTimer(timer1ReloadVal);
@@ -154,9 +162,12 @@ void TMR1_ISR(void) {
     // ticker function call;
     // ticker is 1 -> Callback function gets called everytime this ISR executes
     TMR1_CallBack();
+
+    // reset ticker counter
+    CountCallBack = 0;
 }
 
-void TMR1_CallBack(void) {
+inline void TMR1_CallBack(void) {
     // Add your custom callback code here
     if (TMR1_InterruptHandler) {
         TMR1_InterruptHandler();
@@ -180,8 +191,31 @@ void TMR1_DefaultInterruptHandler(void) {
         Buzzer10msFlg--;
     }
     /* -------------------------------------------------- */
+
+    if (++TimeForRand >= 0xFFFF) {
+        TimeForRand = 0;
+    }
+
+    DetectPushSW();
+
+    if (++count1sec >= 100) {
+        CountDown();
+        count1sec = 0;
+        RB2       = ~RB2;
+    }
+
+    //MoleTimerProcess();
+    if (SystemState.displayState == PLAYING_GAME) {
+        MoleXTimerProcess(&mole1);
+        MoleXTimerProcess(&mole2);
+        MoleXTimerProcess(&mole3);
+        MoleXTimerProcess(&mole4);
+    }
 }
 
+void ClrCount1sec(void) {
+    count1sec = 0;
+}
 /**
   End of File
  */

@@ -18,6 +18,12 @@
         "lcd.h": "c",
         "system_error": "c",
         "type_traits": "c",
-        "xtr1common": "c"
+        "xtr1common": "c",
+        "timer.h": "c",
+        "mole.h": "c",
+        "score.h": "c",
+        "level.h": "c",
+        "memory.h": "c",
+        "tmr1.h": "c"
     }
 }
