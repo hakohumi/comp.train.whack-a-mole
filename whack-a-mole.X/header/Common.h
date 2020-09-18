@@ -51,12 +51,15 @@ extern uint8_t *STR_ERROR;
 
 /* -------------------------------------------------- */
 
+#ifdef NOUSE
 typedef enum {
     ERR_W_T_B_OVERSTRLEN,
     ERR_W_T_B_F_OVERSTRLEN,
     ERR_W_T_B_S_OVERSTRLEN,
     ERR_1,
 } MY_ERROR;
+
+#endif
 
 /* -------------------------------------------------- */
 

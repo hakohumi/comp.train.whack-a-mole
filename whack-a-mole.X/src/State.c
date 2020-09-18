@@ -49,6 +49,10 @@ void TitleProcess(void) {
             //タイトル文字列書き込み
             ClrLCDBuffer();
             WriteToBufferFirst(str_TitleState, 7);
+            WriteToBufferMole(1, HOLE);
+            WriteToBufferMole(2, MOLE);
+            WriteToBufferMole(3, HIT);
+            WriteToBufferMole(4, HOLE);
             SystemState.action = (uint8_t)DO;
             break;
         case DO:
