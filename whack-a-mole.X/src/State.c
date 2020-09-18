@@ -14,7 +14,7 @@ static uint8_t *str_TitleState          = {"TITLE"};
 static uint8_t *str_SelectLevelState    = {"LEVEL"};
 static uint8_t *str_HSClearState        = {"HSCLEAR"};
 static uint8_t *str_StartCOuntDownState = {"CNT_DOWN"};
-uint8_t str_PlayingGameState[16]        = {"S000 T00        "};
+uint8_t str_PlayingGameState[8]         = {"S000 T00"};
 static uint8_t *str_ResultState         = {"RESULT"};
 
 void ChangeState(uint8_t i_displayState) {
@@ -187,8 +187,9 @@ void PlayingGameProcess(void) {
             //残り時間�?60に設�?
             Time   = 60;
             l_Time = Time;
-            WriteToBuffer(str_PlayingGameState, 16);
-            WriteToBufferMole(1, HOLE);
+
+            // ゲーム中の「S」や「T」を表示させる
+            WriteToBufferFirst(str_PlayingGameState, 8);
             WriteToBufferMole(2, HOLE);
             WriteToBufferMole(3, HOLE);
             WriteToBufferMole(4, HOLE);
@@ -236,6 +237,7 @@ void ResultProcess(void) {
             WriteToBuffer(str_ResultState, 6);
 
             // Randのシード値をEEPROMに書き込む
+            SaveRandSeed();
 
             SystemState.action = (uint8_t)DO;
             break;
