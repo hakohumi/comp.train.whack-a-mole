@@ -437,6 +437,7 @@ extern void (*TMR1_InterruptHandler)(void);
     None
 */
 void TMR1_DefaultInterruptHandler(void);
+void ClrCount1sec(void);
 
 #ifdef __cplusplus  // Provide C++ Compatibility
 }

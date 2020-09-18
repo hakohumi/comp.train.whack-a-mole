@@ -56,6 +56,7 @@
 // マイコンに書き込み時にEEPROMに値を書き込む
 // 8バイトずつ
 __EEPROM_DATA(0, 1, 2, 3, 4, 5, 6, 7);
+__EEPROM_DATA(8, 9, 10, 11, 12, 13, 14, 15);
 
 // global variable
 
@@ -69,10 +70,12 @@ void main(void) {
     // Enable the Peripheral Interrupts
     INTERRUPT_PeripheralInterruptEnable();
 
-    //SystemDataInitialize();
+    // SystemDataInitialize();
     ChangeState(TITLE);
     SystemState.action = ENTRY;
-    SWState = 0;
+    SWState            = 0;
+
+    // RandInitialize()
 
     // LCD初期化
     LCDInitialize();
