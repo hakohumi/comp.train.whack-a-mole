@@ -38,24 +38,6 @@ void SaveHighScore(uint8_t i_level, uint16_t i_score) {
     DATAEE_WriteByte(l_addrL, l_Score & 0x00FF);
 }
 
-// void ClearHighScore(uint8_t i_level) {
-//     switch (i_level) {
-//         case EASY:
-//             DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_EASY_L, 0);
-//             DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_EASY_H, 0);
-//             break;
-//         case NORMAL:
-//             DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_NORMAL_L, 0);
-//             DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_NORMAL_H, 0);
-//             break;
-//         case HARD:
-//             DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_HARD_L, 0);
-//             DATAEE_WriteByte(EEPROM_ADDR_HIGHSCORE_HARD_H, 0);
-//             break;
-//         default:
-//             break;
-//     }
-// }
 
 uint16_t GetHighScore(uint8_t i_level) {
     uint16_t l_highscore = 0xFFFF;
