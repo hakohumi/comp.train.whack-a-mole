@@ -33,11 +33,11 @@ typedef struct {
 } SWType;
 
 //SW1-5
-SWType sw1 = { 0, 0, (uint8_t)SW1, 0};
-SWType sw2 = { 0, 0, (uint8_t)SW2, 0};
-SWType sw3 = { 0, 0, (uint8_t)SW3, 0};
-SWType sw4 = { 0, 0, (uint8_t)SW4, 0};
-SWType sw5 = { 0, 0, (uint8_t)SW5, 0};
+SWType sw1 = { 0, 0, SW1, 0};
+SWType sw2 = { 0, 0, SW2, 0};
+SWType sw3 = { 0, 0, SW3, 0};
+SWType sw4 = { 0, 0, SW4, 0};
+SWType sw5 = { 0, 0, SW5, 0};
 
 //ポート値
 uint8_t InputPort;

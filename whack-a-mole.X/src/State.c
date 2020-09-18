@@ -19,6 +19,7 @@ bool l_swDefaultPatternFlag = 0;
 //システム構造体変数
 SystemStateType SystemState;
 
+//タイトル文字列(モグラタタキ)
 static uint8_t str_TitleState[7] = {
     0b11010011,
     0b10111000,
@@ -49,10 +50,10 @@ void TitleProcess(void) {
             //タイトル文字列書き込み
             ClrLCDBuffer();
             WriteToBufferFirst(str_TitleState, 7);
-            WriteToBufferMole(1, HOLE);
-            WriteToBufferMole(2, MOLE);
-            WriteToBufferMole(3, HIT);
-            WriteToBufferMole(4, HOLE);
+            WriteToBufferMole(1, MOLE_STATE_HOLE);
+            WriteToBufferMole(2, MOLE_STATE_POP);
+            WriteToBufferMole(3, MOLE_STATE_HIT);
+            WriteToBufferMole(4, MOLE_STATE_HOLE);
             SystemState.action = (uint8_t)DO;
             break;
         case DO:
@@ -216,30 +217,30 @@ void StartCountDownProcess(void) {
     switch (SystemState.action) {
         case ENTRY:
             //残り時間設定
-            Time   = 3;
-            l_Time = Time;
+            RemaingTime   = 3;
+            l_Time = RemaingTime;
 
             ClrLCDBuffer();
             
             WriteToBufferFirst(str_StartCountDownState, 8);
 
             //PlaySE(countdown3sec);
-            WriteToBufferInt(10, Time, 1);
+            WriteToBufferInt(10, RemaingTime, 1);
 
             ClrCount1sec();
             SystemState.action = (uint8_t)DO;
             l_swProcessEndFlag = 1;
             break;
         case DO:
-            if (Time) {
+            if (RemaingTime) {
                 //残り時間が変わった時SEを鳴らす
-                if (Time < l_Time) {
+                if (RemaingTime < l_Time) {
                     //PlaySE(1&2secSE)
-                    WriteToBufferInt(10, Time, 1);
-                    l_Time = Time;
+                    WriteToBufferInt(10, RemaingTime, 1);
+                    l_Time = RemaingTime;
                 }
 
-                WriteToBufferInt(10, Time, 1);
+                WriteToBufferInt(10, RemaingTime, 1);
             }  //残り時間0でゲーム中画面に遷移
             else {
                 SWState = 0;
@@ -263,20 +264,20 @@ void PlayingGameProcess(void) {
             ClrLCDBuffer();
 
             //残り時間を60に設定
-            Time   = 60;
-            l_Time = Time;
+            RemaingTime   = 60;
+            l_Time = RemaingTime;
 
             // Rand関数のシード値に経過時間を加える
             AddRandSeed(TimeForRand);
 
             // ゲーム中の「S」や「T」を表示させる
             WriteToBufferFirst(str_PlayingGameState, 8);
-            WriteToBufferMole(1, HOLE);
-            WriteToBufferMole(2, HOLE);
-            WriteToBufferMole(3, HOLE);
-            WriteToBufferMole(4, HOLE);
+            WriteToBufferMole(1, MOLE_STATE_HOLE);
+            WriteToBufferMole(2, MOLE_STATE_HOLE);
+            WriteToBufferMole(3, MOLE_STATE_HOLE);
+            WriteToBufferMole(4, MOLE_STATE_HOLE);
             WriteToBufferInt(1, Score, 3);
-            WriteToBufferInt(6, Time, 2);
+            WriteToBufferInt(6, RemaingTime, 2);
 
             //BGMを鳴らす
             //PlayBGM();
@@ -284,11 +285,11 @@ void PlayingGameProcess(void) {
             break;
         case DO:
             //ゲーム中
-            if (Time) {
+            if (RemaingTime) {
                 // タイマに変更があったら
-                if (l_Time != Time) {
-                    WriteToBufferInt(6, Time, 2);
-                    l_Time = Time;
+                if (l_Time != RemaingTime) {
+                    WriteToBufferInt(6, RemaingTime, 2);
+                    l_Time = RemaingTime;
                 }
                 //モグラの処理
                 //MoleManager();

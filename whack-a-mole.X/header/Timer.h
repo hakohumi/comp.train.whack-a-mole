@@ -28,7 +28,7 @@ void Penalty(void);
  */
 void CountDown(void);
 
-extern uint8_t Time;
+extern uint8_t RemaingTime;
 extern uint16_t TimeForRand;
 
 #ifdef __cplusplus

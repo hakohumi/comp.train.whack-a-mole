@@ -21,50 +21,50 @@ void MoleManager(void) {
 void MoleXProcess(MoleType *i_moleX) {
     switch (i_moleX->state) {
             //モグラ穴の処理
-        case HOLE:
+        case MOLE_STATE_HOLE:
             //モグラ出現フラグONか
             if (i_moleX->popFlag) {
                 //OutOfHole(&i_moleX);
-                i_moleX->state   = (uint8_t)MOLE;
-                i_moleX->popTime = MinMolePopTime + ((MaxMolePopTime - MinMolePopTime) / 60) * Time;
-                WriteToBufferMole(i_moleX->moleNum, MOLE);
+                i_moleX->state   = (uint8_t)MOLE_STATE_POP;
+                i_moleX->popTime = MinMolePopTime + ((MaxMolePopTime - MinMolePopTime) / 60) * RemaingTime;
+                WriteToBufferMole(i_moleX->moleNum, MOLE_STATE_POP);
                 i_moleX->popFlag = 0;  //(OFF)
             } else {
                 //お手付き処理
                 if (SWState & i_moleX->valueForCompareSW) {
                     Penalty();
                     SWState &= ~i_moleX->valueForCompareSW;
-                    WriteToBufferInt(6, Time, 2);
+                    WriteToBufferInt(6, RemaingTime, 2);
                 }
             }
             break;
             //モグラ出現処理
-        case MOLE:
+        case MOLE_STATE_POP:
             if (i_moleX->popTime) {
                 //モグラ撃退
                 if (SWState & i_moleX->valueForCompareSW) {
                     //Attacked(&i_moleX);
-                    i_moleX->state   = (uint8_t)HIT;
+                    i_moleX->state   = (uint8_t)MOLE_STATE_HIT;
                     i_moleX->popTime = 30;
                     IncScore();
                     WriteToBufferInt(1, Score, 3);
-                    WriteToBufferMole(i_moleX->moleNum, HIT);
+                    WriteToBufferMole(i_moleX->moleNum, MOLE_STATE_HIT);
                     SWState &= ~i_moleX->valueForCompareSW;
                 }
             }  //モグラ穴に戻る処理
             else {
                 //BackToHole(&i_moleX);
-                i_moleX->state = (uint8_t)HOLE;
-                WriteToBufferMole(i_moleX->moleNum, HOLE);
+                i_moleX->state = (uint8_t)MOLE_STATE_HOLE;
+                WriteToBufferMole(i_moleX->moleNum, MOLE_STATE_HOLE);
             }
             break;
             //モグラ撃退処理
-        case HIT:
+        case MOLE_STATE_HIT:
             //モグラの穴に戻る処理
             if (!i_moleX->popTime) {
                 //BackToHole(&i_moleX);
-                i_moleX->state = (uint8_t)HOLE;
-                WriteToBufferMole(i_moleX->moleNum, HOLE);
+                i_moleX->state = (uint8_t)MOLE_STATE_HOLE;
+                WriteToBufferMole(i_moleX->moleNum, MOLE_STATE_HOLE);
             }
             break;
         default:
@@ -77,9 +77,9 @@ void MoleXTimerProcess(MoleType *i_mole) {
     uint16_t decisionNumber;
     uint16_t randVal;
 
-    if (i_mole->state == HOLE) {
+    if (i_mole->state == MOLE_STATE_HOLE) {
         //モグラ出現判定値を取得
-        decisionNumber = (molePopProbability + (molePopProbability / 60) * (60 - Time)) * (Level+1);
+        decisionNumber = (molePopProbability + (molePopProbability / 60) * (60 - RemaingTime)) * (Level+1);
         randVal        = GetRand();
         //乱数がモグラ出現判定値より小さいとき、popFlagを立てる
         //        if(PopDecision(decisionNumber)){
@@ -99,14 +99,14 @@ void MoleXTimerProcess(MoleType *i_mole) {
 //モグラ出現処理
 
 void OutOfHole(MoleType *i_moleX) {
-    i_moleX->state   = (uint8_t)MOLE;
-    i_moleX->popTime = GetPopTime(Level, Time);  //モグラ出現時間決定
+    i_moleX->state   = (uint8_t)MOLE_STATE_POP;
+    i_moleX->popTime = GetPopTime(Level, RemaingTime);  //モグラ出現時間決定
 }
 
 //モグラ撃退処理
 
 void Attacked(MoleType *i_moleX) {
-    i_moleX->state   = (uint8_t)HIT;
+    i_moleX->state   = (uint8_t)MOLE_STATE_HIT;
     i_moleX->popTime = 30;
     IncScore();
 }
@@ -114,7 +114,7 @@ void Attacked(MoleType *i_moleX) {
 //モグラの穴に戻る処理
 
 void BackToHole(MoleType *i_moleX) {
-    i_moleX->state = (uint8_t)HOLE;
+    i_moleX->state = (uint8_t)MOLE_STATE_HOLE;
 }
 
 void MoleTimerProcess(void) {

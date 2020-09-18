@@ -19,9 +19,9 @@ extern "C" {
 
 //SW
 typedef enum MoleStateType_Type {
-    HOLE,  //モグラ未出現
-    MOLE,  //モグラ出現
-    HIT    //モグラ撃退
+    MOLE_STATE_HOLE,  //モグラ未出現
+    MOLE_STATE_POP,  //モグラ出現
+    MOLE_STATE_HIT    //モグラ撃退
 } MoleStateType;
 
 /* モグラ構造体
@@ -38,10 +38,10 @@ typedef struct {
 } MoleType;
 
 //モグラ1-4
-MoleType mole1 = {0, 0, (uint8_t)SW1, 1, 0};
-MoleType mole2 = {0, 0, (uint8_t)SW2, 2, 0};
-MoleType mole3 = {0, 0, (uint8_t)SW3, 3, 0};
-MoleType mole4 = {0, 0, (uint8_t)SW4, 4, 0};
+MoleType mole1 = {0, 0, SW1, 1, 0};
+MoleType mole2 = {0, 0, SW2, 2, 0};
+MoleType mole3 = {0, 0, SW3, 3, 0};
+MoleType mole4 = {0, 0, SW4, 4, 0};
 
 //最大モグラ出現時間(難易度によって変わる)
 extern uint8_t MinMolePopTime;

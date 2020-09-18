@@ -311,13 +311,13 @@ void WriteToBufferMole(uint8_t i_molePos, uint8_t i_moleState) {
             break;
     }
     switch (i_moleState) {
-        case HOLE:
+        case MOLE_STATE_HOLE:
             *l_str = MOLE_GPAPH_HOLE_ADDR;
             break;
-        case MOLE:
+        case MOLE_STATE_POP:
             *l_str = MOLE_GPAPH_MOLE_ADDR;
             break;
-        case HIT:
+        case MOLE_STATE_HIT:
             *l_str = MOLE_GPAPH_HIT_ADDR;
             break;
         default:
