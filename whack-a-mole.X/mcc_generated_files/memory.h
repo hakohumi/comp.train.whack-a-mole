@@ -102,6 +102,7 @@ uint8_t DATAEE_ReadByte(uint8_t bAdd);
 // データ幅 8bit
 /* -------------------------------------------------- */
 typedef enum {
+    EEPROM_ADDR_ERROR,
     EEPROM_ADDR_HIGHSCORE_EASY_H,
     EEPROM_ADDR_HIGHSCORE_EASY_L,
     EEPROM_ADDR_HIGHSCORE_NORMAL_H,

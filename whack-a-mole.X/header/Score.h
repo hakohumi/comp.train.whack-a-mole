@@ -28,14 +28,14 @@ void IncScore(void);
  * 入力 Score
  * 出力 void
  */
-void SaveHighScore(uint8_t i_level);
+void SaveHighScore(uint8_t i_level, uint16_t i_score);
 
 /* ハイスコアクリア関数
  * 指定された難易度のHighScoreを0クリアする
  * 入力 難易度
  * 出力 void
  */
-void ClearHighScore(uint8_t i_level);
+// void ClearHighScore(uint8_t i_level);
 
 /* ハイスコア取得関数
  * 指定された難易度のHighScoreをEEEPROMから取得する
