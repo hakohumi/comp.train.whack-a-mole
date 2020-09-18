@@ -8,11 +8,8 @@
 #include "State.h"
 #include "Timer.h"
 
-#define POP_PROBABILITY_PER_16BIT 323
-#define PERCENT10_16BIT 0x1999
-#define PERCENT40_16BIT 0x6664
-
-#define MIN_POP_DECISION_TIME 10
+uint8_t MinMolePopTime;
+uint8_t MaxMolePopTime;
 
 void MoleManager(void) {
     MoleXProcess(&mole1);
@@ -22,9 +19,6 @@ void MoleManager(void) {
 }
 
 void MoleXProcess(MoleType *i_moleX) {
-    uint8_t minPopTime = 100;
-    uint8_t maxPopTime = 200;
-
     switch (i_moleX->state) {
             //モグラ穴の処理
         case HOLE:
@@ -32,13 +26,14 @@ void MoleXProcess(MoleType *i_moleX) {
             if (i_moleX->popFlag) {
                 //OutOfHole(&i_moleX);
                 i_moleX->state   = (uint8_t)MOLE;
-                i_moleX->popTime = minPopTime + ((maxPopTime - minPopTime) / 60) * Time;
+                i_moleX->popTime = MinMolePopTime + ((MaxMolePopTime - MinMolePopTime) / 60) * Time;
                 WriteToBufferMole(i_moleX->moleNum, MOLE);
                 i_moleX->popFlag = 0;  //(OFF)
             } else {
                 //お手付き処理
                 if (SWState & i_moleX->valueForCompareSW) {
                     Penalty();
+                    SWState &= ~i_moleX->valueForCompareSW;
                     WriteToBufferInt(6, Time, 2);
                 }
             }
@@ -54,6 +49,7 @@ void MoleXProcess(MoleType *i_moleX) {
                     IncScore();
                     WriteToBufferInt(1, Score, 3);
                     WriteToBufferMole(i_moleX->moleNum, HIT);
+                    SWState &= ~i_moleX->valueForCompareSW;
                 }
             }  //モグラ穴に戻る処理
             else {
@@ -77,11 +73,12 @@ void MoleXProcess(MoleType *i_moleX) {
 }
 
 void MoleXTimerProcess(MoleType *i_mole) {
+    uint16_t molePopProbability = 81;
     uint16_t decisionNumber;
     uint16_t randVal;
 
     if (i_mole->state == HOLE) {
-        decisionNumber = (POP_PROBABILITY_PER_16BIT / 60) * (60 - Time) * (Level + 1);
+        decisionNumber = molePopProbability + (molePopProbability / 60) * (60 - Time) * (Level+1);
         randVal        = GetRand();
         //        if(PopDecision(decisionNumber)){
         if (randVal < decisionNumber) {

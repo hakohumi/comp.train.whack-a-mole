@@ -10,6 +10,9 @@
 #include "Score.h"
 #include "Timer.h"
 
+uint8_t l_swProcessEndFlag = 0;
+uint8_t l_swDefaultPatternFlag = 0;
+
 // count1secを初期化するため
 #include "tmr1.h"
 
@@ -55,8 +58,18 @@ void TitleProcess(void) {
                 //難易度選択画面に遷移
                 ChangeState((uint8_t)SELECT_LEVEL);
                 SystemState.action = (uint8_t)ENTRY;
+                l_swProcessEndFlag = 1;
             }
-            SWState = 0x00;
+            else{
+                if(SWState){
+                    l_swDefaultPatternFlag = 1;
+                }
+            }
+            if(l_swDefaultPatternFlag || l_swProcessEndFlag){
+                SWState = 0;
+                l_swProcessEndFlag = 0;
+                l_swDefaultPatternFlag = 0;
+            }
             break;
         default:
             break;
@@ -92,6 +105,7 @@ void SelectLevelProcess(void) {
                     // ハイスコアをEEPROMから取り出す
                     l_HighScore = GetHighScore(EASY);
                     // 2行目にハイスコアを書く
+                    l_swProcessEndFlag = 1;
                     WriteToBuffer(10, str_HighScore, 2);
                     WriteToBufferInt(13, l_HighScore, 3);
 
@@ -105,6 +119,7 @@ void SelectLevelProcess(void) {
                     // ハイスコアをEEPROMから取り出す
                     l_HighScore = GetHighScore(NORMAL);
                     // 2行目にハイスコアを書く
+                    l_swProcessEndFlag = 1;
                     WriteToBuffer(10, str_HighScore, 2);
                     WriteToBufferInt(13, l_HighScore, 3);
                     break;
@@ -118,6 +133,7 @@ void SelectLevelProcess(void) {
                     l_HighScore = GetHighScore(HARD);
 
                     // 2行目にハイスコアを書く
+                    l_swProcessEndFlag = 1;
                     WriteToBuffer(10, str_HighScore, 2);
                     WriteToBufferInt(13, l_HighScore, 3);
                     break;
@@ -126,15 +142,25 @@ void SelectLevelProcess(void) {
                     //ハイスコアクリア確認画面に遷移
                     ChangeState((uint8_t)HS_CLEAR);
                     SystemState.action = (uint8_t)ENTRY;
+                    l_swProcessEndFlag = 1;
                     break;
                     //SW5
                 case SW5:
                     //ゲー�?開始カウントダウン画面に遷移
                     ChangeState((uint8_t)START_COUNT_DOWN);
                     SystemState.action = (uint8_t)ENTRY;
+                    l_swProcessEndFlag = 1;
                     break;
+                default:
+                    if(SWState){
+                        l_swDefaultPatternFlag = 1;    
+                    }                    
             }
-            SWState = 0x00;
+            if(l_swDefaultPatternFlag || l_swProcessEndFlag){
+                SWState = 0;
+                l_swProcessEndFlag = 0;
+                l_swDefaultPatternFlag = 0;
+            }
             break;
         default:
             break;
@@ -156,15 +182,24 @@ void HSClearProcess(void) {
                     ClearHighScore(Level);
                     ChangeState((uint8_t)SELECT_LEVEL);
                     SystemState.action = (uint8_t)ENTRY;
+                    l_swProcessEndFlag = 1;
                     break;
                 case SW4:
                     ChangeState((uint8_t)SELECT_LEVEL);
                     SystemState.action = (uint8_t)ENTRY;
+                    l_swProcessEndFlag = 1;
                     break;
                 default:
+                    if(SWState){
+                        l_swDefaultPatternFlag = 1;
+                    }
                     break;
             }
-            SWState = 0x00;
+            if(l_swDefaultPatternFlag || l_swProcessEndFlag){
+                SWState = 0;
+                l_swProcessEndFlag = 0;
+                l_swDefaultPatternFlag = 0;
+            }
             break;
         default:
             break;
@@ -188,6 +223,7 @@ void StartCountDownProcess(void) {
             
             ClrCount1sec();
             SystemState.action = (uint8_t)DO;
+            l_swProcessEndFlag = 1;
             break;
         case DO:
             if (Time) {
@@ -201,6 +237,7 @@ void StartCountDownProcess(void) {
                 WriteToBufferInt(10, Time, 1);
             }  //残り時間0でゲー�?中画面に遷移
             else {
+                SWState = 0;
                 ChangeState((uint8_t)PLAYING_GAME);
                 SystemState.action = (uint8_t)ENTRY;
             }
@@ -215,6 +252,9 @@ void PlayingGameProcess(void) {
 
     switch (SystemState.action) {
         case ENTRY:
+            //モグラ出現時間の最小最大を決定
+            MinMolePopTime = 100 >> (Level);  //25-100
+            MaxMolePopTime = 50 << (3 - Level); //200-100
             ClrLCDBuffer();
 
             //残り時間�?60に設�?
@@ -251,8 +291,9 @@ void PlayingGameProcess(void) {
                 MoleXProcess(&mole2);
                 MoleXProcess(&mole3);
                 MoleXProcess(&mole4);
-                SWState = 0;
-            }  //残り時間0
+                SWState &= ~SW5;
+            }
+            //残り時間0
             else {
                 //BGM停止
                 //StopBGM
@@ -296,17 +337,23 @@ void ResultProcess(void) {
                 //ハイスコア更新処�?
                 if (Score > GetHighScore(Level)) {
                     SaveHighScore(Level);
-                } else {
-                    //何もしな�?
+                    l_swProcessEndFlag = 1;
                 }
-
+                Score = 0;
                 //タイトル画面に遷移
                 ChangeState((uint8_t)TITLE);
                 SystemState.action = (uint8_t)ENTRY;
-            } else {
-                //何もしな�?
             }
-            SWState = 0x00;
+            else{
+                if(SWState){
+                    l_swDefaultPatternFlag = 1;
+                }
+            }
+            if(l_swDefaultPatternFlag || l_swProcessEndFlag){
+                SWState = 0;
+                l_swProcessEndFlag = 0;
+                l_swDefaultPatternFlag = 0;
+            }
             break;
         default:
             break;

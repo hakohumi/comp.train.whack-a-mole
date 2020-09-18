@@ -43,6 +43,9 @@ MoleType mole2 = {0, 0, (uint8_t)SW2, 2, 0};
 MoleType mole3 = {0, 0, (uint8_t)SW3, 3, 0};
 MoleType mole4 = {0, 0, (uint8_t)SW4, 4, 0};
 
+extern uint8_t MinMolePopTime;
+extern uint8_t MaxMolePopTime;
+
 /* ���O�������֐�
  * ���O��1-4�̏������s���֐�
  */
