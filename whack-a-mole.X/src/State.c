@@ -283,7 +283,7 @@ void PlayingGameProcess(void) {
             SystemState.action = (uint8_t)DO;
             break;
         case DO:
-            //ゲー�?中
+            //ゲーム中
             if (Time) {
                 // タイマに変更があったら
                 if (l_Time != Time) {

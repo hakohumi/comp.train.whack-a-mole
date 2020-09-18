@@ -19,15 +19,15 @@ extern "C" {
 
 //SW
 typedef enum MoleStateType_Type {
-    HOLE,  //���O���̌�
-    MOLE,  //���O���o����
-    HIT    //���O������
+    HOLE,  //モグラ未出現
+    MOLE,  //モグラ出現
+    HIT    //モグラ撃退
 } MoleStateType;
 
-/* ���O���\����
- * state ���O���̏�� 
- * popTime ���O���̏o������
- * popFlag ���O���̏o������ ON�ŏo��
+/* モグラ構造体
+ * uint8_t state モグラの状態
+ * uint8_t popTime モグラ出現時間
+ * bool popFlag モグラ出現フラグ
  */
 typedef struct {
     uint8_t state;
@@ -37,61 +37,72 @@ typedef struct {
     bool popFlag;
 } MoleType;
 
-//���O��1-4
+//モグラ1-4
 MoleType mole1 = {0, 0, (uint8_t)SW1, 1, 0};
 MoleType mole2 = {0, 0, (uint8_t)SW2, 2, 0};
 MoleType mole3 = {0, 0, (uint8_t)SW3, 3, 0};
 MoleType mole4 = {0, 0, (uint8_t)SW4, 4, 0};
 
+//最大モグラ出現時間(難易度によって変わる)
 extern uint8_t MinMolePopTime;
+//最小モグラ出現時間
 extern uint8_t MaxMolePopTime;
 
-/* ���O�������֐�
- * ���O��1-4�̏������s���֐�
+/* モグラ全体処理関数
+ * モグラ1-4の処理を行う
  */
 void MoleManager(void);
 
-/* ���O��X�����֐�
- * ���O��1�C�ɑ΂��鏈�����s���֐�
- * ���� ���O���̔ԍ�(1-4)
+/* モグラX処理関数
+ * モグラ1匹に対する処理を行う
+ * 入力 MoleType * i_mole モグラ構造体
  */
 void MoleXProcess(MoleType *);
 
+/* モグラXタイマ処理
+ * モグラ1匹に対するタイマ処理を行う
+ * 入力 MoleType * i_mole モグラ構造体
+ */
 void MoleXTimerProcess(MoleType *);
 
-/* ���O���o���֐�
- * ���� ���O���̔ԍ�(1-4)
- * �o�� ���͂ɑΉ����郂�O����state��MOLE��
- * �@�@ popTime�������_���Ɍ��肷��
- */
-
 #ifdef NOUSE
+/* モグラ出現関数
+ * モグラの出現処理を行う
+ * 入力 MoleType * i_mole モグラ構造体
+ */
 void OutOfHole(MoleType *);
 
-/* ���O�����ފ֐�
- * ���� ���O���̔ԍ�(1-4)
- * �o�� ���͂ɑΉ����郂�O����state��HIT��
- * �@�@ popTime���Œ�l�Ō��肷��
+/* モグラ撃退関数
+ * モグラの撃退処理を行う
+ * 入力 MoleType * i_mole モグラ構造体
  */
 void Attacked(MoleType *);
 
-/* ���O�����o���֐�
- * ���� ���O���̔ԍ�(1-4)
- * �o�� ���͂ɑΉ����郂�O����state��HOLE�ɂ���
+/* モグラ未出現関数
+ * モグラの未出現処理を行う
+ * 入力 MoleType * i_mole モグラ構造体
  */
 void BackToHole(MoleType *);
 
+/* モグラ全体タイマ処理関数
+ * モグラのタイマ処理を行う
+ */
 void MoleTimerProcess(void);
 
-/* ���O���o������֐�
- * ���� ���O���o������l(0x00-0xFFFF)
- *      �o������l�͕ʓr�e�[�u������擾����
- * �@�@ �o������l��0x7FFF�̏ꍇ�A50%�̊m����TRUE��Ԃ�
- * �o�� TRUE    ���O�����o��������
- * �@�@ False   ���O�����o�������Ȃ�
+/* モグラ出現判定関数
+ * モグラの出現を判定する
+ * 入力 uint16_t 1_decisionNumber 出現判定値
+ * 出力 bool TRUE モグラ出現
+ *           FALSE　モグラ未出現
  */
 bool PopDecision(uint16_t);
 
+/* モグラ出現時間取得関数
+ * モグラの出現時間を取得する
+ * 入力 uint8_t i_level 難易度
+ *      uint8_t i_time 残り時間
+ * 出力 uint8_t popTime 出現時間
+ */
 uint8_t GetPopTime(uint8_t, uint8_t);
 
 #endif
