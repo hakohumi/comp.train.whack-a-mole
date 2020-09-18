@@ -13,11 +13,10 @@ BGMとSEを管理する
 
 #include "Buzzer.h"
 
-#include "BGM.h"
-#include "SE.h"
+#include "Player.h"
 #include "tmr2.h"
 // PWMのデューティ比を変更するため
-#include "BGM_MusicSheets.h"
+#include "SheetMusic.h"
 #include "pwm3.h"
 /* -------------------------------------------------- */
 // パブリック変数
@@ -57,23 +56,24 @@ static bool Update10msBuzzerFlg = OFF;
 
 static bool IsPlayingBuzzer = OFF;
 
+
+
 // ブザーの初期化
 
 void Buzzer_Initialize(void) {
-    BGM_Initialize();
-    SE_Initialize();
+    Player_Initialize();
 }
 
 // ブザーの更新
 
 void UpdateBuzzer(void) {
     // BGMStateの切り替え
-    updateBGMState();
+    BGM_updatePlayerState();
     // SEStateの切り替え
-    SE_updateState();
+    SE_updatePlayerState();
 
     // どっちも再生中でなければ、PWMをストップさせる
-    if ((GetIsPlayBGM() || SE_GetIsPlay()) == OFF) {
+    if ((GetIsPlayBGM() || GetIsPlaySE()) == OFF) {
         IsPlayingBuzzer = OFF;
         TMR2_StopTimer();
     }
@@ -81,15 +81,16 @@ void UpdateBuzzer(void) {
     // 10msフラグ
     if (Update10msBuzzerFlg == ON) {
         // BGMManagerを更新
-        updateBGMManager();
+        BGM_updatePlayerManager();
         // SEManagerを更新
-        SE_updateManager();
+        SE_updatePlayerManager();
         // 10msフラグを下げる
         Update10msBuzzerFlg = OFF;
     }
 }
 
 // PWMを開始する
+// BGM, SEで呼ばれる
 void PlayBuzzer(void) {
     if (IsPlayingBuzzer == OFF) {
         TMR2_StartTimer();
@@ -112,6 +113,16 @@ void ChangePich(uint8_t i_Pich) {
         // PWMのデューティー比を0%になるように変更
         PWM3_LoadDutyValue(0);
     }
+}
+
+void SM_ChangePich(SheetMusic_t *i_SheetMusic, uint16_t i_pos) {
+    uint8_t l_pich = 0;
+
+    // 音符の高さに合わせて、タイマの周期を変える
+    // 音の高さを取得する
+    l_pich = SM_GetCurrentNotePich(i_SheetMusic, i_pos);
+    // 音の高さに合わせて、タイマの周期とデューティー比を変更
+    ChangePich(l_pich);
 }
 
 // 音符の長さを10msに変換

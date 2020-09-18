@@ -43,11 +43,7 @@
 
 #include <string.h>
 
-#include "./Buzzer/BGM.h"
-#include "./Buzzer/BGM_MusicSheets.h"
-#include "./Buzzer/Buzzer.h"
-#include "./Buzzer/SE.h"
-#include "./Buzzer/SE_MusicSheets.h"
+#include "Buzzer.h"
 #include "Common.h"
 #include "LCD.h"
 #include "LED.h"
@@ -68,8 +64,6 @@ void main(void) {
     // Interrupt Enable bits Use the following macros to:
 
     // Myfunction init
-    BGM_MusicSheet_Initialize();
-    SE_MusicSheet_Initialize();
     Buzzer_Initialize();
 
     // Enable the Global Interrupts
@@ -95,7 +89,7 @@ void main(void) {
 
     while (1) {
         l_isBGM = GetIsPlayBGM();
-        l_isSE  = SE_GetIsPlay();
+        l_isSE  = GetIsPlaySE();
 
         if (l_isBGM == ON) {
             WriteToBufferFirst(l_str_BGM, 6);

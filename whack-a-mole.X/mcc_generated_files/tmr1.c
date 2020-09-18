@@ -52,9 +52,8 @@
 
 #include <xc.h>
 
-#include "BGM.h"
 #include "Buzzer.h"
-#include "SE.h"
+
 
 /**
   Section: Global Variables Definitions

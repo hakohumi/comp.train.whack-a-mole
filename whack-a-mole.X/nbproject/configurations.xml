@@ -6,11 +6,9 @@
                    projectFiles="true">
       <logicalFolder name="header" displayName="header" projectFiles="true">
         <logicalFolder name="Buzzer" displayName="Buzzer" projectFiles="true">
-          <itemPath>header/Buzzer/BGM.h</itemPath>
-          <itemPath>header/Buzzer/BGM_MusicSheets.h</itemPath>
           <itemPath>header/Buzzer/Buzzer.h</itemPath>
-          <itemPath>header/Buzzer/SE.h</itemPath>
-          <itemPath>header/Buzzer/SE_MusicSheets.h</itemPath>
+          <itemPath>header/Buzzer/SheetMusic.h</itemPath>
+          <itemPath>header/Buzzer/Player.h</itemPath>
         </logicalFolder>
         <itemPath>header/Common.h</itemPath>
         <itemPath>header/LCD.h</itemPath>
@@ -61,11 +59,9 @@
       </logicalFolder>
       <logicalFolder name="src" displayName="src" projectFiles="true">
         <logicalFolder name="Buzzer" displayName="Buzzer" projectFiles="true">
-          <itemPath>src/Buzzer/BGM.c</itemPath>
-          <itemPath>src/Buzzer/BGM_MusicSheets.c</itemPath>
           <itemPath>src/Buzzer/Buzzer.c</itemPath>
-          <itemPath>src/Buzzer/SE.c</itemPath>
-          <itemPath>src/Buzzer/SE_MusicSheets.c</itemPath>
+          <itemPath>src/Buzzer/SheetMusic.c</itemPath>
+          <itemPath>src/Buzzer/Player.c</itemPath>
         </logicalFolder>
         <itemPath>src/Common.c</itemPath>
         <itemPath>src/LCD.c</itemPath>
@@ -312,7 +308,8 @@
         <property key="default-char-type" value="true"/>
         <property key="define-macros" value=""/>
         <property key="disable-optimizations" value="true"/>
-        <property key="extra-include-directories" value="header;mcc_generated_files"/>
+        <property key="extra-include-directories"
+                  value="header;mcc_generated_files;header\Buzzer"/>
         <property key="favor-optimization-for" value="-speed,+space"/>
         <property key="garbage-collect-data" value="true"/>
         <property key="garbage-collect-functions" value="true"/>
