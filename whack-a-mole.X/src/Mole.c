@@ -14,35 +14,6 @@
 
 #define MIN_POP_DECISION_TIME 10
 
-uint8_t chr_Hole = '_';
-uint8_t chr_Mole = 'M';
-uint8_t chr_Hit  = 'A';
-
-void writeMole(uint8_t, uint8_t);
-
-void writeMole(uint8_t i_compareSW, uint8_t i_chr) {
-    uint8_t str_MolePos;
-
-    switch (i_compareSW) {
-        case SW1:
-            str_MolePos = 9;
-            break;
-        case SW2:
-            str_MolePos = 11;
-            break;
-        case SW3:
-            str_MolePos = 13;
-            break;
-        case SW4:
-            str_MolePos = 15;
-            break;
-        default:
-            break;
-    }
-    str_PlayingGameState[str_MolePos] = i_chr;
-    WriteToBuffer(str_PlayingGameState, 16);
-}
-
 void MoleManager(void) {
     MoleXProcess(&mole1);
     MoleXProcess(&mole2);

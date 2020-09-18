@@ -6,15 +6,18 @@
 #include "LCD.h"
 #include "Level.h"
 #include "Mole.h"
+#include "Rand.h"
 #include "Score.h"
 #include "Timer.h"
-uint8_t lastTimeForPlaySE = 0;
+
+//システム構造体変数
+SystemStateType SystemState;
 
 static uint8_t *str_TitleState          = {"TITLE"};
 static uint8_t *str_SelectLevelState    = {"LEVEL"};
 static uint8_t *str_HSClearState        = {"HSCLEAR"};
 static uint8_t *str_StartCOuntDownState = {"CNT_DOWN"};
-uint8_t str_PlayingGameState[8]         = {"S000 T00"};
+static uint8_t *str_PlayingGameState    = {"S000 T00"};
 static uint8_t *str_ResultState         = {"RESULT"};
 
 void ChangeState(uint8_t i_displayState) {
@@ -57,7 +60,7 @@ void SelectLevelProcess(void) {
             break;
         case DO:
             switch (SWState) {
-                //SW1
+                    //SW1
                 case SW1:
                     //難易度設�?(EASY)
                     SetLevel((uint8_t)EASY);
@@ -167,8 +170,7 @@ void StartCountDownProcess(void) {
                     WriteToBufferCountDown(Time);
                     l_Time = Time;
                 }
-            }
-            //残り時間0でゲー�?中画面に遷移
+            }  //残り時間0でゲー�?中画面に遷移
             else {
                 ChangeState((uint8_t)PLAYING_GAME);
                 SystemState.action = (uint8_t)ENTRY;
@@ -192,7 +194,8 @@ void PlayingGameProcess(void) {
             AddRandSeed(TimeForRand);
 
             // ゲーム中の「S」や「T」を表示させる
-            WriteToBufferFirst(str_PlayingGameState, 8);
+            WriteToBufferFirst(&str_PlayingGameState, 8);
+            WriteToBufferMole(1, HOLE);
             WriteToBufferMole(2, HOLE);
             WriteToBufferMole(3, HOLE);
             WriteToBufferMole(4, HOLE);
@@ -218,8 +221,7 @@ void PlayingGameProcess(void) {
                 MoleXProcess(&mole3);
                 MoleXProcess(&mole4);
                 SWState = 0;
-            }
-            //残り時間0
+            }  //残り時間0
             else {
                 //BGM停止
                 //StopBGM

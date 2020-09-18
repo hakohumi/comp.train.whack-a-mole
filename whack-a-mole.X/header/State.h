@@ -6,16 +6,16 @@
  */
 
 #ifndef STATE_H
-#define	STATE_H
+#define STATE_H
 
-#ifdef	__cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
 #include <stdint.h>
 
-//画面状態の定義    
-typedef enum DisplayStateType_Type{
+//画面状態の定義
+typedef enum DisplayStateType_Type {
     TITLE,
     SELECT_LEVEL,
     HS_CLEAR,
@@ -25,7 +25,7 @@ typedef enum DisplayStateType_Type{
 } DisplayStateType;
 
 //各画面状態のアクションを定義(EXITは省略)
-typedef enum ActionType_Type{
+typedef enum ActionType_Type {
     ENTRY,
     DO
 } ActionType;
@@ -37,9 +37,7 @@ typedef struct {
 } SystemStateType;
 
 //システム構造体変数
-SystemStateType SystemState;
-
-extern uint8_t str_PlayingGameState[16];
+extern SystemStateType SystemState;
 
 /* 画面状態更新変数
  * 画面状態を変更する
@@ -90,9 +88,8 @@ void PlayingGameProcess(void);
  */
 void ResultProcess(void);
 
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
-#endif	/* STATE_H */
-
+#endif /* STATE_H */
