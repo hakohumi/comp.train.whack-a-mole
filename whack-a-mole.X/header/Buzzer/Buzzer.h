@@ -10,7 +10,6 @@
 
 #include <stdint.h>
 
-
 #include "Common.h"
 #include "Player.h"
 #include "SheetMusic.h"
@@ -38,6 +37,10 @@ uint16_t Change10msLength(uint8_t i_NoteLength, uint16_t i_Tempo);
 
 void SetUpdate10msBuzzerFlg(void);
 
-extern uint8_t PichTable[SCALE_NUM];
+void PlaySE(void);
+void SE_updatePlayerManager(void);
+bool GetIsPlaySE(void);
+
+// extern uint8_t PichTable[SCALE_NUM];
 
 #endif /* BUZZER_H */

@@ -17,6 +17,7 @@ BGMとSEを管理する
 #include "tmr2.h"
 // PWMのデューティ比を変更するため
 #include "SheetMusic.h"
+#include "memory.h"
 #include "pwm3.h"
 /* -------------------------------------------------- */
 // パブリック変数
@@ -25,55 +26,44 @@ BGMとSEを管理する
 /* -------------------------------------------------- */
 // プライベート変数
 /* -------------------------------------------------- */
+// BGM楽譜が入るインスタンス
+// static Player_t BGM;
+// SE楽譜が入るインスタンス
+static Player_t SE;
 
 // 音程テープル
-uint8_t PichTable[SCALE_NUM] = {
-    0x00,  // REST
-
-    0xEE,  // DO
-    0xE1,  // DO_SHARP
-    0xD4,  // RE
-    0xC8,  // RE_SHARP
-    0xBD,  // MI
-    0xB2,  // FA
-    0xA8,  // FA_SHARP
-    0x9F,  // SO
-    0x96,  // SO_SHARP
-    0x8E,  // RA
-    0x86,  // RA_SHARP
-    0x7E,  // SI
-    0x77,  // DO2
-    0x6A,  // RE2
-    0x5E,  // MI2
-    0x59,  // FA2
-    0x4F,  // SO2
-    0x47,  // RA2
-    0x3F   // SI2
-
-};
+uint8_t PichTable[SCALE_NUM];
 
 static bool Update10msBuzzerFlg = OFF;
 
 static bool IsPlayingBuzzer = OFF;
 
-
-
 // ブザーの初期化
 
 void Buzzer_Initialize(void) {
-    Player_Initialize();
+    uint8_t c;
+    Player_Initialize(&SE);
+
+    for (c = 0; c < SCALE_NUM; c++) {
+        PichTable[c] = DATAEE_ReadByte(c + EEPROM_ADDR_SHEETMUSIC_REST);
+    }
 }
 
 // ブザーの更新
 
 void UpdateBuzzer(void) {
     // BGMStateの切り替え
-    BGM_updatePlayerState();
+    // BGM_updatePlayerState();
+
     // SEStateの切り替え
-    SE_updatePlayerState();
+    // updatePlayerState(&SE);
 
     // どっちも再生中でなければ、PWMをストップさせる
-    if ((GetIsPlayBGM() || GetIsPlaySE()) == OFF) {
+    // if ((GetIsPlayBGM() || GetIsPlaySE()) == OFF) {
+    //     IsPlayingBuzzer = OFF;
+    //     TMR2_StopTimer();
+    // }
+    if (GetIsPlaySE() == OFF) {
         IsPlayingBuzzer = OFF;
         TMR2_StopTimer();
     }
@@ -81,9 +71,9 @@ void UpdateBuzzer(void) {
     // 10msフラグ
     if (Update10msBuzzerFlg == ON) {
         // BGMManagerを更新
-        BGM_updatePlayerManager();
+        // BGM_updatePlayerManager();
         // SEManagerを更新
-        SE_updatePlayerManager();
+        // SE_updatePlayerManager();
         // 10msフラグを下げる
         Update10msBuzzerFlg = OFF;
     }
@@ -91,6 +81,7 @@ void UpdateBuzzer(void) {
 
 // PWMを開始する
 // BGM, SEで呼ばれる
+
 void PlayBuzzer(void) {
     if (IsPlayingBuzzer == OFF) {
         TMR2_StartTimer();
@@ -136,4 +127,50 @@ uint16_t Change10msLength(uint8_t i_NoteLength, uint16_t i_Tempo) {
 
 void SetUpdate10msBuzzerFlg(void) {
     Update10msBuzzerFlg = ON;
+}
+// BGM再生開始フラグのON
+void PlaySE(void) {
+    SE.StartFlg = ON;
+}
+
+// SEの更新
+uint8_t l_str[8];
+
+void SE_updatePlayerManager(void) {
+    uint8_t l_NoteTempo  = 0;
+    uint8_t l_NoteLength = 0;
+
+    // 現在SEが再生されているか
+    if (SE.IsPlay == ON) {
+        // 現在選択されている音符の長さ分の時間は経過したか？
+        if (SE.currentNoteLength == 0) {
+            // currentBGMNotePosを1増やす
+            SE.PlayNotePos++;
+
+            // SEの再生位置は終端か？
+            if (SE.PlayNotePos >= SE.EndPos) {
+                // BGMの再生位置を最初へ戻す
+                SE.PlayNotePos = 0;
+
+                // SEの再生状態をOFFにする
+                SE.StopFlg = ON;
+            } else {
+                l_NoteLength =
+                    *(SM_GetCurrentNote(SE.SheetMusic, SE.PlayNotePos));
+                l_NoteTempo = SM_GetTempo(SE.SheetMusic);
+                // 選択された音符の長さをcurrentNoteLengthにセットする
+                SE.currentNoteLength =
+                    Change10msLength(l_NoteLength, l_NoteTempo);
+
+                // ブザーの周波数を、現在の再生位置の音程へ変更する
+                SM_ChangePich(SE.SheetMusic, SE.PlayNotePos);
+            }
+        } else {
+            // currentNoteLengthを1下げる
+            SE.currentNoteLength--;
+        }
+    }
+}
+bool GetIsPlaySE(void) {
+    return SE.IsPlay;
 }

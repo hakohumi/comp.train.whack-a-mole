@@ -25,10 +25,9 @@ typedef struct {
     bool StopFlg;                // 停止開始フラグ
 } Player_t;
 
-void Player_Initialize(void);
+void Player_Initialize(Player_t *i_Player);
 void Player_t_Init(Player_t *i_Player, uint8_t i_SM);
 void PlayBGM(void);
-void PlaySE(void);
 
 void returnBeginPlayPos(Player_t *i_Player);
 void updatePlayerState(Player_t *i_Player);
@@ -36,10 +35,8 @@ void BGM_updatePlayerState(void);
 void SE_updatePlayerState(void);
 void updatePlayerManager(Player_t *i_Player);
 void BGM_updatePlayerManager(void);
-void SE_updatePlayerManager(void);
 
 void BGM_ChangeCurrentPich(void);
 bool GetIsPlayBGM(void);
-bool GetIsPlaySE(void);
 
 #endif /* PLAYER_H */

@@ -16,30 +16,30 @@
 // ドレミの歌のデータ部
 /* -------------------------------------------------- */
 
-static const uint8_t BGMNotes_Doremi[7][NOTE_ARRAY_NUM] = {
+// static const uint8_t BGMNotes_Doremi[7][NOTE_ARRAY_NUM] = {
 
-    {4, DO},
-    {4, RE},
-    {4, MI},
-    {4, FA},
-    {4, SO},
-    {4, RA_},
-    {4, SI}
+//     {4, DO_},
+//     {4, RE},
+//     {4, MI},
+//     {4, FA},
+//     {4, SO},
+//     {4, RA_},
+//     {4, SI}
 
-};
+// };
 
-// BGMの楽譜のインスタンス
-static const SheetMusic_t SM_BGM_Doremi = {
-    // テンポ
-    106,
+// // BGMの楽譜のインスタンス
+// static const SheetMusic_t SM_BGM_Doremi = {
+//     // テンポ
+//     106,
 
-    // データ[ ][ ]
-    BGMNotes_Doremi,
+//     // データ[ ][ ]
+//     BGMNotes_Doremi,
 
-    // 楽譜の長さ
-    7
+//     // 楽譜の長さ
+//     7
 
-};
+// };
 
 /* -------------------------------------------------- */
 
@@ -47,38 +47,38 @@ static const SheetMusic_t SM_BGM_Doremi = {
 // リリース用コロブチカ楽譜
 /* -------------------------------------------------- */
 
-static const uint8_t BGMNotes_Tetris[][NOTE_ARRAY_NUM] = {
-    {8, MI2}, // 1
-    {4, SI},
-    {4, DO2},
-    {4, RE2},
-    {4, DO2},
-    {4, SI},
-    {8, RA_},
-    {4, RA_},
-    {4, DO2},
-    {8, MI2},
-    {4, RE2},
-    {4, DO2},
-    {2, SI},
-    {4, SI},
-    {4, DO2},
-    {8, RE2},
-    {8, MI2},
-    {8, DO2},
-    {8, RA_},
-    {8, RA_},
-    {4, REST},
-    {4, REST}
+// static const uint8_t BGMNotes_Tetris[][NOTE_ARRAY_NUM] = {
+//     {8, MI2}, // 1
+//     {4, SI},
+//     {4, DO2},
+//     {4, RE2},
+//     {4, DO2},
+//     {4, SI},
+//     {8, RA_},
+//     {4, RA_},
+//     {4, DO2},
+//     {8, MI2},
+//     {4, RE2},
+//     {4, DO2},
+//     {2, SI},
+//     {4, SI},
+//     {4, DO2},
+//     {8, RE2},
+//     {8, MI2},
+//     {8, DO2},
+//     {8, RA_},
+//     {8, RA_},
+//     {4, REST},
+//     {4, REST}
 
-};
+// };
 
-// 楽譜インスタンス
-static const SheetMusic_t SM_BGM_Tetris = {
+// // 楽譜インスタンス
+// static const SheetMusic_t SM_BGM_Tetris = {
 
-    302, BGMNotes_Tetris, sizeof (BGMNotes_Tetris) / sizeof (uint8_t *)
+//     302, BGMNotes_Tetris, sizeof (BGMNotes_Tetris) / sizeof (uint8_t *)
 
-};
+// };
 
 /* -------------------------------------------------- */
 /* -------------------------------------------------- */
@@ -113,14 +113,14 @@ static const SheetMusic_t SM_SE_Doremi = {
 // 入力 楽譜ポインタのアドレス
 //      指定する楽譜の番号
 
-SheetMusic_t * SheetMusic_Initialize(uint8_t i_SheetMusicNum) {
+SheetMusic_t *SheetMusic_Initialize(uint8_t i_SheetMusicNum) {
     switch (i_SheetMusicNum) {
-        case SM_BGM_DOREMI:
-            return &SM_BGM_Doremi;
-            break;
-        case SM_BGM_TETRIS:
-            return &SM_BGM_Tetris;
-            break;
+        // case SM_BGM_DOREMI:
+        //     return &SM_BGM_Doremi;
+        //     break;
+        //        case SM_BGM_TETRIS:
+        //            return &SM_BGM_Tetris;
+        //            break;
         case SM_SE_DOREMI:
             return &SM_SE_Doremi;
             break;

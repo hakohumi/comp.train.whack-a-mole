@@ -19,6 +19,7 @@
         <itemPath>header/Score.h</itemPath>
         <itemPath>header/State.h</itemPath>
         <itemPath>header/Timer.h</itemPath>
+        <itemPath>header/Rand.h</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -72,10 +73,6 @@
         <itemPath>src/Rand.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
-      <itemPath>src/Rand.c</itemPath>
-      <itemPath>src/LCD.c</itemPath>
-      <itemPath>src/LED.c</itemPath>
-      <itemPath>src/Common.c</itemPath>
       <itemPath>src/State.c</itemPath>
       <itemPath>src/Input.c</itemPath>
       <itemPath>src/Level.c</itemPath>
@@ -444,8 +441,6 @@
         <property key="oscillator.auxfrequencyunit" value="Mega"/>
         <property key="oscillator.frequency" value="4"/>
         <property key="oscillator.frequencyunit" value="Mega"/>
-        <property key="oscillator.rcfrequency" value="250"/>
-        <property key="oscillator.rcfrequencyunit" value="Kilo"/>
         <property key="oscillator.rcfrequency" value="16"/>
         <property key="oscillator.rcfrequencyunit" value="Mega"/>
         <property key="periphADC1.altscl" value="false"/>

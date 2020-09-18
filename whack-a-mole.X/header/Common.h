@@ -18,7 +18,7 @@
 // いずれ、MusicSheetが一つになった時に、MusicSheetのヘッダに入れる
 typedef enum {
     REST,
-    DO,
+    DO_,
     DO_SHARP,
     RE,
     RE_SHARP,

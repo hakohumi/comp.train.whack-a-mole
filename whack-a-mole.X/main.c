@@ -41,8 +41,6 @@
     SOFTWARE.
  */
 
-#include <string.h>
-
 #include "Buzzer.h"
 #include "Common.h"
 #include "Input.h"
@@ -53,11 +51,6 @@
 #include "State.h"
 #include "Timer.h"
 #include "mcc.h"
-
-// マイコンに書き込み時にEEPROMに値を書き込む
-// 8バイトずつ
-__EEPROM_DATA(0, 1, 2, 3, 4, 5, 6, 7);
-__EEPROM_DATA(8, 9, 10, 11, 12, 13, 14, 15);
 
 // global variable
 
@@ -82,24 +75,16 @@ void main(void) {
     SystemState.action = ENTRY;
     SWState            = 0;
 
-    // RandInitialize()
+    RandInitialize()
 
     // LCD初期化
     LCDInitialize();
     // LCDをON
     DisplayON();
 
-    // LCDのバッファ
+    // PlayBGM();
 
-    uint8_t *l_str_BGM = "BGM ON";
-    uint8_t *l_str_SE  = "SE  ON";
-
-    PlayBGM();
-
-    bool l_isBGM = OFF;
-    bool l_isSE  = OFF;
-
-    while (1) {
+    while (0) {
         //状態処理
         switch (SystemState.displayState) {
             //タイトル画面
@@ -135,6 +120,44 @@ void main(void) {
     }
 }
 
+#ifdef NOUSE
+// マイコンに書き込み時にEEPROMに値を書き込む
+// 8バイトずつ
+//__EEPROM_DATA(0, 1, 2, 3, 4, 5, 6, 7);
+//__EEPROM_DATA(8, 9, 10, 11, 12, 13, 14, 15);
+
+void wirtePichTableToEEPROM(void) {
+    uint8_t c;
+    uint8_t PichTable[SCALE_NUM] = {
+        0x00,  // REST
+        0xEE,  // DO
+        0xE1,  // DO_SHARP
+        0xD4,  // RE
+        0xC8,  // RE_SHARP
+        0xBD,  // MI
+        0xB2,  // FA
+        0xA8,  // FA_SHARP
+        0x9F,  // SO
+        0x96,  // SO_SHARP
+        0x8E,  // RA
+        0x86,  // RA_SHARP
+        0x7E,  // SI
+        0x77,  // DO2
+        0x6A,  // RE2
+        0x5E,  // MI2
+        0x59,  // FA2
+        0x4F,  // SO2
+        0x47,  // RA2
+        0x3F   // SI2
+
+    };
+
+    for (c = 0; c < SCALE_NUM; c++) {
+        DATAEE_WriteByte(EEPROM_ADDR_SHEETMUSIC_REST + c, PichTable[c]);
+    }
+}
+
+#endif
 /**
      End of File
  */
