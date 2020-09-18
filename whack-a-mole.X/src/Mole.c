@@ -78,7 +78,7 @@ void MoleXTimerProcess(MoleType *i_mole) {
     uint16_t randVal;
 
     if (i_mole->state == HOLE) {
-        decisionNumber = molePopProbability + (molePopProbability / 60) * (60 - Time) * (Level+1);
+        decisionNumber = (molePopProbability + (molePopProbability / 60) * (60 - Time)) * (Level+1);
         randVal        = GetRand();
         //        if(PopDecision(decisionNumber)){
         if (randVal < decisionNumber) {

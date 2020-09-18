@@ -1,7 +1,5 @@
 #include "State.h"
 
-#include <string.h>
-
 #include "Input.h"
 #include "LCD.h"
 #include "Level.h"
