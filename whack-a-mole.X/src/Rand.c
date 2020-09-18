@@ -14,7 +14,7 @@ void RandInitialize(void) {
 // EEPROMにシード値を格納する
 void SaveRandSeed(void) {
     DATAEE_WriteByte(EEPROM_ADDR_RAND_SEEDX_VALUE, seedX);
-    DATAEE_WriteByte(EEPROM_ADDR_RAND_SEEDYs_VALUE, seedY);
+    DATAEE_WriteByte(EEPROM_ADDR_RAND_SEEDY_VALUE, seedY);
 }
 
 // 16bitのxorshiftを使った乱数発生関数
@@ -24,6 +24,13 @@ uint16_t GetRand(void) {
     seedX        = seedY;
     return seedY = (seedY ^ (seedY >> 1)) ^ (t ^ (t >> 3));
 }
+
+// 現在のシード値に引数で指定された数値を追加する
+void AddRandSeed(uint16_t i_val) {
+    seedY += i_val;
+}
+
+#ifdef NOUSE
 
 // 16bitのxorshiftのシード値を設定する
 
@@ -45,7 +52,6 @@ uint16_t GetRandSeedY(void) {
 }
 
 /* -------------------------------------------------- */
-#ifdef NOUSE
 // 32bit シード値
 // ※実験用
 static uint32_t seed_32 = 2463534242;

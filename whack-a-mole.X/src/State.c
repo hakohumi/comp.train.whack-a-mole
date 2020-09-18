@@ -188,6 +188,9 @@ void PlayingGameProcess(void) {
             Time   = 60;
             l_Time = Time;
 
+            // Rand関数のシード値に経過時間を加える
+            AddRandSeed(TimeForRand);
+
             // ゲーム中の「S」や「T」を表示させる
             WriteToBufferFirst(str_PlayingGameState, 8);
             WriteToBufferMole(2, HOLE);
