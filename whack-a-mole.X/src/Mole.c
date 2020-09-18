@@ -33,8 +33,8 @@ void MoleXProcess(MoleType *i_moleX) {
                 //お手付き処理
                 if (SWState & i_moleX->valueForCompareSW) {
                     Penalty();
-                    WriteToBufferTime(Time);
                     SWState &= ~i_moleX->valueForCompareSW;
+                    WriteToBufferInt(6, Time, 2);
                 }
             }
             break;
@@ -47,7 +47,7 @@ void MoleXProcess(MoleType *i_moleX) {
                     i_moleX->state   = (uint8_t)HIT;
                     i_moleX->popTime = 30;
                     IncScore();
-                    WriteToBufferScore(Score);
+                    WriteToBufferInt(1, Score, 3);
                     WriteToBufferMole(i_moleX->moleNum, HIT);
                     SWState &= ~i_moleX->valueForCompareSW;
                 }

@@ -108,6 +108,8 @@ typedef enum {
     EEPROM_ADDR_HIGHSCORE_NORMAL_L,
     EEPROM_ADDR_HIGHSCORE_HARD_H,
     EEPROM_ADDR_HIGHSCORE_HARD_L,
+    EEPROM_ADDR_RAND_SEEDX_VALUE,
+    EEPROM_ADDR_RAND_SEEDY_VALUE
 } EEPROMListType;
 
 #ifdef __cplusplus  // Provide C++ Compatibility
