@@ -168,8 +168,10 @@ void WriteToBuffer(uint8_t i_WriteStartPos, uint8_t *i_str, uint8_t i_strLen) {
 
     // もし、指定された文字数がLCDの残り桁数超えていたら、
     if ((16 - i_WriteStartPos) < i_strLen) {
+#ifdef NOUSE
         // エラー
         ErrorToBuffer(ERR_W_T_B_OVERSTRLEN);
+#endif
     } else {
         // LCDBufferの先頭から、引数に指定された文字列をi_strLen文字コピーする
         for (i = i_WriteStartPos, c = 0; c < i_strLen; i++, c++) {
@@ -191,8 +193,10 @@ void WriteToBuffer2(uint8_t *i_str, uint8_t i_strLen) {
 
     // もし、指定された文字数が16を超えていたら、
     if (i_strLen > 16) {
+#ifdef NOUSE
         // エラー
         ErrorToBuffer(ERR_W_T_B_OVERSTRLEN);
+#endif
     } else {
         // LCDBufferに空白を入れる
         ClrLCDBuffer();
@@ -213,8 +217,10 @@ void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen) {
 
     // もし、指定された文字数が8を超えていたら、
     if (i_strLen > 8) {
+#ifdef NOUSE
         // エラー
         ErrorToBuffer(ERR_W_T_B_F_OVERSTRLEN);
+#endif
     } else {
         // LCDBufferの上の行に空白を入れる
         ClrLCDBufferLine(false);
@@ -234,8 +240,10 @@ void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen) {
 
     // もし、指定された文字数が8を超えていたら、
     if (i_strLen > 8) {
+#ifdef NOUSE
         // エラー
         ErrorToBuffer(ERR_W_T_B_S_OVERSTRLEN);
+#endif
     } else {
         // LCDBufferの下の行に空白を入れる
         ClrLCDBufferLine(true);
@@ -263,57 +271,6 @@ void WriteToBufferInt(uint8_t i_WriteStartPos, uint16_t i_score, uint8_t i_Len) 
         }
     }
 }
-
-#ifdef NOUSE
-
-// ゲーム中に、残り時間を変更した時に呼ばれる
-// 残り時間の位置のバッファを書き換える
-// 引数 uint8_t i_time 残り制限時間 0 ~ 60
-
-void WriteToBufferTime(uint8_t i_time) {
-    // LCD更新フラグをONにする
-    setUpdateLCDFlg();
-
-    // 1の位を格納
-    LCDBuffer[7] = itochar((uint8_t)(i_time % 10));
-    // 桁をずらす
-    i_time /= 10;
-    // 10の位を格納
-    LCDBuffer[6] = itochar((uint8_t)(i_time % 10));
-}
-
-// ゲーム前カウントダウン用
-
-void WriteToBufferCountDown(uint8_t i_time) {
-    if (i_time < 10) {
-        // LCD更新フラグをONにする
-        setUpdateLCDFlg();
-
-        // 格納
-        LCDBuffer[11] = itochar(i_time);
-    }
-}
-// ゲーム中に、スコアを変更した時に呼ばれる
-// スコアの位置のバッファを書き換える
-// 引数 uint8_t i_score 0 ~ 999
-
-void WriteToBufferScore(uint16_t i_score) {
-    // LCD更新フラグをONにする
-    setUpdateLCDFlg();
-
-    // 1の位を格納
-    LCDBuffer[3] = itochar((uint8_t)(i_score % 10));
-    // 桁をずらす
-    i_score /= 10;
-    // 10の位を格納
-    LCDBuffer[2] = itochar((uint8_t)(i_score % 10));
-    // 桁をずらす
-    i_score /= 10;
-    // 100の位を格納
-    LCDBuffer[1] = itochar((uint8_t)(i_score % 10));
-}
-
-#endif
 
 /* -------------------------------------------------- */
 // モグラの表示に関連する
@@ -444,6 +401,7 @@ void BufferToLCD(void) {
     }
 }
 
+#ifdef NOUSE
 // errorをBufferに保存
 
 void ErrorToBuffer(uint8_t num) {
@@ -456,6 +414,8 @@ void ErrorToBuffer(uint8_t num) {
     // エラー番号を2行の最初に表記
     ItoStr(num, &LCDBuffer[8], 2);
 }
+
+#endif
 
 // LCD上の書き込む場所を、
 // 上の行か下の行の先頭を指定する
@@ -530,6 +490,7 @@ static void write1LineToLCD(uint8_t *i_str, uint8_t i_len) {
 
     // もし、8文字より多い文字数が入った場合、
     if (i_len > LINE_DIGITS_MAX) {
+#ifdef NOUSE
         // errorを表示
         for (c = 1; c <= 6; c++) {
             l_buf[c] = STR_ERROR[c - 1];
@@ -537,13 +498,15 @@ static void write1LineToLCD(uint8_t *i_str, uint8_t i_len) {
         // 文字列"ERROR"の数
         i_len = STR_ERROR_LEN;
 
+#endif
+
     } else {
         for (c = 1; c <= i_len; c++) {
             l_buf[c] = i_str[c - 1];
         }
-    }
 
-    // 書き込み
-    // +1 は先頭のコントロールバイト分
-    I2C1_WriteNBytes(LCD_ADDR, l_buf, i_len + 1);
+        // 書き込み
+        // +1 は先頭のコントロールバイト分
+        I2C1_WriteNBytes(LCD_ADDR, l_buf, i_len + 1);
+    }
 }

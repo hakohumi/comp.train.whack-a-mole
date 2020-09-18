@@ -169,8 +169,8 @@ void HSClearProcess(void) {
     switch (SystemState.action) {
         case ENTRY:
             ClrLCDBuffer();
-            WriteToBufferFirst(str_HSClearState, 7);
-            WriteToBufferFirst(str_HSClearState_Second, 7);
+            WriteToBufferFirst(str_HSClearState, 8);
+            WriteToBufferSecond(str_HSClearState_Second, 8);
             SystemState.action = (uint8_t)DO;
             break;
         case DO:

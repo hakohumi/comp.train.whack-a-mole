@@ -13,29 +13,29 @@ void IncScore(void) {
 }
 
 void SaveHighScore(uint8_t i_level, uint16_t i_score) {
-    uint8_t l_addrH  = EEPROM_ADDR_ERROR;
     uint8_t l_addrL  = EEPROM_ADDR_ERROR;
+    uint8_t l_addrH  = EEPROM_ADDR_ERROR2;
     uint16_t l_Score = i_score;
 
     switch (i_level) {
         case EASY:
-            l_addrH = EEPROM_ADDR_HIGHSCORE_EASY_H;
             l_addrL = EEPROM_ADDR_HIGHSCORE_EASY_L;
+            l_addrH = EEPROM_ADDR_HIGHSCORE_EASY_H;
             break;
         case NORMAL:
-            l_addrH = EEPROM_ADDR_HIGHSCORE_NORMAL_H;
             l_addrL = EEPROM_ADDR_HIGHSCORE_NORMAL_L;
+            l_addrH = EEPROM_ADDR_HIGHSCORE_NORMAL_H;
             break;
         case HARD:
-            l_addrH = EEPROM_ADDR_HIGHSCORE_HARD_H;
             l_addrL = EEPROM_ADDR_HIGHSCORE_HARD_L;
+            l_addrH = EEPROM_ADDR_HIGHSCORE_HARD_H;
             break;
         default:
             break;
     }
 
-    DATAEE_WriteByte(l_addrH, l_Score & 0x00FF);
-    DATAEE_WriteByte(l_addrL, (l_Score & 0xFF00) >> 8);
+    DATAEE_WriteByte(l_addrH, (l_Score & 0xFF00) >> 8);
+    DATAEE_WriteByte(l_addrL, l_Score & 0x00FF);
 }
 
 // void ClearHighScore(uint8_t i_level) {
@@ -59,23 +59,26 @@ void SaveHighScore(uint8_t i_level, uint16_t i_score) {
 
 uint16_t GetHighScore(uint8_t i_level) {
     uint16_t l_highscore = 0xFFFF;
+    uint8_t l_addr       = EEPROM_ADDR_ERROR;
 
     switch (i_level) {
         case EASY:
-            l_highscore = 0x00FF & (uint16_t)(DATAEE_ReadByte(EEPROM_ADDR_HIGHSCORE_EASY_L));
-            l_highscore |= (uint16_t)(DATAEE_ReadByte(EEPROM_ADDR_HIGHSCORE_EASY_H)) << 8;
+            l_addr = EEPROM_ADDR_HIGHSCORE_EASY_L;
             break;
         case NORMAL:
-            l_highscore = 0x00FF & (uint16_t)(DATAEE_ReadByte(EEPROM_ADDR_HIGHSCORE_NORMAL_L));
-            l_highscore |= (uint16_t)(DATAEE_ReadByte(EEPROM_ADDR_HIGHSCORE_NORMAL_H)) << 8;
+            l_addr = EEPROM_ADDR_HIGHSCORE_NORMAL_L;
             break;
         case HARD:
-            l_highscore = 0x00FF & (uint16_t)(DATAEE_ReadByte(EEPROM_ADDR_HIGHSCORE_HARD_L));
-            l_highscore |= (uint16_t)(DATAEE_ReadByte(EEPROM_ADDR_HIGHSCORE_HARD_H)) << 8;
+            l_addr = EEPROM_ADDR_HIGHSCORE_HARD_L;
             break;
         default:
             break;
     }
+
+    // 下位ビット
+    l_highscore = 0x00FF & (uint16_t)(DATAEE_ReadByte(l_addr));
+    // 上位ビット
+    l_highscore |= (uint16_t)(DATAEE_ReadByte(l_addr + 1)) << 8;
 
     return l_highscore;
 }
