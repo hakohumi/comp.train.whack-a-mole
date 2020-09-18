@@ -235,6 +235,8 @@ void ResultProcess(void) {
         case ENTRY:
             WriteToBuffer(str_ResultState, 6);
 
+            // Randのシード値をEEPROMに書き込む
+
             SystemState.action = (uint8_t)DO;
             break;
         case DO:
@@ -246,6 +248,7 @@ void ResultProcess(void) {
                 } else {
                     //何もしな�?
                 }
+
                 //タイトル画面に遷移
                 ChangeState((uint8_t)TITLE);
                 SystemState.action = (uint8_t)ENTRY;

@@ -10,6 +10,12 @@
 
 #include <stdint.h>
 
+// Rand関数を初期化
+void RandInitialize(void);
+
+// Randのシード値をEEPROMに格納する
+void SaveRandSeed(void);
+
 // 16bitのxorshiftを使った乱数発生関数
 uint16_t GetRand(void);
 
@@ -20,6 +26,7 @@ uint16_t GetRandSeedX(void);
 // 16bitのxorshiftのシードYの値を取得する
 uint16_t GetRandSeedY(void);
 
+#ifdef NOUSE
 /* -------------------------------------------------- */
 
 // 32bit 乱数発生器
@@ -27,5 +34,6 @@ uint16_t GetRandSeedY(void);
 uint32_t GetRand32(void);
 
 /* -------------------------------------------------- */
+#endif
 
 #endif /* RAND_H */
