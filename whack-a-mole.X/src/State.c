@@ -83,6 +83,7 @@ void TitleProcess(void) {
 
 void SelectLevelProcess(void) {
     uint16_t l_HighScore = 0;
+    
     switch (SystemState.action) {
         case ENTRY:
             ClrLCDBuffer();

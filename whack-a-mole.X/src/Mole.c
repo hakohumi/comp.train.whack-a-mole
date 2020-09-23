@@ -40,7 +40,7 @@ void MoleXProcess(MoleType *i_moleX) {
             break;
             //モグラ出現処理
         case MOLE_STATE_POP:
-            if (i_moleX->popTime) {
+            if (i_moleX->popTime > 0) {
                 //モグラ撃退
                 if (SWState & i_moleX->valueForCompareSW) {
                     //Attacked(&i_moleX);
@@ -51,8 +51,8 @@ void MoleXProcess(MoleType *i_moleX) {
                     WriteToBufferMole(i_moleX->moleNum, MOLE_STATE_HIT);
                     SWState &= ~i_moleX->valueForCompareSW;
                 }
-            }  //モグラ穴に戻る処理
-            else {
+            //モグラ穴に戻る処理
+            } else {
                 //BackToHole(&i_moleX);
                 i_moleX->state = (uint8_t)MOLE_STATE_HOLE;
                 WriteToBufferMole(i_moleX->moleNum, MOLE_STATE_HOLE);

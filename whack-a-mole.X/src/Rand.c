@@ -21,6 +21,7 @@ void SaveRandSeed(void) {
 
 uint16_t GetRand(void) {
     uint16_t t   = (seedX ^ (seedX << 5));
+    
     seedX        = seedY;
     return seedY = (seedY ^ (seedY >> 1)) ^ (t ^ (t >> 3));
 }
