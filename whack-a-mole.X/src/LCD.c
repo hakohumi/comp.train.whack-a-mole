@@ -138,8 +138,11 @@ void LCDInitialize(void) {
 
 void ClrLCDBuffer(void) {
     uint8_t i;
-    for (i = 0; i < LCD_BUFF_SIZE_MAX; i++) {
-        LCDBuffer[i] = STR_2LINE_BLANK[i];
+    for (i = 0; i < LCD_LINE_LEN; i++) {
+        LCDBuffer[i] = STR_LINE_BLANK[i];
+    }
+    for (i = 0; i < LCD_LINE_LEN; i++) {
+        LCDBuffer[i + LCD_LINE_LEN] = STR_LINE_BLANK[i];
     }
 }
 
@@ -388,11 +391,6 @@ void ClrDisplay(void) {
 
 void DisplayON(void) {
     I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_DISPLAY_ON);
-}
-// Display OFF
-
-void DisplayOFF(void) {
-    I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_DISPLAY_OFF);
 }
 
 // Write1LineToLCD()

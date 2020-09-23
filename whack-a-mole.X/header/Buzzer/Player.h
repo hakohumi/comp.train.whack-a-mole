@@ -22,21 +22,12 @@ typedef struct {
     uint16_t currentNoteLength;  // 音符中の再生位置
     bool IsPlay;                 // 再生中フラグ
     bool StartFlg;               // 再生開始フラグ
-    bool StopFlg;                // 停止開始フラグ
 } Player_t;
 
-void Player_Initialize(Player_t *i_Player);
 void Player_t_Init(Player_t *i_Player, uint8_t i_SM);
-void PlayBGM(void);
 
 void returnBeginPlayPos(Player_t *i_Player);
 void updatePlayerState(Player_t *i_Player);
-void BGM_updatePlayerState(void);
-void SE_updatePlayerState(void);
 void updatePlayerManager(Player_t *i_Player);
-void BGM_updatePlayerManager(void);
-
-void BGM_ChangeCurrentPich(void);
-bool GetIsPlayBGM(void);
 
 #endif /* PLAYER_H */

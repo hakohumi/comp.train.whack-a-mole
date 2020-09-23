@@ -28,7 +28,6 @@ void LCDInitialize(void);
 
 // ちゃんと文字数を指定しないと、範囲外のデータも表示するので注意
 void WriteToBuffer(uint8_t i_WriteStartPos, uint8_t *i_str, uint8_t i_strLen);
-void WriteToBuffer2(uint8_t *i_str, uint8_t i_strLen);
 void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen);
 void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen);
 
@@ -48,6 +47,5 @@ inline void SetPosLineLCD(bool i_row);  // 1行目か2行目の先頭を指定
 
 void ClrDisplay(void);
 void DisplayON(void);
-void DisplayOFF(void);
 
 #endif /* LCDCLASS_H */

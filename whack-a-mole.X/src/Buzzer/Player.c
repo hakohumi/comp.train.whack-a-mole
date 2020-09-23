@@ -22,6 +22,7 @@ BGMを管理する
 // プライベート変数
 /* -------------------------------------------------- */
 
+
 /* -------------------------------------------------- */
 
 /* -------------------------------------------------- */
@@ -45,16 +46,7 @@ void Player_t_Init(Player_t *i_Player, uint8_t i_SM) {
     i_Player->currentNoteLength = 0;
     i_Player->IsPlay            = OFF;
     i_Player->StartFlg          = OFF;
-    i_Player->StopFlg           = OFF;
 }
-
-#ifdef NOUSE
-// BGM再生開始フラグのON
-
-void PlayBGM(void) {
-    BGM.StartFlg = ON;
-}
-#endif
 
 /* -------------------------------------------------- */
 // 頭出し処理
@@ -96,84 +88,4 @@ void updatePlayerState(Player_t *i_Player) {
             PlayBuzzer();
         }
     }
-
-    // 停止フラグが立ったか?
-    // StopFlg
-    if (i_Player->StopFlg == ON) {
-        // BGMStopFlgを下げる
-        i_Player->StopFlg = OFF;
-
-        // IsPlayをfalseに変更する
-        i_Player->IsPlay = false;
-
-        // if (i_Player == &SE) {
-        // ブザーの音程をBGMの現在の再生位置の音程へ設定する
-        // BGM_ChangeCurrentPich();
-        // }
-    }
 }
-
-#ifdef NOUSE
-void SE_updatePlayerState(void) {
-    updatePlayerState(&SE);
-}
-
-void BGM_updatePlayerState(void) {
-    updatePlayerState(&BGM);
-}
-// BGM_Playerの更新
-void BGM_updatePlayerManager(void) {
-    uint8_t l_NoteTempo  = 0;
-    uint8_t l_NoteLength = 0;
-
-    // 現在BGMが再生されているか
-    if (BGM.IsPlay == ON) {
-        // 現在選択されている音符の長さ分の時間は経過したか？
-        if (BGM.currentNoteLength == 0) {
-            // currentNotePosを1増やす
-            BGM.PlayNotePos++;
-
-            // Playerの再生位置は終端か？
-            if (BGM.PlayNotePos >= BGM.EndPos) {
-                // Playerの再生位置を最初へ戻す
-                BGM.PlayNotePos = 0;
-            }
-
-            // Playerが再生中に効果音が再生していたら、
-            // if (GetIsPlaySE() == OFF) {
-            l_NoteLength =
-                *(SM_GetCurrentNote(BGM.SheetMusic, BGM.PlayNotePos));
-            l_NoteTempo = SM_GetTempo(BGM.SheetMusic);
-            // 選択された音符の長さをcurrentNoteLengthにセットする
-            BGM.currentNoteLength = Change10msLength(l_NoteLength, l_NoteTempo);
-
-            // ブザーの周波数を、現在の再生位置の音程へ変更する
-            SM_ChangePich(BGM.SheetMusic, BGM.PlayNotePos);
-            // }
-
-        } else {
-            // currentNoteLengthを1下げる
-            BGM.currentNoteLength--;
-        }
-    }
-}
-
-#endif
-
-#ifdef NOUSE
-
-// 現在のブザーの音程をBGMの現在の再生位置の音程へ変更
-// 効果音側で呼び出す用
-void BGM_ChangeCurrentPich(void) {
-    // 音符の高さに合わせて、タイマの周期を変える
-    SM_ChangePich(BGM.SheetMusic, BGM.PlayNotePos);
-}
-
-/* -------------------------------------------------- */
-// ゲッター
-
-/* -------------------------------------------------- */
-bool GetIsPlayBGM() {
-    return BGM.IsPlay;
-}
-#endif

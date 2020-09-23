@@ -11,12 +11,6 @@
 uint8_t MinMolePopTime;
 uint8_t MaxMolePopTime;
 
-void MoleManager(void) {
-    MoleXProcess(&mole1);
-    MoleXProcess(&mole2);
-    MoleXProcess(&mole3);
-    MoleXProcess(&mole4);
-}
 
 void MoleXProcess(MoleType *i_moleX) {
     switch (i_moleX->state) {

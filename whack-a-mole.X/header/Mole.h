@@ -20,7 +20,7 @@ extern "C" {
 //SW
 typedef enum MoleStateType_Type {
     MOLE_STATE_HOLE,  //モグラ未出現
-    MOLE_STATE_POP,  //モグラ出現
+    MOLE_STATE_POP,   //モグラ出現
     MOLE_STATE_HIT    //モグラ撃退
 } MoleStateType;
 
@@ -47,11 +47,6 @@ MoleType mole4 = {0, 0, SW4, 4, 0};
 extern uint8_t MinMolePopTime;
 //最小モグラ出現時間
 extern uint8_t MaxMolePopTime;
-
-/* モグラ全体処理関数
- * モグラ1-4の処理を行う
- */
-void MoleManager(void);
 
 /* モグラX処理関数
  * モグラ1匹に対する処理を行う

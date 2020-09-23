@@ -11,12 +11,6 @@
 #include <stdint.h>
 
 #include "Common.h"
-#include "Player.h"
-#include "SheetMusic.h"
-
-#define REST 0
-#define NOTE_LENGTH 0
-#define NOTE_PITCH 1
 
 /* -------------------------------------------------- */
 // mainで呼ばれる関数
@@ -29,18 +23,20 @@ void UpdateBuzzer(void);
 
 /* -------------------------------------------------- */
 
-// BGM.c,SE.cで呼ばれる
-void PlayBuzzer(void);
-void ChangePich(uint8_t i_Pich);
-void SM_ChangePich(SheetMusic_t *i_SheetMusic, uint16_t i_pos);
-uint16_t Change10msLength(uint8_t i_NoteLength, uint16_t i_Tempo);
+// Player.h
+
+typedef struct {
+    uint16_t currentNoteLength;  // 音符中の再生位置
+    bool IsPlay;                 // 再生中フラグ
+    bool StartFlg;               // 再生開始フラグ
+} Player_t;
+
+void updatePlayerState(void);
+void updatePlayerManager(void);
 
 void SetUpdate10msBuzzerFlg(void);
 
 void PlaySE(void);
 void SE_updatePlayerManager(void);
-bool GetIsPlaySE(void);
-
-// extern uint8_t PichTable[SCALE_NUM];
 
 #endif /* BUZZER_H */
