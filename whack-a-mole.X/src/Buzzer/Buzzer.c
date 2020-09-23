@@ -7,8 +7,6 @@ BGMとSEを管理する
 - それぞれの再生開始・停止フラグ
 - それぞれの再生中フラグ
 
-
-
  */
 
 #include "Buzzer.h"
@@ -30,10 +28,7 @@ static Player_t SE;
 
 static bool Update10msBuzzerFlg = OFF;
 
-static bool IsPlayingBuzzer = OFF;
-
-#define TEMPO 230
-#define MUSIC_LEN 1
+#define TEMPO 1000
 #define PICH DO2
 
 // 音符の長さを10msに変換
@@ -41,6 +36,8 @@ static bool IsPlayingBuzzer = OFF;
 // 出力はmsか
 
 #define Change10msLength(N) (1500 / N)
+
+uint16_t Buzzer10msFlg = 10;
 
 // ブザーの初期化
 void Buzzer_Initialize(void) {
@@ -54,10 +51,8 @@ void Buzzer_Initialize(void) {
 void UpdateBuzzer(void) {
     // SEStateの切り替え
     updatePlayerState();
-    // どっちも再生中でなければ、PWMをストップさせる
 
     if (SE.IsPlay == OFF) {
-        IsPlayingBuzzer = OFF;
         TMR2_StopTimer();
     }
 
@@ -103,19 +98,13 @@ void updatePlayerState(void) {
             PWM3_LoadDutyValue(PICH / 2);
 
             // PWM開始
-            if (IsPlayingBuzzer == OFF) {
-                TMR2_StartTimer();
-                IsPlayingBuzzer = ON;
-            };
+            TMR2_StartTimer();
         }
     }
 }
 
 // SEの更新
 void SE_updatePlayerManager(void) {
-    uint8_t l_NoteTempo  = 0;
-    uint8_t l_NoteLength = 0;
-
     // 現在SEが再生されているか
     if (SE.IsPlay == ON) {
         // 現在選択されている音符の長さ分の時間は経過したか？
@@ -135,5 +124,6 @@ void SetUpdate10msBuzzerFlg(void) {
 // BGM再生開始フラグのON
 
 void PlaySE(void) {
-    SE.StartFlg = ON;
+    SE.StartFlg   = ON;
+    Buzzer10msFlg = 10;
 }

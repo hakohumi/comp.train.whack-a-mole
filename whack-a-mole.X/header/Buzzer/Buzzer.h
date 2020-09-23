@@ -39,4 +39,6 @@ void SetUpdate10msBuzzerFlg(void);
 void PlaySE(void);
 void SE_updatePlayerManager(void);
 
+extern uint16_t Buzzer10msFlg;
+
 #endif /* BUZZER_H */

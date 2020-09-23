@@ -182,14 +182,14 @@ void TMR1_DefaultInterruptHandler(void) {
     // /* -------------------------------------------------- */
     // // ブザー タイマ処理
     // /* -------------------------------------------------- */
-    static uint16_t Buzzer10msFlg = 10;
 
     if (Buzzer10msFlg == 0) {
-        Buzzer10msFlg = 10;
         SetUpdate10msBuzzerFlg();
+
     } else {
         Buzzer10msFlg--;
     }
+
     /* -------------------------------------------------- */
 
     if (++TimeForRand >= 0xFFFF) {

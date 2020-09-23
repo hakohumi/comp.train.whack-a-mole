@@ -42,7 +42,6 @@ void ChangeState(uint8_t i_displayState) {
     if (i_displayState < 6) {
         //画面状態変更
         SystemState.displayState = i_displayState;
-        PlaySE();
     }
 }
 
@@ -114,7 +113,6 @@ void SelectLevelProcess(void) {
                     l_swProcessEndFlag = 1;
                     WriteToBuffer(10, str_HighScore, 2);
                     WriteToBufferInt(13, l_HighScoreEasy, 3);
-
                     break;
                     //SW2
                 case SW2:
@@ -126,6 +124,7 @@ void SelectLevelProcess(void) {
                     l_swProcessEndFlag = 1;
                     WriteToBuffer(10, str_HighScore, 2);
                     WriteToBufferInt(13, l_HighScoreNormal, 3);
+
                     break;
                     //SW3
                 case SW3:
@@ -138,6 +137,7 @@ void SelectLevelProcess(void) {
                     l_swProcessEndFlag = 1;
                     WriteToBuffer(10, str_HighScore, 2);
                     WriteToBufferInt(13, l_HighScoreHard, 3);
+
                     break;
                     //SW4
                 case SW4:
@@ -145,6 +145,7 @@ void SelectLevelProcess(void) {
                     ChangeState((uint8_t)HS_CLEAR);
                     SystemState.action = (uint8_t)ENTRY;
                     l_swProcessEndFlag = 1;
+
                     break;
                     //SW5
                 case SW5:
@@ -152,6 +153,7 @@ void SelectLevelProcess(void) {
                     ChangeState((uint8_t)START_COUNT_DOWN);
                     SystemState.action = (uint8_t)ENTRY;
                     l_swProcessEndFlag = 1;
+
                     break;
                 default:
                     if (SWState) {
@@ -221,7 +223,7 @@ void StartCountDownProcess(void) {
 
             WriteToBufferFirst(str_StartCountDownState, 8);
 
-            //PlaySE(countdown3sec);
+            PlaySE();
             WriteToBufferInt(10, RemaingTime, 1);
 
             ClrCount1sec();
@@ -229,10 +231,10 @@ void StartCountDownProcess(void) {
             l_swProcessEndFlag = 1;
             break;
         case DO:
-            if (RemaingTime) {
+            if (RemaingTime > 0) {
                 //残り時間が変わった時SEを鳴らす
                 if (RemaingTime < l_Time) {
-                    //PlaySE(1&2secSE)
+                    PlaySE();
                     WriteToBufferInt(10, RemaingTime, 1);
                     l_Time = RemaingTime;
                 }

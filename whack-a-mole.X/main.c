@@ -85,7 +85,8 @@ void main(void) {
     // LCDをON
     DisplayON();
 
-    while (0) {
+    while (1) {
+
         //状態処理
         switch (SystemState.displayState) {
             //タイトル画面
