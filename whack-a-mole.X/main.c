@@ -46,7 +46,6 @@
 #include "Common.h"
 #include "Input.h"
 #include "LCD.h"
-#include "LED.h"
 #include "Rand.h"
 #include "Score.h"
 #include "State.h"
@@ -55,8 +54,8 @@
 
 // マイコンに書き込み時にEEPROMに値を書き込む
 // 8バイトずつ
-__EEPROM_DATA(0, 1, 2, 3, 4, 5, 6, 7);
-__EEPROM_DATA(8, 9, 10, 11, 12, 13, 14, 15);
+//__EEPROM_DATA(0, 1, 2, 3, 4, 5, 6, 7);
+//__EEPROM_DATA(8, 9, 10, 11, 12, 13, 14, 15);
 
 void main(void) {
     // initialize the device
@@ -74,7 +73,7 @@ void main(void) {
     SWState            = 0;
 
     // 乱数の初期化
-    RandInitialize()
+    RandInitialize();
 
     // LCD初期化
     LCDInitialize();

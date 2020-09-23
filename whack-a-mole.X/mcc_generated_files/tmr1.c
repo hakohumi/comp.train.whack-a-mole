@@ -191,7 +191,6 @@ void TMR1_DefaultInterruptHandler(void) {
     if (++count1sec >= 100) {
         CountDown();
         count1sec = 0;
-        RB2       = ~RB2;
     }
 
     //MoleTimerProcess();

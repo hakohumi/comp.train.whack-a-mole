@@ -46,17 +46,6 @@ void ClrLCDBufferLine(bool i_line);
 
 inline void SetPosLineLCD(bool i_row);  // 1行目か2行目の先頭を指定
 
-#ifdef NOUSE
-
-// LCD上の書き込む位置を指定する
-inline void SetPosLCD(uint8_t i_pos);  // アドレス指定
-
-void ClrLineDisplay(uint8_t i_line);
-
-// 文字列"エラー"をBufferに格納
-void ErrorToBuffer(uint8_t num);
-#endif
-
 void ClrDisplay(void);
 void DisplayON(void);
 void DisplayOFF(void);
