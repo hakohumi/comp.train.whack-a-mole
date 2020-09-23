@@ -69,7 +69,7 @@ void main(void) {
 
     //初期化処理
     ChangeState(TITLE);
-    SystemState.action = ENTRY;
+    SystemState.action = ACTION_ENTRY;
     SWState            = 0;
 
     // 乱数の初期化

@@ -1,5 +1,8 @@
 #include "Level.h"
 
+//ゲーム難易度グローバル変数
+uint8_t Level;
+
 uint8_t *STR_LEVEL_EASY   = "EASY";
 uint8_t *STR_LEVEL_NORMAL = "NORMAL";
 uint8_t *STR_LEVEL_HARD   = "HARD";
