@@ -73,7 +73,8 @@ void main(void) {
     SystemState.action = ENTRY;
     SWState            = 0;
 
-    // RandInitialize()
+    // 乱数の初期化
+    RandInitialize()
 
     // LCD初期化
     LCDInitialize();
@@ -110,6 +111,8 @@ void main(void) {
             default:
                 break;
         }
+
+        // LCD更新
         BufferToLCD();
     }
 }

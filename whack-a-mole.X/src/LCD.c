@@ -401,22 +401,6 @@ void BufferToLCD(void) {
     }
 }
 
-#ifdef NOUSE
-// errorをBufferに保存
-
-void ErrorToBuffer(uint8_t num) {
-    uint8_t i, l_len;
-
-    for (i = 0, l_len = STR_ERROR_LEN + 1; i < l_len; i++) {
-        LCDBuffer[i] = STR_ERROR[i];
-    }
-
-    // エラー番号を2行の最初に表記
-    ItoStr(num, &LCDBuffer[8], 2);
-}
-
-#endif
-
 // LCD上の書き込む場所を、
 // 上の行か下の行の先頭を指定する
 // true だと 2行目
@@ -433,6 +417,18 @@ inline void SetPosLineLCD(bool i_row) {
 }
 
 #ifdef NOUSE
+// errorをBufferに保存
+
+void ErrorToBuffer(uint8_t num) {
+    uint8_t i, l_len;
+
+    for (i = 0, l_len = STR_ERROR_LEN + 1; i < l_len; i++) {
+        LCDBuffer[i] = STR_ERROR[i];
+    }
+
+    // エラー番号を2行の最初に表記
+    ItoStr(num, &LCDBuffer[8], 2);
+}
 
 // LCD上の書き込む場所を指定
 
