@@ -8,6 +8,14 @@
 #include "State.h"
 #include "Timer.h"
 
+//モグラ基準出現確率(難易度EASYで30匹程度)
+#define MOLE_POP_BASE_PROBABIRITY 81
+
+MoleType mole1 = {1, 0, 0, 0, SW1};
+MoleType mole2 = {2, 0, 0, 0, SW2};
+MoleType mole3 = {3, 0, 0, 0, SW3};
+MoleType mole4 = {4, 0, 0, 0, SW4};
+
 uint8_t MinMolePopTime;
 uint8_t MaxMolePopTime;
 
@@ -19,12 +27,13 @@ void MoleManager(void) {
 }
 
 void MoleXProcess(MoleType *i_moleX) {
+//    uint8_t i_moleX->valueForCompareSW = getCompareSW(i_moleX->moleNum);
+
     switch (i_moleX->state) {
             //モグラ穴の処理
         case MOLE_STATE_HOLE:
             //モグラ出現フラグONか
             if (i_moleX->popFlag) {
-                //OutOfHole(&i_moleX);
                 i_moleX->state   = (uint8_t)MOLE_STATE_POP;
                 i_moleX->popTime = MinMolePopTime + ((MaxMolePopTime - MinMolePopTime) / 60) * RemaingTime;
                 WriteToBufferMole(i_moleX->moleNum, MOLE_STATE_POP);
@@ -53,7 +62,6 @@ void MoleXProcess(MoleType *i_moleX) {
                 }
             //モグラ穴に戻る処理
             } else {
-                //BackToHole(&i_moleX);
                 i_moleX->state = (uint8_t)MOLE_STATE_HOLE;
                 WriteToBufferMole(i_moleX->moleNum, MOLE_STATE_HOLE);
             }
@@ -62,7 +70,6 @@ void MoleXProcess(MoleType *i_moleX) {
         case MOLE_STATE_HIT:
             //モグラの穴に戻る処理
             if (!i_moleX->popTime) {
-                //BackToHole(&i_moleX);
                 i_moleX->state = (uint8_t)MOLE_STATE_HOLE;
                 WriteToBufferMole(i_moleX->moleNum, MOLE_STATE_HOLE);
             }
@@ -82,13 +89,12 @@ void MoleXTimerProcess(MoleType *i_mole) {
         decisionNumber = (molePopProbability + (molePopProbability / 60) * (60 - RemaingTime)) * (Level+1);
         randVal        = GetRand();
         //乱数がモグラ出現判定値より小さいとき、popFlagを立てる
-        //        if(PopDecision(decisionNumber)){
         if (randVal < decisionNumber) {
             i_mole->popFlag = 1;
         }
     //モグラの状態が未出現以外のとき、出現時間を減少
     } else {
-        if (i_mole->popTime) {
+        if (i_mole->popTime > 0) {
             i_mole->popTime--;
         }
     }

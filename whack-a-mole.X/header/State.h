@@ -26,8 +26,8 @@ typedef enum DisplayStateType_Type {
 
 //各画面状態のアクションを定義(EXITは省略)
 typedef enum ActionType_Type {
-    ENTRY,
-    DO
+    ACTION_ENTRY,
+    ACTION_DO
 } ActionType;
 
 //システム全体の構造体
