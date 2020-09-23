@@ -9,7 +9,6 @@
         <itemPath>header/Common.h</itemPath>
         <itemPath>header/LCD.h</itemPath>
         <itemPath>header/Input.h</itemPath>
-        <itemPath>header/LED.h</itemPath>
         <itemPath>header/Level.h</itemPath>
         <itemPath>header/Mole.h</itemPath>
         <itemPath>header/Score.h</itemPath>
@@ -59,7 +58,6 @@
       <itemPath>main.c</itemPath>
       <itemPath>src/Rand.c</itemPath>
       <itemPath>src/LCD.c</itemPath>
-      <itemPath>src/LED.c</itemPath>
       <itemPath>src/Common.c</itemPath>
       <itemPath>src/State.c</itemPath>
       <itemPath>src/Input.c</itemPath>

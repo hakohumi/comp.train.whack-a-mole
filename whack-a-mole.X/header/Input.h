@@ -15,14 +15,14 @@
 extern "C" {
 #endif
     
-    //SWに対応するポートの位置
-    typedef enum SWPortPosType_Type{
-        SW1 = 0x01,
-        SW2 = 0x02,
-        SW3 = 0x04,
-        SW4 = 0x10,
-        SW5 = 0x40
-    } SWPortPosType;
+//SWに対応するポートの位置
+typedef enum SWPortPosType_Type{
+    SW1 = 0x01, 
+    SW2 = 0x02,
+    SW3 = 0x04,
+    SW4 = 0x10,
+    SW5 = 0x40
+} SWPortPosType;
 
 //SW構造体
 typedef struct {

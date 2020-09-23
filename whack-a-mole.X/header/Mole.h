@@ -65,48 +65,6 @@ void MoleXProcess(MoleType *);
  */
 void MoleXTimerProcess(MoleType *);
 
-#ifdef NOUSE
-/* モグラ出現関数
- * モグラの出現処理を行う
- * 入力 MoleType * i_mole モグラ構造体
- */
-void OutOfHole(MoleType *);
-
-/* モグラ撃退関数
- * モグラの撃退処理を行う
- * 入力 MoleType * i_mole モグラ構造体
- */
-void Attacked(MoleType *);
-
-/* モグラ未出現関数
- * モグラの未出現処理を行う
- * 入力 MoleType * i_mole モグラ構造体
- */
-void BackToHole(MoleType *);
-
-/* モグラ全体タイマ処理関数
- * モグラのタイマ処理を行う
- */
-void MoleTimerProcess(void);
-
-/* モグラ出現判定関数
- * モグラの出現を判定する
- * 入力 uint16_t 1_decisionNumber 出現判定値
- * 出力 bool TRUE モグラ出現
- *           FALSE　モグラ未出現
- */
-bool PopDecision(uint16_t);
-
-/* モグラ出現時間取得関数
- * モグラの出現時間を取得する
- * 入力 uint8_t i_level 難易度
- *      uint8_t i_time 残り時間
- * 出力 uint8_t popTime 出現時間
- */
-uint8_t GetPopTime(uint8_t, uint8_t);
-
-#endif
-
 #ifdef __cplusplus
 }
 #endif
