@@ -7,6 +7,7 @@
 #include "Score.h"
 #include "State.h"
 #include "Timer.h"
+#include "Buzzer/Buzzer.h"
 
 //モグラ基準出現確率(難易度EASYで30匹程度)
 #define MOLE_POP_BASE_PROBABIRITY 81
@@ -18,13 +19,6 @@ MoleType mole4 = {4, 0, 0, 0, SW4};
 
 uint8_t MinMolePopTime;
 uint8_t MaxMolePopTime;
-
-void MoleManager(void) {
-    MoleXProcess(&mole1);
-    MoleXProcess(&mole2);
-    MoleXProcess(&mole3);
-    MoleXProcess(&mole4);
-}
 
 void MoleXProcess(MoleType *i_moleX) {
 //    uint8_t i_moleX->valueForCompareSW = getCompareSW(i_moleX->moleNum);
@@ -59,6 +53,7 @@ void MoleXProcess(MoleType *i_moleX) {
                     WriteToBufferInt(1, Score, 3);
                     WriteToBufferMole(i_moleX->moleNum, MOLE_STATE_HIT);
                     SWState &= ~i_moleX->valueForCompareSW;
+                    PlaySE();
                 }
             //モグラ穴に戻る処理
             } else {

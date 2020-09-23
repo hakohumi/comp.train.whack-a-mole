@@ -41,8 +41,7 @@
     SOFTWARE.
  */
 
-#include <string.h>
-
+#include "Buzzer.h"
 #include "Common.h"
 #include "Input.h"
 #include "LCD.h"
@@ -60,6 +59,12 @@
 void main(void) {
     // initialize the device
     SYSTEM_Initialize();
+
+    // When using interrupts, you need to set the Global and Peripheral
+    // Interrupt Enable bits Use the following macros to:
+
+    // Myfunction init
+    Buzzer_Initialize();
 
     // Enable the Global Interrupts
     INTERRUPT_GlobalInterruptEnable();
@@ -81,6 +86,7 @@ void main(void) {
     DisplayON();
 
     while (1) {
+
         //状態処理
         switch (SystemState.displayState) {
             //タイトル画面
@@ -113,6 +119,7 @@ void main(void) {
 
         // LCD更新
         BufferToLCD();
+        UpdateBuzzer();
     }
 }
 
