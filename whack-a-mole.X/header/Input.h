@@ -33,17 +33,24 @@ typedef struct {
 } SWType;
 
 //SW1-5
-SWType sw1 = { 0, 0, SW1, 0};
-SWType sw2 = { 0, 0, SW2, 0};
-SWType sw3 = { 0, 0, SW3, 0};
-SWType sw4 = { 0, 0, SW4, 0};
-SWType sw5 = { 0, 0, SW5, 0};
+extern SWType sw1;
+extern SWType sw2;
+extern SWType sw3;
+extern SWType sw4;
+extern SWType sw5;
 
 //ポート値
-uint8_t InputPort;
+extern uint8_t InputPort;
 
 //SW入力状態
-uint8_t SWState;
+extern uint8_t SWState;
+
+/* 入力ポート値ビット位置取得関数
+ * 引数に応じたRAのビット位置を返す
+ * 入力 uint8_t i_Num 番号(1-5) 
+ * 出力 uint8_t RAビット位置
+ */
+uint8_t getCompareSW(uint8_t);
 
 /* SW検知関数
  * SWを検知する

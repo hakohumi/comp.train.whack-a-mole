@@ -15,31 +15,6 @@
 #define OFF false
 
 // 楽譜の音階
-// いずれ、MusicSheetが一つになった時に、MusicSheetのヘッダに入れる
-// typedef enum {
-//     REST,
-//     DO_,
-//     DO_SHARP,
-//     RE,
-//     RE_SHARP,
-//     MI,
-//     FA,
-//     FA_SHARP,
-//     SO,
-//     SO_SHARP,
-//     RA_,
-//     RA_SHARP,
-//     SI,
-//     DO2,
-//     RE2,
-//     MI2,
-//     FA2,
-//     SO2,
-//     RA2_,
-//     SI2,
-//     SCALE_NUM
-
-// } ScaleType;
 
 // REST
 #define REST (0x00)
@@ -108,5 +83,6 @@ extern uint8_t *STR_LINE_BLANK;
 extern uint8_t *STR_ERROR;
 
 /* -------------------------------------------------- */
+
 
 #endif /* COMMON_H */

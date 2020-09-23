@@ -8,7 +8,8 @@
     tmr1.c
 
   @Summary
-    This is the generated driver implementation file for the TMR1 driver using PIC10 / PIC12 / PIC16 / PIC18 MCUs
+    This is the generated driver implementation file for the TMR1 driver using PIC10 / PIC12 / PIC16
+  / PIC18 MCUs
 
   @Description
     This source file provides APIs for TMR1.
@@ -22,25 +23,25 @@
  */
 
 /*
-    (c) 2018 Microchip Technology Inc. and its subsidiaries. 
-    
-    Subject to your compliance with these terms, you may use Microchip software and any 
-    derivatives exclusively with Microchip products. It is your responsibility to comply with third party 
-    license terms applicable to your use of third party software (including open source software) that 
-    may accompany Microchip software.
-    
-    THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER 
-    EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY 
-    IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS 
+    (c) 2018 Microchip Technology Inc. and its subsidiaries.
+
+    Subject to your compliance with these terms, you may use Microchip software and any
+    derivatives exclusively with Microchip products. It is your responsibility to comply with third
+   party license terms applicable to your use of third party software (including open source
+   software) that may accompany Microchip software.
+
+    THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER
+    EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY
+    IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS
     FOR A PARTICULAR PURPOSE.
-    
-    IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE, 
-    INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND 
-    WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP 
-    HAS BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO 
-    THE FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL 
-    CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT 
-    OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
+
+    IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE,
+    INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND
+    WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP
+    HAS BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO
+    THE FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL
+    CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT
+    OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS
     SOFTWARE.
  */
 
@@ -58,7 +59,7 @@
 #include "Input.h"
 #include "Timer.h"
 
-//static uint8_t count5msec = 0;
+// static uint8_t count5msec = 0;
 static uint8_t count1sec = 0;
 
 /**
@@ -72,15 +73,15 @@ void (*TMR1_InterruptHandler)(void);
  */
 
 void TMR1_Initialize(void) {
-    //Set the Timer to the options selected in the GUI
+    // Set the Timer to the options selected in the GUI
 
-    //T1GSS T1G_pin; TMR1GE disabled; T1GTM disabled; T1GPOL low; T1GGO done; T1GSPM disabled;
+    // T1GSS T1G_pin; TMR1GE disabled; T1GTM disabled; T1GPOL low; T1GGO done; T1GSPM disabled;
     T1GCON = 0x00;
 
-    //TMR1H 99;
+    // TMR1H 99;
     TMR1H = 0x63;
 
-    //TMR1L 192;
+    // TMR1L 192;
     TMR1L = 0xC0;
 
     // Clearing IF flag before enabling the interrupt.
@@ -114,7 +115,7 @@ uint16_t TMR1_ReadTimer(void) {
     uint8_t readValHigh;
     uint8_t readValLow;
 
-    readValLow  = TMR1L;
+    readValLow = TMR1L;
     readValHigh = TMR1H;
 
     readVal = ((uint16_t)readValHigh << 8) | readValLow;
@@ -192,7 +193,8 @@ void TMR1_DefaultInterruptHandler(void) {
 
     /* -------------------------------------------------- */
 
-    if (++TimeForRand >= 0xFFFF) {
+    TimeForRand++;
+    if (TimeForRand >= 0xFFFF) {
         TimeForRand = 0;
     }
 
@@ -204,7 +206,7 @@ void TMR1_DefaultInterruptHandler(void) {
         count1sec = 0;
     }
 
-    //MoleTimerProcess();
+    // MoleTimerProcess();
     if (SystemState.displayState == PLAYING_GAME) {
         MoleXTimerProcess(&mole1);
         MoleXTimerProcess(&mole2);
