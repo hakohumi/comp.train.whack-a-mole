@@ -8,8 +8,10 @@
 #include "Score.h"
 #include "Timer.h"
 
-uint8_t l_swProcessEndFlag     = 0;
-uint8_t l_swDefaultPatternFlag = 0;
+//SW処理終了フラグ
+bool l_swProcessEndFlag     = 0;
+//例外入力パターン(同時押し)検出フラグ
+bool l_swDefaultPatternFlag = 0;
 
 // count1secを初期化するため
 #include "tmr1.h"
@@ -17,6 +19,7 @@ uint8_t l_swDefaultPatternFlag = 0;
 //システム構造体変数
 SystemStateType SystemState;
 
+//タイトル文字列(モグラタタキ)
 static uint8_t str_TitleState[7] = {
     0b11010011,
     0b10111000,
@@ -47,10 +50,10 @@ void TitleProcess(void) {
             //タイトル文字列書き込み
             ClrLCDBuffer();
             WriteToBufferFirst(str_TitleState, 7);
-            WriteToBufferMole(1, HOLE);
-            WriteToBufferMole(2, MOLE);
-            WriteToBufferMole(3, HIT);
-            WriteToBufferMole(4, HOLE);
+            WriteToBufferMole(1, MOLE_STATE_HOLE);
+            WriteToBufferMole(2, MOLE_STATE_POP);
+            WriteToBufferMole(3, MOLE_STATE_HIT);
+            WriteToBufferMole(4, MOLE_STATE_HOLE);
             SystemState.action = (uint8_t)DO;
             break;
         case DO:
@@ -61,10 +64,12 @@ void TitleProcess(void) {
                 SystemState.action = (uint8_t)ENTRY;
                 l_swProcessEndFlag = 1;
             } else {
+                //例外入力を検出
                 if (SWState) {
                     l_swDefaultPatternFlag = 1;
                 }
             }
+            //SWStateのクリア
             if (l_swDefaultPatternFlag || l_swProcessEndFlag) {
                 SWState                = 0;
                 l_swProcessEndFlag     = 0;
@@ -78,11 +83,12 @@ void TitleProcess(void) {
 
 void SelectLevelProcess(void) {
     uint16_t l_HighScore = 0;
+    
     switch (SystemState.action) {
         case ENTRY:
             ClrLCDBuffer();
 
-            //難易度設�?(EASY)
+            //難易度設定(EASY)
             SetLevel((uint8_t)EASY);
             // 1行目に"EASY"を書く
             WriteToBufferFirst(STR_LEVEL_EASY, STR_LEVEL_EASY_LEN);
@@ -98,7 +104,7 @@ void SelectLevelProcess(void) {
             switch (SWState) {
                     //SW1
                 case SW1:
-                    //難易度設�?(EASY)
+                    //難易度設定(EASY)
                     SetLevel((uint8_t)EASY);
                     // 1行目に"EASY"を書く
                     WriteToBufferFirst(STR_LEVEL_EASY, STR_LEVEL_EASY_LEN);
@@ -112,7 +118,7 @@ void SelectLevelProcess(void) {
                     break;
                     //SW2
                 case SW2:
-                    //難易度設�?(NORMAL)
+                    //難易度設定(NORMAL)
                     SetLevel((uint8_t)NORMAL);
                     // 1行目に"NORMAL"を書く
                     WriteToBufferFirst(STR_LEVEL_NORMAL, STR_LEVEL_NORMAL_LEN);
@@ -125,7 +131,7 @@ void SelectLevelProcess(void) {
                     break;
                     //SW3
                 case SW3:
-                    //難易度設�?(HARD)
+                    //難易度設定(HARD)
                     SetLevel((uint8_t)HARD);
                     // 1行目に"HARD"を書く
                     WriteToBufferFirst(STR_LEVEL_HARD, STR_LEVEL_HARD_LEN);
@@ -146,7 +152,7 @@ void SelectLevelProcess(void) {
                     break;
                     //SW5
                 case SW5:
-                    //ゲー�?開始カウントダウン画面に遷移
+                    //ゲーム開始カウントダウン画面に遷移
                     ChangeState((uint8_t)START_COUNT_DOWN);
                     SystemState.action = (uint8_t)ENTRY;
                     l_swProcessEndFlag = 1;
@@ -211,31 +217,32 @@ void StartCountDownProcess(void) {
 
     switch (SystemState.action) {
         case ENTRY:
-            Time   = 3;
-            l_Time = Time;
+            //残り時間設定
+            RemaingTime   = 3;
+            l_Time = RemaingTime;
 
             ClrLCDBuffer();
-            //残り時間設�?
+            
             WriteToBufferFirst(str_StartCountDownState, 8);
 
             //PlaySE(countdown3sec);
-            WriteToBufferInt(10, Time, 1);
+            WriteToBufferInt(10, RemaingTime, 1);
 
             ClrCount1sec();
             SystemState.action = (uint8_t)DO;
             l_swProcessEndFlag = 1;
             break;
         case DO:
-            if (Time) {
+            if (RemaingTime) {
                 //残り時間が変わった時SEを鳴らす
-                if (Time < l_Time) {
+                if (RemaingTime < l_Time) {
                     //PlaySE(1&2secSE)
-                    WriteToBufferInt(10, Time, 1);
-                    l_Time = Time;
+                    WriteToBufferInt(10, RemaingTime, 1);
+                    l_Time = RemaingTime;
                 }
 
-                WriteToBufferInt(10, Time, 1);
-            }  //残り時間0でゲー�?中画面に遷移
+                WriteToBufferInt(10, RemaingTime, 1);
+            }  //残り時間0でゲーム中画面に遷移
             else {
                 SWState = 0;
                 ChangeState((uint8_t)PLAYING_GAME);
@@ -257,35 +264,35 @@ void PlayingGameProcess(void) {
             MaxMolePopTime = 50 << (3 - Level);  //200-100
             ClrLCDBuffer();
 
-            //残り時間�?60に設�?
-            Time   = 60;
-            l_Time = Time;
+            //残り時間を60に設定
+            RemaingTime   = 60;
+            l_Time = RemaingTime;
 
             // Rand関数のシード値に経過時間を加える
             AddRandSeed(TimeForRand);
 
             // ゲーム中の「S」や「T」を表示させる
             WriteToBufferFirst(str_PlayingGameState, 8);
-            WriteToBufferMole(1, HOLE);
-            WriteToBufferMole(2, HOLE);
-            WriteToBufferMole(3, HOLE);
-            WriteToBufferMole(4, HOLE);
+            WriteToBufferMole(1, MOLE_STATE_HOLE);
+            WriteToBufferMole(2, MOLE_STATE_HOLE);
+            WriteToBufferMole(3, MOLE_STATE_HOLE);
+            WriteToBufferMole(4, MOLE_STATE_HOLE);
             WriteToBufferInt(1, Score, 3);
-            WriteToBufferInt(6, Time, 2);
+            WriteToBufferInt(6, RemaingTime, 2);
 
             //BGMを鳴らす
             //PlayBGM();
             SystemState.action = (uint8_t)DO;
             break;
         case DO:
-            //ゲー�?中
-            if (Time) {
+            //ゲーム中
+            if (RemaingTime) {
                 // タイマに変更があったら
-                if (l_Time != Time) {
-                    WriteToBufferInt(6, Time, 2);
-                    l_Time = Time;
+                if (l_Time != RemaingTime) {
+                    WriteToBufferInt(6, RemaingTime, 2);
+                    l_Time = RemaingTime;
                 }
-                //モグラの処�?
+                //モグラの処理
                 //MoleManager();
                 MoleXProcess(&mole1);
                 MoleXProcess(&mole2);
@@ -334,7 +341,7 @@ void ResultProcess(void) {
         case DO:
             //SW5が押されたか
             if (SWState == SW5) {
-                //ハイスコア更新処�?
+                //ハイスコア更新処理
                 if (Score > GetHighScore(Level)) {
                     SaveHighScore(Level, Score);
                     l_swProcessEndFlag = 1;

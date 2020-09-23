@@ -19,15 +19,15 @@ extern "C" {
 
 //SW
 typedef enum MoleStateType_Type {
-    HOLE,  //���O���̌�
-    MOLE,  //���O���o����
-    HIT    //���O������
+    MOLE_STATE_HOLE,  //モグラ未出現
+    MOLE_STATE_POP,  //モグラ出現
+    MOLE_STATE_HIT    //モグラ撃退
 } MoleStateType;
 
-/* ���O���\����
- * state ���O���̏�� 
- * popTime ���O���̏o������
- * popFlag ���O���̏o������ ON�ŏo��
+/* モグラ構造体
+ * uint8_t state モグラの状態
+ * uint8_t popTime モグラ出現時間
+ * bool popFlag モグラ出現フラグ
  */
 typedef struct {
     uint8_t state;
@@ -37,64 +37,33 @@ typedef struct {
     bool popFlag;
 } MoleType;
 
-//���O��1-4
-MoleType mole1 = {0, 0, (uint8_t)SW1, 1, 0};
-MoleType mole2 = {0, 0, (uint8_t)SW2, 2, 0};
-MoleType mole3 = {0, 0, (uint8_t)SW3, 3, 0};
-MoleType mole4 = {0, 0, (uint8_t)SW4, 4, 0};
+//モグラ1-4
+MoleType mole1 = {0, 0, SW1, 1, 0};
+MoleType mole2 = {0, 0, SW2, 2, 0};
+MoleType mole3 = {0, 0, SW3, 3, 0};
+MoleType mole4 = {0, 0, SW4, 4, 0};
 
+//最大モグラ出現時間(難易度によって変わる)
 extern uint8_t MinMolePopTime;
+//最小モグラ出現時間
 extern uint8_t MaxMolePopTime;
 
-/* ���O�������֐�
- * ���O��1-4�̏������s���֐�
+/* モグラ全体処理関数
+ * モグラ1-4の処理を行う
  */
 void MoleManager(void);
 
-/* ���O��X�����֐�
- * ���O��1�C�ɑ΂��鏈�����s���֐�
- * ���� ���O���̔ԍ�(1-4)
+/* モグラX処理関数
+ * モグラ1匹に対する処理を行う
+ * 入力 MoleType * i_mole モグラ構造体
  */
 void MoleXProcess(MoleType *);
 
+/* モグラXタイマ処理
+ * モグラ1匹に対するタイマ処理を行う
+ * 入力 MoleType * i_mole モグラ構造体
+ */
 void MoleXTimerProcess(MoleType *);
-
-/* ���O���o���֐�
- * ���� ���O���̔ԍ�(1-4)
- * �o�� ���͂ɑΉ����郂�O����state��MOLE��
- * �@�@ popTime�������_���Ɍ��肷��
- */
-
-#ifdef NOUSE
-void OutOfHole(MoleType *);
-
-/* ���O�����ފ֐�
- * ���� ���O���̔ԍ�(1-4)
- * �o�� ���͂ɑΉ����郂�O����state��HIT��
- * �@�@ popTime���Œ�l�Ō��肷��
- */
-void Attacked(MoleType *);
-
-/* ���O�����o���֐�
- * ���� ���O���̔ԍ�(1-4)
- * �o�� ���͂ɑΉ����郂�O����state��HOLE�ɂ���
- */
-void BackToHole(MoleType *);
-
-void MoleTimerProcess(void);
-
-/* ���O���o������֐�
- * ���� ���O���o������l(0x00-0xFFFF)
- *      �o������l�͕ʓr�e�[�u������擾����
- * �@�@ �o������l��0x7FFF�̏ꍇ�A50%�̊m����TRUE��Ԃ�
- * �o�� TRUE    ���O�����o��������
- * �@�@ False   ���O�����o�������Ȃ�
- */
-bool PopDecision(uint16_t);
-
-uint8_t GetPopTime(uint8_t, uint8_t);
-
-#endif
 
 #ifdef __cplusplus
 }

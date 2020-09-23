@@ -15,15 +15,16 @@
 extern "C" {
 #endif
     
-    typedef enum SWPortPosType_Type{
-        SW1 = 0x01,
-        SW2 = 0x02,
-        SW3 = 0x04,
-        SW4 = 0x10,
-        SW5 = 0x40
-    } SWPortPosType;
+//SWに対応するポートの位置
+typedef enum SWPortPosType_Type{
+    SW1 = 0x01, 
+    SW2 = 0x02,
+    SW3 = 0x04,
+    SW4 = 0x10,
+    SW5 = 0x40
+} SWPortPosType;
 
-//SW構�??�?
+//SW構造体
 typedef struct {
     bool isPushed;
     bool lastPushed;
@@ -32,22 +33,27 @@ typedef struct {
 } SWType;
 
 //SW1-5
-SWType sw1 = { 0, 0, (uint8_t)SW1, 0};
-SWType sw2 = { 0, 0, (uint8_t)SW2, 0};
-SWType sw3 = { 0, 0, (uint8_t)SW3, 0};
-SWType sw4 = { 0, 0, (uint8_t)SW4, 0};
-SWType sw5 = { 0, 0, (uint8_t)SW5, 0};
+SWType sw1 = { 0, 0, SW1, 0};
+SWType sw2 = { 0, 0, SW2, 0};
+SWType sw3 = { 0, 0, SW3, 0};
+SWType sw4 = { 0, 0, SW4, 0};
+SWType sw5 = { 0, 0, SW5, 0};
 
-//ポ�?�ト�?�入力�?�(�?工)
+//ポート値
 uint8_t InputPort;
 
-//SW入力状�?
+//SW入力状態
 uint8_t SWState;
 
-//
+/* SW検知関数
+ * SWを検知する
+ */
 void DetectPushSW(void);
 
-//
+/* SWX検知関数
+ * SW1つの検知を行う
+ * 入力 SWType * i_sw SW構造体
+ */
 void detectPushSWX(SWType*); 
 
 #ifdef	__cplusplus

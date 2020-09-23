@@ -198,10 +198,10 @@ void TMR1_DefaultInterruptHandler(void) {
 
     DetectPushSW();
 
-    if (++count1sec >= 100) {
+    count1sec++;
+    if (count1sec >= 100) {
         CountDown();
         count1sec = 0;
-        RB2       = ~RB2;
     }
 
     //MoleTimerProcess();

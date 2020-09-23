@@ -54,11 +54,6 @@ typedef enum {
 
 uint8_t itochar(uint8_t value);
 
-#ifdef NOUSE
-void ItoStr(uint16_t i_value, uint8_t *o_strAdd, uint8_t i_strLen);
-char *utoa(unsigned int value, char *s, int radix);
-#endif
-
 /* -------------------------------------------------- */
 
 // ---------------------------------------------
@@ -72,21 +67,5 @@ extern uint8_t *STR_ERROR;
 
 /* -------------------------------------------------- */
 
-/* -------------------------------------------------- */
-// エラー番号
-
-/* -------------------------------------------------- */
-
-#ifdef NOUSE
-typedef enum {
-    ERR_W_T_B_OVERSTRLEN,
-    ERR_W_T_B_F_OVERSTRLEN,
-    ERR_W_T_B_S_OVERSTRLEN,
-    ERR_1,
-} MY_ERROR;
-
-#endif
-
-/* -------------------------------------------------- */
 
 #endif /* COMMON_H */

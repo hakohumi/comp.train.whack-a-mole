@@ -168,10 +168,8 @@ void WriteToBuffer(uint8_t i_WriteStartPos, uint8_t *i_str, uint8_t i_strLen) {
 
     // もし、指定された文字数がLCDの残り桁数超えていたら、
     if ((16 - i_WriteStartPos) < i_strLen) {
-#ifdef NOUSE
         // エラー
-        ErrorToBuffer(ERR_W_T_B_OVERSTRLEN);
-#endif
+        // 何もしない
     } else {
         // LCDBufferの先頭から、引数に指定された文字列をi_strLen文字コピーする
         for (i = i_WriteStartPos, c = 0; c < i_strLen; i++, c++) {
@@ -180,36 +178,6 @@ void WriteToBuffer(uint8_t i_WriteStartPos, uint8_t *i_str, uint8_t i_strLen) {
     }
 }
 
-#ifdef NOUSE
-// WriteToBuffer
-// 引数
-// 　i_strLen 文字列の文字数。終端文字はカウントしない
-
-void WriteToBuffer2(uint8_t *i_str, uint8_t i_strLen) {
-    uint8_t i;
-
-    // LCD更新フラグをON
-    setUpdateLCDFlg();
-
-    // もし、指定された文字数が16を超えていたら、
-    if (i_strLen > 16) {
-#ifdef NOUSE
-        // エラー
-        ErrorToBuffer(ERR_W_T_B_OVERSTRLEN);
-#endif
-    } else {
-        // LCDBufferに空白を入れる
-        ClrLCDBuffer();
-
-        // LCDBufferの先頭から、引数に指定された文字列をコピーする
-        for (i = 0; i < i_strLen; i++) {
-            LCDBuffer[i] = i_str[i];
-        }
-    }
-}
-
-#endif
-
 void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen) {
     uint8_t i;
 
@@ -217,10 +185,8 @@ void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen) {
 
     // もし、指定された文字数が8を超えていたら、
     if (i_strLen > 8) {
-#ifdef NOUSE
         // エラー
-        ErrorToBuffer(ERR_W_T_B_F_OVERSTRLEN);
-#endif
+        // 何もしない
     } else {
         // LCDBufferの上の行に空白を入れる
         ClrLCDBufferLine(false);
@@ -240,10 +206,8 @@ void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen) {
 
     // もし、指定された文字数が8を超えていたら、
     if (i_strLen > 8) {
-#ifdef NOUSE
         // エラー
-        ErrorToBuffer(ERR_W_T_B_S_OVERSTRLEN);
-#endif
+        // 何もしない
     } else {
         // LCDBufferの下の行に空白を入れる
         ClrLCDBufferLine(true);
@@ -311,13 +275,13 @@ void WriteToBufferMole(uint8_t i_molePos, uint8_t i_moleState) {
             break;
     }
     switch (i_moleState) {
-        case HOLE:
+        case MOLE_STATE_HOLE:
             *l_str = MOLE_GPAPH_HOLE_ADDR;
             break;
-        case MOLE:
+        case MOLE_STATE_POP:
             *l_str = MOLE_GPAPH_MOLE_ADDR;
             break;
-        case HIT:
+        case MOLE_STATE_HIT:
             *l_str = MOLE_GPAPH_HIT_ADDR;
             break;
         default:
@@ -401,22 +365,6 @@ void BufferToLCD(void) {
     }
 }
 
-#ifdef NOUSE
-// errorをBufferに保存
-
-void ErrorToBuffer(uint8_t num) {
-    uint8_t i, l_len;
-
-    for (i = 0, l_len = STR_ERROR_LEN + 1; i < l_len; i++) {
-        LCDBuffer[i] = STR_ERROR[i];
-    }
-
-    // エラー番号を2行の最初に表記
-    ItoStr(num, &LCDBuffer[8], 2);
-}
-
-#endif
-
 // LCD上の書き込む場所を、
 // 上の行か下の行の先頭を指定する
 // true だと 2行目
@@ -431,26 +379,6 @@ inline void SetPosLineLCD(bool i_row) {
         I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, (LCD_SET_POS_DB7 | LINE_FIRST_ADDR));
     }
 }
-
-#ifdef NOUSE
-
-// LCD上の書き込む場所を指定
-
-inline void SetPosLCD(uint8_t i_pos) {
-    // Set DDRAM address DB7 = 1
-    // 設定可能ビット DB0 ~ DB6
-
-    I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, (LCD_SET_POS_DB7 | i_pos));
-}
-
-// ClearDisplay
-
-void ClrLineDisplay(uint8_t i_line) {
-    SetPosLCD(i_line);
-    write1LineToLCD(STR_LINE_BLANK, 8);
-}
-
-#endif
 
 void ClrDisplay(void) {
     I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_CLR_DISPLAY);
@@ -490,15 +418,8 @@ static void write1LineToLCD(uint8_t *i_str, uint8_t i_len) {
 
     // もし、8文字より多い文字数が入った場合、
     if (i_len > LINE_DIGITS_MAX) {
-#ifdef NOUSE
-        // errorを表示
-        for (c = 1; c <= 6; c++) {
-            l_buf[c] = STR_ERROR[c - 1];
-        }
-        // 文字列"ERROR"の数
-        i_len = STR_ERROR_LEN;
-
-#endif
+        // エラー
+        // 何もしない
 
     } else {
         for (c = 1; c <= i_len; c++) {

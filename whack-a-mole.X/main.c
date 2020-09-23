@@ -45,14 +45,16 @@
 #include "Common.h"
 #include "Input.h"
 #include "LCD.h"
-#include "LED.h"
 #include "Rand.h"
 #include "Score.h"
 #include "State.h"
 #include "Timer.h"
 #include "mcc.h"
 
-// global variable
+// マイコンに書き込み時にEEPROMに値を書き込む
+// 8バイトずつ
+//__EEPROM_DATA(0, 1, 2, 3, 4, 5, 6, 7);
+//__EEPROM_DATA(8, 9, 10, 11, 12, 13, 14, 15);
 
 void main(void) {
     // initialize the device
@@ -70,12 +72,13 @@ void main(void) {
     // Enable the Peripheral Interrupts
     INTERRUPT_PeripheralInterruptEnable();
 
-    // SystemDataInitialize();
+    //初期化処理
     ChangeState(TITLE);
     SystemState.action = ENTRY;
     SWState            = 0;
 
-    RandInitialize()
+    // 乱数の初期化
+    RandInitialize();
 
     // LCD初期化
     LCDInitialize();
@@ -115,6 +118,7 @@ void main(void) {
                 break;
         }
 
+        // LCD更新
         BufferToLCD();
         UpdateBuzzer();
     }
