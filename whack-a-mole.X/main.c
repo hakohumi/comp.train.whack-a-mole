@@ -82,8 +82,7 @@ void main(void) {
 
     // LCD初期化
     LCDInitialize();
-    // LCDをON
-    DisplayON();
+
 
     while (1) {
 

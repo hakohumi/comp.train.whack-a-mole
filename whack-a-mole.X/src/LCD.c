@@ -58,6 +58,39 @@
 /* -------------------------------------------------- */
 // プライベート変数
 /* -------------------------------------------------- */
+static const uint8_t grapMoleHOLE_CG[8] = {
+    0b00000000,
+    0b00000000,
+    0b00000000,
+    0b00000000,
+    0b00000000,
+    0b00001110,
+    0b00011111,
+    0b00001110
+
+};
+static const uint8_t grapMoleMOLE_CG[8] = {
+    0b00000000,
+    0b00001110,
+    0b00010001,
+    0b00011011,
+    0b00010101,
+    0b00010001,
+    0b00010001,
+    0b00001110
+
+};
+static const uint8_t grapMoleHIT_CG[8] = {
+    0b00001100,
+    0b00001111,
+    0b00001100,
+    0b00000000,
+    0b00001110,
+    0b00010001,
+    0b00011011,
+    0b00010101
+
+};
 
 static uint8_t LCDBuffer[LCD_BUFF_SIZE_MAX];
 
@@ -127,13 +160,23 @@ void LCDInitialize(void) {
     __delay_ms(2);
 
     // LCDの初期化コマンド
-    ClrDisplay();
+    // ClrDisplay();
+    I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_CLR_DISPLAY);
 
     // LCDBuffer変数の初期化
     ClrLCDBuffer();
 
+    /* -------------------------------------------------- */
+
     // モグラの絵をLCDのCGRAMに書き込む
+    /* -------------------------------------------------- */
     createMoleGpaph();
+
+    /* -------------------------------------------------- */
+
+    // LCDをON
+    // DisplayON();
+    I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_DISPLAY_ON);
 }
 
 void ClrLCDBuffer(void) {
@@ -301,69 +344,43 @@ void WriteToBufferMole(uint8_t i_molePos, uint8_t i_moleState) {
             break;
         default:
             // 到達不可
-            *l_str = 'E';
+            *l_str = &STR_CHAR_BLANK;
             break;
     }
 
     LCDBuffer[l_molePos] = *l_str;
 }
 
-static const uint8_t grapMoleHOLE_CG[8] = {
-    0b00000000,
-    0b00000000,
-    0b00000000,
-    0b00000000,
-    0b00000000,
-    0b00001110,
-    0b00011111,
-    0b00001110
-
-};
-static const uint8_t grapMoleMOLE_CG[8] = {
-    0b00000000,
-    0b00001110,
-    0b00010001,
-    0b00011011,
-    0b00010101,
-    0b00010001,
-    0b00010001,
-    0b00001110
-
-};
-static const uint8_t grapMoleHIT_CG[8] = {
-    0b00001100,
-    0b00001111,
-    0b00001100,
-    0b00000000,
-    0b00001110,
-    0b00010001,
-    0b00011011,
-    0b00010101
-
-};
-
+// #ifdef NOUSE
 static void createMoleGpaph(void) {
     uint8_t c;
 
-    // データを書き込む
+    // // データを書き込む
+    // for (c = 0; c < 8; c++) {
+    //     I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_SET_CGRAM | 1 << 3 | (c));
+    //     I2C1_Write1ByteRegister(LCD_ADDR, WR_CONTROLE_BYTE, grapMoleHOLE_CG[c]);
+    // }
+    // // データを書き込む
+    // for (c = 0; c < 8; c++) {
+    //     I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_SET_CGRAM | 2 << 3 | (c));
+    //     I2C1_Write1ByteRegister(LCD_ADDR, WR_CONTROLE_BYTE, grapMoleMOLE_CG[c]);
+    // }
+    // // データを書き込む
+    // for (c = 0; c < 8; c++) {
+    //     I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_SET_CGRAM | 3 << 3 | (c));
+    //     I2C1_Write1ByteRegister(LCD_ADDR, WR_CONTROLE_BYTE, grapMoleHIT_CG[c]);
+    // }
+
     for (c = 0; c < 8; c++) {
-        // T
         I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_SET_CGRAM | 1 << 3 | (c));
         I2C1_Write1ByteRegister(LCD_ADDR, WR_CONTROLE_BYTE, grapMoleHOLE_CG[c]);
-    }
-    // データを書き込む
-    for (c = 0; c < 8; c++) {
-        // T
         I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_SET_CGRAM | 2 << 3 | (c));
         I2C1_Write1ByteRegister(LCD_ADDR, WR_CONTROLE_BYTE, grapMoleMOLE_CG[c]);
-    }
-    // データを書き込む
-    for (c = 0; c < 8; c++) {
-        // T
         I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_SET_CGRAM | 3 << 3 | (c));
         I2C1_Write1ByteRegister(LCD_ADDR, WR_CONTROLE_BYTE, grapMoleHIT_CG[c]);
     }
 }
+// #endif
 
 /* -------------------------------------------------- */
 
@@ -395,15 +412,19 @@ inline void SetPosLineLCD(bool i_row) {
     }
 }
 
-void ClrDisplay(void) {
+#ifdef NOUSE
+
+inline void ClrDisplay(void) {
     I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_CLR_DISPLAY);
 }
 
 // Display ON
 
-void DisplayON(void) {
+inline void DisplayON(void) {
     I2C1_Write1ByteRegister(LCD_ADDR, CONTROLE_BYTE, CMD_LCD_DISPLAY_ON);
 }
+
+#endif
 
 // Write1LineToLCD()
 // 説明：現在のアドレスに1 ～ 8 文字分の文字を書く
