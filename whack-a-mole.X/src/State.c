@@ -8,20 +8,21 @@
 #include "Rand.h"
 #include "Score.h"
 #include "Timer.h"
+// count1secを初期化するため
+#include "tmr1.h"
 
 // SW処理終了フラグ
 bool l_swProcessEndFlag = 0;
 //例外入力パターン(同時押し)検出フラグ
 bool l_swDefaultPatternFlag = 0;
 
-// count1secを初期化するため
-#include "tmr1.h"
-
 //システム構造体変数
 SystemStateType SystemState;
 
 //タイトル文字列(モグラタタキ)
-static uint8_t str_TitleState[7]              = {0b11010011, 0b10111000, 0b11011110, 0b11010111, 0b11000000, 0b11000000, 0b10110111
+static const uint8_t str_TitleState[7] = {
+
+    0b11010011, 0b10111000, 0b11011110, 0b11010111, 0b11000000, 0b11000000, 0b10110111
 
 };
 static const uint8_t *str_HSClearState        = {"CLR HS? "};
@@ -147,6 +148,7 @@ void SelectLevelProcess(void) {
                     l_swDefaultPatternFlag = 1;
                 }
         }
+
         if (l_swDefaultPatternFlag || l_swProcessEndFlag) {
             SWState                = 0;
             l_swProcessEndFlag     = 0;
@@ -214,7 +216,7 @@ void StartCountDownProcess(void) {
     } else if (SystemState.action == ACTION_DO) {
         if (RemaingTime > 0) {
             //残り時間が変わった時SEを鳴らす
-            if (RemaingTime < l_Time) {
+            if (l_Time > RemaingTime) {
                 PlaySE();
                 WriteToBufferInt(10, RemaingTime, 1);
                 l_Time = RemaingTime;

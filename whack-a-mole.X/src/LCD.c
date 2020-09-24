@@ -146,6 +146,7 @@ void ClrLCDBuffer(void) {
     }
 }
 
+#ifdef NOUSE
 // 1行単位でバッファに空白を書き込む
 // 1行目 false、 2行目 true
 void ClrLCDBufferLine(bool i_line) {
@@ -160,6 +161,8 @@ void ClrLCDBufferLine(bool i_line) {
         }
     }
 }
+
+#endif
 
 // 　好きな位置を選択して、書き換える
 
@@ -192,7 +195,9 @@ void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen) {
         // 何もしない
     } else {
         // LCDBufferの上の行に空白を入れる
-        ClrLCDBufferLine(false);
+        for (i = 0; i < LCD_LINE_LEN; i++) {
+            LCDBuffer[i] = STR_LINE_BLANK[i];
+        }
 
         // LCDBufferの先頭から、引数に指定された文字列をコピーする
         for (i = 0; i < i_strLen; i++) {
@@ -213,7 +218,9 @@ void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen) {
         // 何もしない
     } else {
         // LCDBufferの下の行に空白を入れる
-        ClrLCDBufferLine(true);
+        for (i = 0; i < LCD_LINE_LEN; i++) {
+            LCDBuffer[i + LCD_LINE_LEN] = STR_LINE_BLANK[i];
+        }
 
         // LCDBufferの先頭から、引数に指定された文字列をコピーする
         for (i = 0; i < i_strLen; i++) {

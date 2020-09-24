@@ -14,30 +14,6 @@ uint8_t InputPort;
 //SW入力状態
 uint8_t SWState;
 
-uint8_t getCompareSW(uint8_t i_Num){
-    uint8_t l_compareSW;
-
-    switch (i_Num) {
-        case 1:
-            l_compareSW = SW1;
-            break;
-        case 2:
-            l_compareSW = SW2;
-            break;
-        case 3:
-            l_compareSW = SW3;
-            break;
-        case 4:
-            l_compareSW = SW4;
-            break;
-        case 5:
-            l_compareSW = SW5;
-        default:
-            break;
-    }
-    return l_compareSW;
-}
-
 void DetectPushSW(void) {
     //ポート値(1~3,5,7ビット目が各SWに対応、SWが押されているとき1)
     InputPort = (uint8_t)(~PORTA & 0x057);

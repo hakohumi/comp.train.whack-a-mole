@@ -21,7 +21,6 @@ uint8_t MinMolePopTime;
 uint8_t MaxMolePopTime;
 
 void MoleXProcess(MoleType *i_moleX) {
-//    uint8_t i_moleX->valueForCompareSW = getCompareSW(i_moleX->moleNum);
 
     switch (i_moleX->state) {
             //モグラ穴の処理

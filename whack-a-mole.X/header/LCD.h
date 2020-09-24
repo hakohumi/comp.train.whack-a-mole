@@ -41,7 +41,10 @@ void WriteToBufferInt(uint8_t i_WriteStartPos, uint16_t i_score, uint8_t i_Len);
 void BufferToLCD(void);
 
 void ClrLCDBuffer(void);
+
+#ifdef NOUSE
 void ClrLCDBufferLine(bool i_line);
+#endif
 
 inline void SetPosLineLCD(bool i_row);  // 1行目か2行目の先頭を指定
 
