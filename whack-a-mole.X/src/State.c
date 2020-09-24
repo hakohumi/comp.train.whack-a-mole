@@ -216,7 +216,7 @@ void StartCountDownProcess(void) {
         ClrLCDBuffer();
 
         PlaySE();
-        WriteToBufferInt(10, RemaingTime, 1);
+        WriteToBufferInt(11, RemaingTime, 1);
 
         ClrCount1sec();
         SystemState.action = (uint8_t)ACTION_DO;
@@ -226,7 +226,7 @@ void StartCountDownProcess(void) {
             //残り時間が変わった時SEを鳴らす
             if (l_Time != RemaingTime) {
                 PlaySE();
-                WriteToBufferInt(10, RemaingTime, 1);
+                WriteToBufferInt(11, RemaingTime, 1);
                 l_Time = RemaingTime;
             }
         } else {
