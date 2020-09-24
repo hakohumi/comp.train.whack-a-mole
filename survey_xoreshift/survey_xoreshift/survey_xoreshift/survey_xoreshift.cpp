@@ -23,171 +23,154 @@ enum random_type {
     BIT128,
 };
 
+uint16_t randArray[65536];
+
 void algo_random(uint8_t type);
 void out_sizeof(void);
 
-void out_average1(void);
-void out_average3(void);
+void out_average(void);
 void out_cycle(void);
 
 uint16_t xor16(void);
 uint32_t xor32(void);
 uint32_t xor64(void);
 void xorshift(uint8_t);
-double algo_measure1(uint8_t type);
-double algo_measure2(uint8_t type);
-double algo_measure3(uint8_t type);
+double algo_measure(uint8_t type);
 
-double calc_average1(uint8_t type);
-double calc_average3(uint8_t type);
+double calc_average(uint8_t type);
 uint32_t calc_rand_cycle(uint8_t type);
+uint16_t calc_average_cycle(uint8_t type);
+uint16_t checkMatch();
 
-uint32_t calc_average_cycle(uint32_t var);
+void AddRandSeed(uint16_t i_val);
 
 int main() {
-    std::cout << "xorshift テスト" << endl << endl;
+    std::cout << "xorshift テスト" << endl
+              << endl;
 
     clock_t start = clock();
 
     // 実行環境の各型のサイズを表示
     out_sizeof();
 
-    // out_average1();
+    // シード値設定
+    AddRandSeed(clock());
 
     cout << endl;
 
-    out_average3();
+    // 乱数の平均を表示
+    out_average();
 
     cout << endl;
 
+    // 乱数の周期を表示
     out_cycle();
+
+    cout << endl;
+
+    printf("xor16()のマッチ回数: %zd\n", checkMatch());
 
     printf("\nTotal program execution time:\n");
     printf("%lf[ms]\n", (static_cast<double>(clock()) - start));
 }
+
+// 乱数の周期
 void out_cycle() {
-    for (int c = 0; c < 99; c++) {
-        calc_average_cycle(calc_rand_cycle(RAND));
-    }
-
-    printf("rand()の周期100回分の平均: %ld\n", calc_rand_cycle(RAND));
-
-    for (int c = 0; c < 99; c++) {
-        calc_average_cycle(calc_rand_cycle(BIT16));
-    }
-
-    printf("xor16()の周期100回分の平均: %u\n",
-           calc_average_cycle(calc_rand_cycle(BIT16)));
+    printf("xor16()の周期: %zd\n", calc_rand_cycle(BIT16));
+    printf("xor16()の周期100回分の平均: %zd\n", calc_average_cycle(BIT16));
+    printf("RAND()の周期100回分の平均: %zd\n", calc_average_cycle(RAND));
 
     // printf("xor32()の周期: %" PRIu32 "\n", calc_rand_cycle(BIT32));
     // printf("xor64()の周期: %" PRIu32 "\n", calc_rand_cycle(BIT64));
     // printf("xor96()の周期: %" PRIu32 "\n", calc_rand_cycle(BIT96));
     // printf("xor128()の周期: %" PRIu32 "\n", calc_rand_cycle(BIT128));
 }
+#include <cstdlib>
+uint16_t checkMatch() {
+    uint16_t checkCount = 0;
+    uint16_t randArray2[65536];
 
-uint32_t calc_average_cycle(uint32_t var) {
-    static uint32_t total = 0, count = 0;
+    for (int c = 0; c < 65536; c++) {
+        randArray[c] = rand();
+        // randArray[c] = xor16();
 
-    total += var;
+        // printf("randArray[%zd] = %zd\n", c, randArray[c]);
 
-    return total / ++count;
+        for (int i = 0; i < c; i++) {
+            // printf("randArray[%zd] = %zd ", i, randArray[i]);
+            // printf("  randArray[%zd] = %zd\n", c, randArray[c]);
+            if (randArray[i] == randArray[c]) {
+                checkCount++;
+                // printf("            hit \n");
+                // printf("randArray[%zd] = %zd ", i, randArray[i]);
+                // printf("  randArray[%zd] = %zd\n", c, randArray[c]);
+
+                // printf("checkCount = %zd\n", checkCount);
+                // system("PAUSE");
+            }
+        }
+    }
+
+    for (int c = 0; c < 65536; c++) {
+        randArray2[c] = 0;
+        for (int i = 0; i < 65536; i++) {
+            if (randArray[i] == c) {
+                randArray2[c]++;
+            }
+        }
+        printf("数字:%zd %zd回 出現\n", c, randArray2[c]);
+    }
+
+    return checkCount;
 }
 
-void out_average1() {
-    // パターン1の時間の計測方法
-    printf("rand()\t\tを\t%d回実行した時間の10個の平均: %lf[ms]\n",
-           EXE_NUM,
-           calc_average1(RAND));
-    printf("xorshift()\tを\t%d回実行した時間の10個の平均: %lf[ms]\n",
-           EXE_NUM,
-           calc_average1(BIT32));
+uint16_t calc_average_cycle(uint8_t type) {
+    uint32_t l_count = 0;
 
-    printf("xor16()\t\tを\t%d回実行した時間の10個の平均: %lf[ms]\n",
-           EXE_NUM,
-           calc_average1(BIT16));
-    printf("xor32()\t\tを\t%d回実行した時間の10個の平均: %lf[ms]\n",
-           EXE_NUM,
-           calc_average1(BIT32));
-    printf("xor64()\t\tを\t%d回実行した時間の10個の平均: %lf[ms]\n",
-           EXE_NUM,
-           calc_average1(BIT64));
-    printf("xor96()\t\tを\t%d回実行した時間の10個の平均: %lf[ms]\n",
-           EXE_NUM,
-           calc_average1(BIT96));
-    printf("xor128()\tを\t%d回実行した時間の10個の平均: %lf[ms]\n",
-           EXE_NUM,
-           calc_average1(BIT128));
+    for (int c = 0; c < 100; c++) {
+        l_count += calc_rand_cycle(type);
+    }
+    l_count = l_count / 100;
+
+    return l_count;
 }
 
-void out_average3() {
+void out_average() {
     // パターン2の時間の計測方法
     printf("rand()\t\tを\t%d回実行した時間の10個の平均: %lf[ms]\n",
-           EXE_NUM,
-           calc_average3(RAND));
+        EXE_NUM,
+        calc_average(RAND));
     printf("xorshift()\tを\t%d回実行した時間の10個の平均: %lf[ms]\n",
-           EXE_NUM,
-           calc_average3(BIT32));
+        EXE_NUM,
+        calc_average(BIT32));
 
     printf("xor16()\t\tを\t%d回実行した時間の10個の平均: %lf[ms]\n",
-           EXE_NUM,
-           calc_average3(BIT16));
+        EXE_NUM,
+        calc_average(BIT16));
     printf("xor32()\t\tを\t%d回実行した時間の10個の平均: %lf[ms]\n",
-           EXE_NUM,
-           calc_average3(BIT32));
+        EXE_NUM,
+        calc_average(BIT32));
     printf("xor64()\t\tを\t%d回実行した時間の10個の平均: %lf[ms]\n",
-           EXE_NUM,
-           calc_average3(BIT64));
+        EXE_NUM,
+        calc_average(BIT64));
     printf("xor96()\t\tを\t%d回実行した時間の10個の平均: %lf[ms]\n",
-           EXE_NUM,
-           calc_average3(BIT96));
+        EXE_NUM,
+        calc_average(BIT96));
     printf("xor128()\tを\t%d回実行した時間の10個の平均: %lf[ms]\n",
-           EXE_NUM,
-           calc_average3(BIT128));
+        EXE_NUM,
+        calc_average(BIT128));
 }
 
-double calc_average1(uint8_t type) {
+double calc_average(uint8_t type) {
     double total = 0;
 
     for (int test_cnt = 0; test_cnt < TEST_CNT; test_cnt++) {
-        total += algo_measure1(type);
+        total += algo_measure(type);
     }
     return total / TEST_CNT;
 }
 
-double calc_average3(uint8_t type) {
-    double total = 0;
-
-    for (int test_cnt = 0; test_cnt < TEST_CNT; test_cnt++) {
-        total += algo_measure3(type);
-    }
-    return total / TEST_CNT;
-}
-
-double algo_measure1(uint8_t type) {
-    clock_t start = clock();
-
-    const int loop = 1000;
-
-    for (int i = 0; i < loop; i++) {
-        algo_random(type);
-    }
-
-    clock_t end = clock();
-
-    const double time =
-        static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000.0 / loop;
-    return time;
-}
-
-double algo_measure2(uint8_t type) {
-    clock_t start = clock();
-
-    algo_random(type);
-
-    return (static_cast<double>(clock()) - start);
-}
-
-double algo_measure3(uint8_t type) {
+double algo_measure(uint8_t type) {
     chrono::system_clock::time_point start, end;
 
     start = chrono::system_clock::now();
@@ -226,11 +209,16 @@ void algo_random(uint8_t type) {
     }
 }
 
+static uint16_t x = 1, y = 1;
 uint16_t xor16(void) {
-    static uint16_t x = 1, y = 1;
     uint16_t t = (x ^ (x << 5));
     x          = y;
     return y   = (y ^ (y >> 1)) ^ (t ^ (t >> 3));
+}
+
+// 現在のシード値に引数で指定された数値を追加する
+void AddRandSeed(uint16_t i_val) {
+    x += i_val;
 }
 
 uint32_t xor32(void) {
@@ -296,8 +284,9 @@ void xorshift(uint8_t type) {
     }
 }
 
+// 周期計算
 uint32_t calc_rand_cycle(uint8_t type) {
-    uint32_t init_rand = 0;
+    uint16_t init_rand = 0;
     uint32_t count     = 0;
 
     switch (type) {
