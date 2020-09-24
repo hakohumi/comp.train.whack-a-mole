@@ -23,7 +23,7 @@ void Penalty(void) {
 
 void CountDown(void) {
     //残り時間が0でないとき
-    if (RemaingTime) {
+    if (RemaingTime > 0) {
         //残り時間
         RemaingTime--;
     } else {

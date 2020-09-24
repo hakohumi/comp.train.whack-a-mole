@@ -149,6 +149,7 @@ void ClrLCDBuffer(void) {
 #ifdef NOUSE
 // 1行単位でバッファに空白を書き込む
 // 1行目 false、 2行目 true
+
 void ClrLCDBufferLine(bool i_line) {
     uint8_t i;
     if (i_line == false) {
@@ -206,6 +207,8 @@ void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen) {
     }
 }
 
+#ifdef NOUSE
+
 void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen) {
     uint8_t i;
 
@@ -228,6 +231,8 @@ void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen) {
         }
     }
 }
+
+#endif
 
 // 引数 書き込み開始位置(0 ~ 15), 数値, 桁数
 

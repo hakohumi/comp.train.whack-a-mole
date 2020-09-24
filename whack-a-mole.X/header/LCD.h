@@ -29,8 +29,9 @@ void LCDInitialize(void);
 // ちゃんと文字数を指定しないと、範囲外のデータも表示するので注意
 void WriteToBuffer(uint8_t i_WriteStartPos, uint8_t *i_str, uint8_t i_strLen);
 void WriteToBufferFirst(uint8_t *i_str, uint8_t i_strLen);
+#ifdef NOUSE
 void WriteToBufferSecond(uint8_t *i_str, uint8_t i_strLen);
-
+#endif
 // モグラの表示を切り替える
 void WriteToBufferMole(uint8_t i_molePos, uint8_t i_moleState);
 
@@ -46,7 +47,7 @@ void ClrLCDBuffer(void);
 void ClrLCDBufferLine(bool i_line);
 #endif
 
-inline void SetPosLineLCD(bool i_row);  // 1行目か2行目の先頭を指定
+inline void SetPosLineLCD(bool i_row); // 1行目か2行目の先頭を指定
 
 void ClrDisplay(void);
 void DisplayON(void);

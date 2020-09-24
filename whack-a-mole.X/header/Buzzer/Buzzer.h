@@ -34,11 +34,11 @@ typedef struct {
 void updatePlayerState(void);
 void updatePlayerManager(void);
 
-void SetUpdate10msBuzzerFlg(void);
-
 void PlaySE(void);
-void SE_updatePlayerManager(void);
+
+inline void SetUpdate10msBuzzerFlg(void);
 
 extern uint16_t Buzzer10msFlg;
+extern bool Update10msBuzzerFlg;
 
 #endif /* BUZZER_H */

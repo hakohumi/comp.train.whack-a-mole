@@ -25,12 +25,13 @@ static const uint8_t str_TitleState[7] = {
     0b11010011, 0b10111000, 0b11011110, 0b11010111, 0b11000000, 0b11000000, 0b10110111
 
 };
-static const uint8_t *str_HSClearState        = {"CLR HS? "};
-static const uint8_t *str_HSClearState_Second = {"YES1 NO4"};
-static const uint8_t *str_StartCountDownState = {"CNT_DOWN"};
-static const uint8_t *str_PlayingGameState    = {"S000 T00"};
-static const uint8_t *str_Score               = {"SCORE"};
-static const uint8_t *str_HighScore           = {"HS"};
+
+static const uint8_t *str_HSClearState = {"CLR HS? YES1 NO4"};
+// static const uint8_t *str_HSClearState_Second = {"YES1 NO4"};
+// static const uint8_t *str_StartCountDownState = {"CNT_DOWN"};
+static const uint8_t *str_PlayingGameState = {"S000 T00"};
+static const uint8_t *str_Score            = {"SCORE"};
+static const uint8_t *str_HighScore        = {"HS"};
 
 void ChangeState(uint8_t i_displayState) {
     if (i_displayState < 6) {
@@ -81,14 +82,22 @@ void SelectLevelProcess(void) {
     if (SystemState.action == ACTION_ENTRY) {
         ClrLCDBuffer();
 
-        //難易度設定(EASY)
-        SetLevel((uint8_t)EASY);
-        // 1行目に"EASY"を書く
-        WriteToBufferFirst(STR_LEVEL_EASY, STR_LEVEL_EASY_LEN);
+        // //難易度設定(EASY)
+        // SetLevel((uint8_t)EASY);
+        // // 1行目に"EASY"を書く
+        // WriteToBufferFirst(STR_LEVEL_EASY, STR_LEVEL_EASY_LEN);
 
-        // 2行目にハイスコアを書く
-        WriteToBuffer(10, str_HighScore, 2);
-        WriteToBufferInt(13, l_HighScoreEasy, 3);
+        // // 2行目にハイスコアを書く
+        // WriteToBuffer(10, str_HighScore, 2);
+        // WriteToBufferInt(13, l_HighScoreEasy, 3);
+
+        if (Level == EASY) {
+            SWState = SW1;
+        } else if (Level == NORMAL) {
+            SWState = SW2;
+        } else {
+            SWState = SW3;
+        }
 
         SystemState.action = (uint8_t)ACTION_DO;
     } else if (SystemState.action == ACTION_DO) {
@@ -162,8 +171,9 @@ void SelectLevelProcess(void) {
 void HSClearProcess(void) {
     if (SystemState.action == ACTION_ENTRY) {
         ClrLCDBuffer();
-        WriteToBufferFirst(str_HSClearState, 8);
-        WriteToBufferSecond(str_HSClearState_Second, 8);
+        // WriteToBufferFirst(str_HSClearState, 8);
+        // WriteToBufferSecond(str_HSClearState_Second, 8);
+        WriteToBuffer(0, str_HSClearState, 16);
         SystemState.action = (uint8_t)ACTION_DO;
     } else if (SystemState.action == ACTION_DO) {
         switch (SWState) {
@@ -196,7 +206,7 @@ void HSClearProcess(void) {
 }
 
 void StartCountDownProcess(void) {
-    uint8_t l_Time = 0;
+    static uint8_t l_Time = 0;
 
     if (SystemState.action == ACTION_ENTRY) {
         //残り時間設定
@@ -204,8 +214,6 @@ void StartCountDownProcess(void) {
         l_Time      = RemaingTime;
 
         ClrLCDBuffer();
-
-        WriteToBufferFirst(str_StartCountDownState, 8);
 
         PlaySE();
         WriteToBufferInt(10, RemaingTime, 1);
@@ -216,12 +224,11 @@ void StartCountDownProcess(void) {
     } else if (SystemState.action == ACTION_DO) {
         if (RemaingTime > 0) {
             //残り時間が変わった時SEを鳴らす
-            if (l_Time > RemaingTime) {
+            if (l_Time != RemaingTime) {
                 PlaySE();
                 WriteToBufferInt(10, RemaingTime, 1);
                 l_Time = RemaingTime;
             }
-            WriteToBufferInt(10, RemaingTime, 1);
         } else {
             SWState = 0;
             ChangeState((uint8_t)PLAYING_GAME);
@@ -233,7 +240,7 @@ void StartCountDownProcess(void) {
 }
 
 void PlayingGameProcess(void) {
-    uint8_t l_Time = 0;
+    static uint8_t l_Time = 0;
 
     if (SystemState.action == ACTION_ENTRY) {
         //モグラ出現時間の最小最大を決定
@@ -267,7 +274,6 @@ void PlayingGameProcess(void) {
                 l_Time = RemaingTime;
             }
             //モグラの処理
-            //MoleManager();
             MoleXProcess(&mole1);
             MoleXProcess(&mole2);
             MoleXProcess(&mole3);
@@ -276,13 +282,10 @@ void PlayingGameProcess(void) {
         }
         //残り時間0
         else {
-            //BGM停止
-            //StopBGM
             //リザルト画面に遷移
             ChangeState((uint8_t)RESULT);
             SystemState.action = (uint8_t)ACTION_ENTRY;
         }
-        //UpdateLED();
     } else {
         //何もしない
     }
@@ -298,7 +301,7 @@ void ResultProcess(void) {
         WriteToBufferFirst(str_Score, 5);
         // SCOREを書き込む
         WriteToBufferInt(5, Score, 3);
-
+        // 2行目、3列目に書き込む
         WriteToBuffer(10, str_HighScore, 2);
         // HIGHSCOREを書き込む
         WriteToBufferInt(13, l_HighScore, 3);

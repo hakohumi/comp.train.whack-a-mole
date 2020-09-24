@@ -1,5 +1,6 @@
 #include "Mole.h"
 
+#include "Buzzer/Buzzer.h"
 #include "Input.h"
 #include "LCD.h"
 #include "Level.h"
@@ -7,7 +8,6 @@
 #include "Score.h"
 #include "State.h"
 #include "Timer.h"
-#include "Buzzer/Buzzer.h"
 
 //モグラ基準出現確率(難易度EASYで30匹程度)
 #define MOLE_POP_BASE_PROBABIRITY 81
@@ -21,7 +21,6 @@ uint8_t MinMolePopTime;
 uint8_t MaxMolePopTime;
 
 void MoleXProcess(MoleType *i_moleX) {
-
     switch (i_moleX->state) {
             //モグラ穴の処理
         case MOLE_STATE_HOLE:
@@ -54,7 +53,7 @@ void MoleXProcess(MoleType *i_moleX) {
                     SWState &= ~i_moleX->valueForCompareSW;
                     PlaySE();
                 }
-            //モグラ穴に戻る処理
+                //モグラ穴に戻る処理
             } else {
                 i_moleX->state = (uint8_t)MOLE_STATE_HOLE;
                 WriteToBufferMole(i_moleX->moleNum, MOLE_STATE_HOLE);
@@ -80,13 +79,13 @@ void MoleXTimerProcess(MoleType *i_mole) {
 
     if (i_mole->state == MOLE_STATE_HOLE) {
         //モグラ出現判定値を取得
-        decisionNumber = (molePopProbability + (molePopProbability / 60) * (60 - RemaingTime)) * (Level+1);
+        decisionNumber = (molePopProbability + (molePopProbability / 60) * (60 - RemaingTime)) * (Level + 1);
         randVal        = GetRand();
         //乱数がモグラ出現判定値より小さいとき、popFlagを立てる
         if (randVal < decisionNumber) {
             i_mole->popFlag = 1;
         }
-    //モグラの状態が未出現以外のとき、出現時間を減少
+        //モグラの状態が未出現以外のとき、出現時間を減少
     } else {
         if (i_mole->popTime > 0) {
             i_mole->popTime--;

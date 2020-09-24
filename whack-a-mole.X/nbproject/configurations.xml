@@ -64,13 +64,9 @@
         </logicalFolder>
         <itemPath>src/Common.c</itemPath>
         <itemPath>src/LCD.c</itemPath>
-        <itemPath>src/LED.c</itemPath>
         <itemPath>src/Rand.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
-      <itemPath>src/Rand.c</itemPath>
-      <itemPath>src/LCD.c</itemPath>
-      <itemPath>src/Common.c</itemPath>
       <itemPath>src/State.c</itemPath>
       <itemPath>src/Input.c</itemPath>
       <itemPath>src/Level.c</itemPath>

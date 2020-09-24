@@ -26,7 +26,7 @@ BGMとSEを管理する
 // SE楽譜が入るインスタンス
 static Player_t SE;
 
-static bool Update10msBuzzerFlg = OFF;
+bool Update10msBuzzerFlg = OFF;
 
 #define TEMPO 1000
 #define PICH DO2
@@ -36,6 +36,7 @@ static bool Update10msBuzzerFlg = OFF;
 // 出力はmsか
 
 #define Change10msLength(N) (1500 / N)
+#define Harf(N) (N / 2)
 
 uint16_t Buzzer10msFlg = 10;
 
@@ -58,8 +59,17 @@ void UpdateBuzzer(void) {
 
     // 10msフラグ
     if (Update10msBuzzerFlg == ON) {
-        // SEManagerを更新
-        SE_updatePlayerManager();
+        // 現在SEが再生されているか
+        if (SE.IsPlay == ON) {
+            // 現在選択されている音符の長さ分の時間は経過したか？
+            if (SE.currentNoteLength == 0) {
+                // IsPlayをfalseに変更する
+                SE.IsPlay = false;
+            } else {
+                // currentNoteLengthを1下げる
+                SE.currentNoteLength--;
+            }
+        }
         // 10msフラグを下げる
         Update10msBuzzerFlg = OFF;
     }
@@ -85,7 +95,8 @@ void updatePlayerState(void) {
             SE.IsPlay = true;
 
             // 選択された音符の長さをcurrentNoteLengthにセットする
-            SE.currentNoteLength = Change10msLength(TEMPO);
+            // SE.currentNoteLength = Change10msLength(TEMPO);
+            SE.currentNoteLength = 1;
 
             // 音程の変更
             // タイマの周期とデューティー比を変更
@@ -95,7 +106,7 @@ void updatePlayerState(void) {
             // タイマに書き込み
             TMR2_LoadPeriodRegister(PICH);
             // PWMのデューティー比を50%になるように変更
-            PWM3_LoadDutyValue(PICH / 2);
+            PWM3_LoadDutyValue(Harf(PICH));
 
             // PWM開始
             TMR2_StartTimer();
@@ -103,22 +114,7 @@ void updatePlayerState(void) {
     }
 }
 
-// SEの更新
-void SE_updatePlayerManager(void) {
-    // 現在SEが再生されているか
-    if (SE.IsPlay == ON) {
-        // 現在選択されている音符の長さ分の時間は経過したか？
-        if (SE.currentNoteLength == 0) {
-            // IsPlayをfalseに変更する
-            SE.IsPlay = false;
-        } else {
-            // currentNoteLengthを1下げる
-            SE.currentNoteLength--;
-        }
-    }
-}
-
-void SetUpdate10msBuzzerFlg(void) {
+inline void SetUpdate10msBuzzerFlg(void) {
     Update10msBuzzerFlg = ON;
 }
 // BGM再生開始フラグのON
