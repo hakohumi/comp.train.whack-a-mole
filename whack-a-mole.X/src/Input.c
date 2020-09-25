@@ -14,7 +14,11 @@ uint8_t InputPort;
 //SW入力状態
 uint8_t SWState;
 
-void DetectPushSW(void) {
+static uint8_t l_swState = 0;
+static uint8_t l_waitCount = 0;
+static bool l_waitFlag;
+
+void DetectPushSW(void)  {
     //ポート値(1~3,5,7ビット目が各SWに対応、SWが押されているとき1)
     InputPort = (uint8_t)(~PORTA & 0x057);
     //SW1~5のSW押下を検知
@@ -23,6 +27,15 @@ void DetectPushSW(void) {
     detectPushSWX(&sw3);
     detectPushSWX(&sw4);
     detectPushSWX(&sw5);
+    if(l_waitFlag){
+        l_waitCount++;
+        if(l_waitCount>2){
+            SWState = l_swState;
+            l_waitCount = 0;
+            l_waitFlag = 0;
+            l_swState = 0;
+        }
+    }
 }
 
 void detectPushSWX(SWType *i_swType) {
@@ -38,7 +51,8 @@ void detectPushSWX(SWType *i_swType) {
                 if (i_swType->isPushed == 1 &&
                     i_swType->lastPushed == 0) {
                     //SWStateを更新
-                    SWState |= i_swType->valueForCompareSW;
+                    l_swState |= i_swType->valueForCompareSW;
+                    l_waitFlag = 1;
                 } else {
                     //何もしない
                 }
