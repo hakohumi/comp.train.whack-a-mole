@@ -9,6 +9,9 @@
 #include <chrono>
 #include <iostream>
 
+#include <vector>
+
+
 using namespace std;
 
 #define EXE_NUM 10000
@@ -23,7 +26,6 @@ enum random_type {
     BIT128,
 };
 
-uint16_t randArray[65536];
 
 void algo_random(uint8_t type);
 void out_sizeof(void);
@@ -34,13 +36,14 @@ void out_cycle(void);
 uint16_t xor16(void);
 uint32_t xor32(void);
 uint32_t xor64(void);
+uint32_t xor128(void);
 void xorshift(uint8_t);
 double algo_measure(uint8_t type);
 
 double calc_average(uint8_t type);
 uint32_t calc_rand_cycle(uint8_t type);
 uint16_t calc_average_cycle(uint8_t type);
-uint16_t checkMatch();
+uint32_t checkMatch();
 
 void AddRandSeed(uint16_t i_val);
 
@@ -68,7 +71,13 @@ int main() {
 
     cout << endl;
 
-    printf("xor16()のマッチ回数: %zd\n", checkMatch());
+
+    uint64_t total = 0, tmp = 0;
+    for (int c = 0; c < 100; c++) { 
+        printf("xor16()のマッチ回数: %zd\n", tmp = checkMatch()); 
+        total += tmp;
+    }
+    cout <<  total / 100 << endl;
 
     printf("\nTotal program execution time:\n");
     printf("%lf[ms]\n", (static_cast<double>(clock()) - start));
@@ -86,40 +95,49 @@ void out_cycle() {
     // printf("xor128()の周期: %" PRIu32 "\n", calc_rand_cycle(BIT128));
 }
 #include <cstdlib>
-uint16_t checkMatch() {
-    uint16_t checkCount = 0;
-    uint16_t randArray2[65536];
+uint32_t checkMatch() {
 
-    for (int c = 0; c < 65536; c++) {
-        randArray[c] = rand();
-        // randArray[c] = xor16();
+    constexpr uint16_t TRY_NUM = 10000;
+    //constexpr uint16_t TRY_NUM = 100000;
+    uint32_t checkCount = 0;
 
-        // printf("randArray[%zd] = %zd\n", c, randArray[c]);
+    vector<uint32_t> randArray;
+
+    for (uint16_t c = 0; c < TRY_NUM; c++) {
+        //randArray[c] = rand();
+         //randArray[c] = xor32();
+        randArray.push_back(xor16());
+
+
+         //printf("randArray[%zd] = %zd\n", c, randArray[c]);
 
         for (int i = 0; i < c; i++) {
-            // printf("randArray[%zd] = %zd ", i, randArray[i]);
-            // printf("  randArray[%zd] = %zd\n", c, randArray[c]);
+             //printf("randArray[%zd] = %zd ", i, randArray[i]);
+             //printf("  randArray[%zd] = %zd\n", c, randArray[c]);
             if (randArray[i] == randArray[c]) {
                 checkCount++;
                 // printf("            hit \n");
-                // printf("randArray[%zd] = %zd ", i, randArray[i]);
-                // printf("  randArray[%zd] = %zd\n", c, randArray[c]);
+                 //printf("randArray[%zd] = %zd ", i, randArray[i]);
+                 //printf("  randArray[%zd] = %zd\n", c, randArray[c]);
 
-                // printf("checkCount = %zd\n", checkCount);
-                // system("PAUSE");
+
+                 //system("PAUSE");
+
+                //printf("checkCount = %zd\n", checkCount);
+                break;
             }
         }
     }
 
-    for (int c = 0; c < 65536; c++) {
-        randArray2[c] = 0;
-        for (int i = 0; i < 65536; i++) {
-            if (randArray[i] == c) {
-                randArray2[c]++;
-            }
-        }
-        printf("数字:%zd %zd回 出現\n", c, randArray2[c]);
-    }
+    //for (int c = 0; c < 65536; c++) {
+      //  randArray2[c] = 0;
+        //for (int i = 0; i < 65536; i++) {
+          //  if (randArray[i] == c) {
+            //    randArray2[c]++;
+           // }
+       // }
+      //  printf("数字:%zd %zd回 出現\n", c, randArray2[c]);
+    //}
 
     return checkCount;
 }
@@ -285,6 +303,7 @@ void xorshift(uint8_t type) {
 }
 
 // 周期計算
+// 同じ数字が出るまで
 uint32_t calc_rand_cycle(uint8_t type) {
     uint16_t init_rand = 0;
     uint32_t count     = 0;
