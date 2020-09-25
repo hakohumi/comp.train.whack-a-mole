@@ -3,6 +3,7 @@
 #include "Buzzer/Buzzer.h"
 #include "Input.h"
 #include "LCD.h"
+#include "LED.h"
 #include "Level.h"
 #include "Mole.h"
 #include "Rand.h"
@@ -34,7 +35,7 @@ static const uint8_t *str_Score            = {"SCORE"};
 static const uint8_t *str_HighScore        = {"HS"};
 
 void ChangeState(uint8_t i_displayState) {
-    if (i_displayState < 6) {
+    if (i_displayState < DISPLAY_STATE_TYPE_NUM) {
         //画面状態変更
         SystemState.displayState = i_displayState;
     }
@@ -256,6 +257,7 @@ void PlayingGameProcess(void) {
         //残り時間を60に設定
         RemaingTime = 60;
         l_Time      = RemaingTime;
+        UpdateLED(RemaingTime);
 
         // Rand関数のシード値に経過時間を加える
         AddRandSeed(TimeForRand);
@@ -275,6 +277,7 @@ void PlayingGameProcess(void) {
         if (RemaingTime > 0) {
             // タイマに変更があったら
             if (l_Time != RemaingTime) {
+                UpdateLED(RemaingTime);
                 WriteToBufferInt(6, RemaingTime, 2);
                 l_Time = RemaingTime;
             }
@@ -284,10 +287,10 @@ void PlayingGameProcess(void) {
             MoleXProcess(&mole3);
             MoleXProcess(&mole4);
             SWState &= ~SW5;
-        }
-        //残り時間0
+        }  //残り時間0
         else {
             //リザルト画面に遷移
+            LED_AllOff();
             ChangeState((uint8_t)RESULT);
             SystemState.action = (uint8_t)ACTION_ENTRY;
         }

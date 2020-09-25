@@ -14,79 +14,83 @@ extern "C" {
 
 #include <stdint.h>
 
-//画面状態の定義
-typedef enum DisplayStateType_Type {
-    TITLE,
-    SELECT_LEVEL,
-    HS_CLEAR,
-    START_COUNT_DOWN,
-    PLAYING_GAME,
-    RESULT
-} DisplayStateType;
+    //画面状態の定義
 
-//各画面状態のアクションを定義(EXITは省略)
-typedef enum ActionType_Type {
-    ACTION_ENTRY,
-    ACTION_DO
-} ActionType;
+    typedef enum DisplayStateType_Type {
+        TITLE,
+        SELECT_LEVEL,
+        HS_CLEAR,
+        START_COUNT_DOWN,
+        PLAYING_GAME,
+        RESULT,
+        DISPLAY_STATE_TYPE_NUM
+    } DisplayStateType;
 
-//システム全体の構造体
-typedef struct {
-    uint8_t displayState;
-    uint8_t action;
-} SystemStateType;
+    //各画面状態のアクションを定義(EXITは省略)
 
-//システム構造体変数
-extern SystemStateType SystemState;
+    typedef enum ActionType_Type {
+        ACTION_ENTRY,
+        ACTION_DO
+    } ActionType;
 
-/* 画面状態更新変数
- * 画面状態を変更する
- * 入力 (uint8_t)DisPlayStateType 画面状態定数
- * 出力 SystemState.displayState システムの画面状態
- */
-void ChangeState(uint8_t);
+    //システム全体の構造体
 
-/* タイトル画面処理関数
- * タイトル画面の処理を行う
- * 入力
- * 出力
- */
-void TitleProcess(void);
+    typedef struct {
+        uint8_t displayState;
+        uint8_t action;
+    } SystemStateType;
 
-/* 難易度選択画面処理関数
- * 難易度選択画面の処理を行う
- * 入力
- * 出力
- */
-void SelectLevelProcess(void);
+    //システム構造体変数
+    extern SystemStateType SystemState;
 
-/* ハイスコアクリア確認面処理関数
- *ハイスコアクリア確認画面の処理を行う
- * 入力
- * 出力
- */
-void HSClearProcess(void);
+    /* 画面状態更新変数
+     * 画面状態を変更する
+     * 入力 (uint8_t)DisPlayStateType 画面状態定数
+     * 出力 SystemState.displayState システムの画面状態
+     */
+    void ChangeState(uint8_t);
 
-/* ゲーム開始カウントダウン画面処理関数
- * ゲーム開始カウントダウン画面の処理を行う
- * 入力
- * 出力
- */
-void StartCountDownProcess(void);
+    /* タイトル画面処理関数
+     * タイトル画面の処理を行う
+     * 入力
+     * 出力
+     */
+    void TitleProcess(void);
 
-/* ゲーム中画面処理関数
- * ゲーム中画面の処理を行う
- * 入力
- * 出力
- */
-void PlayingGameProcess(void);
+    /* 難易度選択画面処理関数
+     * 難易度選択画面の処理を行う
+     * 入力
+     * 出力
+     */
+    void SelectLevelProcess(void);
 
-/* リザルト画面処理関数
- * リザルト画面の処理を行う
- * 入力
- * 出力
- */
-void ResultProcess(void);
+    /* ハイスコアクリア確認面処理関数
+     *ハイスコアクリア確認画面の処理を行う
+     * 入力
+     * 出力
+     */
+    void HSClearProcess(void);
+
+    /* ゲーム開始カウントダウン画面処理関数
+     * ゲーム開始カウントダウン画面の処理を行う
+     * 入力
+     * 出力
+     */
+    void StartCountDownProcess(void);
+
+    /* ゲーム中画面処理関数
+     * ゲーム中画面の処理を行う
+     * 入力
+     * 出力
+     */
+    void PlayingGameProcess(void);
+
+    /* リザルト画面処理関数
+     * リザルト画面の処理を行う
+     * 入力
+     * 出力
+     */
+    void ResultProcess(void);
 
 #ifdef __cplusplus
 }
