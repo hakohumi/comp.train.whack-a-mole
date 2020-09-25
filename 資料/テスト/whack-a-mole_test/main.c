@@ -19,10 +19,12 @@ time_t l_time;
 
 /*****乱数テスト用の定義*****/
 #ifdef TEST_GET_RAND
-//関数実行回数
+//GetRand試行回数
+#define RAND_TRY_NUM 10000
+//関数実行回数カウンタ
 static uint16_t func_count = 0;
 //乱数格納用配列
-uint16_t arrayOfRandVal[10000];
+uint16_t arrayOfRandVal[RAND_TRY_NUM];
 bool matchFlag;
 static uint16_t matchCount = 0;
 #endif //TEST_GET_RAND
@@ -48,8 +50,10 @@ uint8_t popTime;
 
 /*****出現判定用の定義*****/
 #ifdef TEST_POP_DECISION
+//PopDecision試行回数
+#define DECISION_TRY_NUM 1000
 //判定数値
-#define DECISION_NUMBER 0x7FFF
+#define DECISION_NUM 0x7FFF
 //出現回数
 uint16_t popCount = 0;
 #endif // TEST_POP_DECISION
@@ -64,7 +68,7 @@ void main() {
 /*****乱数テスト*****/
 #ifdef TEST_GET_RAND
 	//関数を10,000回実行する
-	for (i = 0;i < 10000;i++) {
+	for (i = 0;i < RAND_TRY_NUM;i++) {
 		arrayOfRandVal[i] = GetRand();
 		matchFlag = false;
 		for (j = 0; j < i; j++) {
@@ -98,9 +102,9 @@ void main() {
 
 /*****出現判定テスト*****/
 #ifdef TEST_POP_DECISION
-	for (j = 0;j < 1000;j++) {
+	for (j = 0;j < DECISION_TRY_NUM;j++) {
 		//出現が判定されたときpopCountをインクリメント
-		if (PopDecision(DECISION_NUMBER)) {
+		if (PopDecision(DECISION_NUM)) {
 			popCount++;
 		}
 	}

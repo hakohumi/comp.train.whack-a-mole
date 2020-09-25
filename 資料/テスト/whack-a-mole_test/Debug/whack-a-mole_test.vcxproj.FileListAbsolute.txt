@@ -1,4 +1,2 @@
 C:\Users\tomohiro.sasaki\source\repos\whack-a-mole_test\Debug\whack-a-mole_test.exe
 C:\Users\tomohiro.sasaki\source\repos\whack-a-mole_test\Debug\whack-a-mole_test.pdb
-C:\Users\tomohiro.sasaki\source\repos\whack-a-mole_test\Debug\whack-a-mole_test.exe.lastcodeanalysissucceeded
-C:\Users\tomohiro.sasaki\source\repos\whack-a-mole_test\Debug\NativeCodeAnalysis.read.1.tlog
