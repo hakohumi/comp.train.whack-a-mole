@@ -14,25 +14,27 @@
 extern "C" {
 #endif
 
-//ゲーム難易度の定義
-typedef enum LevelType_Type {
-    EASY,
-    NORMAL,
-    HARD
-} LevelType;
+    //ゲーム難易度の定義
 
-//ゲーム難易度グローバル変数
-extern uint8_t Level;
+    typedef enum LevelType_Type {
+        EASY,
+        NORMAL,
+        HARD,
+        LEVEL_NUM
+    } LevelType;
 
-/* 難易度設定関数
- * 入力 ゲーム難易度
- * 出力　Levelを変更する
- */
-void SetLevel(uint8_t);
+    //ゲーム難易度グローバル変数
+    extern uint8_t Level;
 
-extern uint8_t *STR_LEVEL_EASY;
-extern uint8_t *STR_LEVEL_NORMAL;
-extern uint8_t *STR_LEVEL_HARD;
+    /* 難易度設定関数
+     * 入力 ゲーム難易度
+     * 出力　Levelを変更する
+     */
+    void SetLevel(uint8_t);
+
+    extern uint8_t *STR_LEVEL_EASY;
+    extern uint8_t *STR_LEVEL_NORMAL;
+    extern uint8_t *STR_LEVEL_HARD;
 
 #define STR_LEVEL_EASY_LEN 4
 #define STR_LEVEL_NORMAL_LEN 6
