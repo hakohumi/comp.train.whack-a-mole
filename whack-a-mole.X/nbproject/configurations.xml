@@ -17,6 +17,7 @@
         <itemPath>header/State.h</itemPath>
         <itemPath>header/Timer.h</itemPath>
         <itemPath>header/Rand.h</itemPath>
+        <itemPath>header/LED.h</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -73,6 +74,7 @@
       <itemPath>src/Mole.c</itemPath>
       <itemPath>src/Score.c</itemPath>
       <itemPath>src/Timer.c</itemPath>
+      <itemPath>src/LED.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
