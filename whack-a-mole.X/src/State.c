@@ -244,11 +244,10 @@ void PlayingGameProcess(void) {
 
     if (SystemState.action == ACTION_ENTRY) {
         //モグラ出現時間の最小最大を決定
-        if(Level<=2){            
-            MinMolePopTime = 100 >> (Level);     //25-100
+        if (Level <= 2) {
+            MinMolePopTime = 100 >> (Level);    //25-100
             MaxMolePopTime = 50 * (4 - Level);  //200-100
-        }
-        else{
+        } else {
             MinMolePopTime = 0;
             MaxMolePopTime = 0;
         }
@@ -322,9 +321,9 @@ void ResultProcess(void) {
             //ハイスコア更新処理
             if (Score > l_HighScore) {
                 SaveHighScore(Level, Score);
-                l_swProcessEndFlag = 1;
             }
-            Score = 0;
+            Score              = 0;
+            l_swProcessEndFlag = 1;
             //タイトル画面に遷移
             ChangeState((uint8_t)TITLE);
             SystemState.action = (uint8_t)ACTION_ENTRY;
