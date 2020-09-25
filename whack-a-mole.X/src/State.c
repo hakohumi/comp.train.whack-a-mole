@@ -244,8 +244,14 @@ void PlayingGameProcess(void) {
 
     if (SystemState.action == ACTION_ENTRY) {
         //モグラ出現時間の最小最大を決定
-        MinMolePopTime = 100 >> (Level);     //25-100
-        MaxMolePopTime = 50 << (3 - Level);  //200-100
+        if(Level<=2){            
+            MinMolePopTime = 100 >> (Level);     //25-100
+            MaxMolePopTime = 50 * (4 - Level);  //200-100
+        }
+        else{
+            MinMolePopTime = 0;
+            MaxMolePopTime = 0;
+        }
         ClrLCDBuffer();
 
         //残り時間を60に設定

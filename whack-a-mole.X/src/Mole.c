@@ -27,7 +27,11 @@ void MoleXProcess(MoleType *i_moleX) {
             //モグラ出現フラグONか
             if (i_moleX->popFlag) {
                 i_moleX->state   = (uint8_t)MOLE_STATE_POP;
-                i_moleX->popTime = MinMolePopTime + ((MaxMolePopTime - MinMolePopTime) / 60) * RemaingTime;
+                if(RemaingTime<=60){
+                    i_moleX->popTime = MinMolePopTime + ((MaxMolePopTime - MinMolePopTime) / 60) * RemaingTime;   
+                } else {
+                    i_moleX->popTime = 0;
+                }
                 WriteToBufferMole(i_moleX->moleNum, MOLE_STATE_POP);
                 i_moleX->popFlag = 0;  //(OFF)
             } else {
